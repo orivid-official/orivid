@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ORIVID - Kenakan Momen</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Import font dari Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+        /* Reset dan styling dasar */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f7f5f2; /* Warna latar belakang umum */
+            color: #333;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            /* Menambahkan transisi untuk efek warna yang lebih halus */
+            transition: color 0.3s ease; 
+        }
+
+        /* Header */
+        .header-top {
+            background-color: #1A232E;
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+        }
+        
+        .header-left .logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-right: 20px;
+        }
+        
+        .search-bar {
+            background-color: #fff;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            padding: 0 5px;
+            flex-grow: 1;
+            transition: box-shadow 0.3s ease;
+        }
+        
+        .search-bar:hover {
+            box-shadow: 0 0 5px #CBA135; /* Efek menyala gold saat kursor di atasnya */
+        }
+        
+        .search-bar input {
+            border: none;
+            padding: 8px;
+            font-size: 14px;
+            width: 100%;
+            outline: none;
+        }
+        
+        .search-bar button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            margin-right: 5px;
+        }
+        
+        .search-bar .fa-search {
+            color: #333;
+        }
+        
+        .header-right ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .header-right li {
+            margin-left: 20px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .header-right li i {
+            margin-right: 5px;
+        }
+        
+        .header-top a:hover {
+            color: #CBA135; /* Warna gold saat hover */
+        }
+        
+        .language-select {
+            background-color: transparent;
+            color: #fff;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            padding-right: 20px;
+            /* SVG panah ke bawah warna putih */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 512'%3E%3Cpath fill='%23ffffff' d='M143 352L7 216c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l119 119 119-119c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-128 128c-9.4 9.4-24.6 9.4-33.9 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right center;
+            background-size: 10px;
+            /* Menambahkan transisi untuk teks dan panah */
+            transition: color 0.3s ease, background-image 0.3s ease;
+        }
+
+        .language-select:hover {
+            color: #CBA135; /* Warna gold saat hover */
+            /* SVG panah ke bawah warna gold */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 512'%3E%3Cpath fill='%23CBA135' d='M143 352L7 216c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l119 119 119-119c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-128 128c-9.4 9.4-24.6 9.4-33.9 0z'/%3E%3C/svg%3E");
+        }
+        
+        .language-select option {
+            background-color: #1A232E;
+            color: #fff;
+        }
+
+        .sub-nav {
+            background-color: #000;
+            color: #fff;
+            border-bottom: 1px solid #333;
+        }
+
+        .sub-nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 10px 0;
+            font-weight: 600;
+        }
+
+        .sub-nav a:hover {
+            text-decoration: underline;
+            color: #CBA135; /* Efek warna gold saat kursor di atas link */
+        }
+
+        /* Hero Section */
+        .hero {
+            background-image: url('https://via.placeholder.com/1200x500/000000/ffffff?text=WEAR+THE+MOMENT');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            color: #000;
+            padding: 150px 20px;
+            height: 50vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: 60px;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .shop-button {
+            background-color: #CBA135;
+            color: #000;
+            border: 1px solid #CBA135;
+            padding: 12px 30px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: box-shadow 0.3s ease-in-out;
+        }
+
+        .shop-button:hover {
+            box-shadow: 0 0 10px rgba(203, 161, 53, 0.8); /* Efek menyala pada tombol */
+        }
+
+        /* Promo Bar */
+        .promo-bar {
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            padding: 15px 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .promo-bar a {
+            color: #fff;
+            text-decoration: underline;
+            /* Efek warna gold saat kursor di atas link */
+            transition: color 0.3s ease; 
+        }
+
+        .promo-bar a:hover {
+            color: #CBA135;
+        }
+
+        /* Sale Section */
+        .sale-section {
+            padding: 40px 20px;
+        }
+
+        .sale-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .sale-header h2 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .sale-header h2 i {
+            color: #ff0000;
+        }
+
+        .sale-tabs {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+        }
+
+        .sale-tabs a {
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.3s;
+        }
+
+        .sale-tabs a:hover {
+            border-color: #333;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            text-align: center;
+        }
+
+        .product-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .product-name {
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .rating {
+            color: gold;
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        .sale-tag {
+            font-size: 12px;
+            background-color: #000;
+            color: #fff;
+            padding: 3px 8px;
+            display: inline-block;
+            margin-top: 5px;
+        }
+
+        .sale-tag:hover {
+            background-color: #CBA135;
+        }
+
+        /* Shop Button Banner */
+        .shop-button-banner {
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .shop-button-banner button {
+            background-color: transparent;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Trending Section */
+        .trending-section {
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .trending-section h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .trending-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .trending-card {
+            background-color: #fff;
+            padding: 30px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+        }
+
+        .trending-card p {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .trending-card .icons {
+            display: flex;
+            justify-content: space-around;
+            font-size: 30px;
+        }
+
+        /* Media Queries untuk responsivitas */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 40px;
+            }
+
+            .sub-nav ul {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            .sale-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .sale-tabs {
+                margin-top: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header-top">
+        <div class="header-left">
+            <div class="logo">ORIVID</div>
+            <div class="search-bar">
+                <input type="text" placeholder="Cari di Orivid...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+        <div class="header-right">
+            <ul>
+                <li><a href="#"><i class="fas fa-bell"></i> Notifikasi</a></li>
+                <li><a href="#"><i class="far fa-question-circle"></i> Bantuan</a></li>
+                <li>
+                    <select class="language-select">
+                        <option value="id" selected>Bahasa Indonesia</option>
+                        <option value="en">English</option>
+                    </select>
+                </li>
+                <li><a href="#">Daftar</a></li>
+                <li><a href="#">Log In</a></li>
+                <li><a href="#"><i class="fas fa-shopping-bag"></i></a></li>
+            </ul>
+        </div>
+    </header>
+
+    <nav class="sub-nav">
+        <ul>
+            <li><a href="t-shirt.html">T-Shirt</a></li>
+            <li><a href="polo.html">Polo</a></li>
+            <li><a href="hoodie.html">Hoodie</a></li>
+            <li><a href="jacket.html">Jacket</a></li>
+            <li><a href="pant.html">Celana</a></li>
+            <li><a href="accessories.html">Aksesoris</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <h1>KENAKAN <br> MOMEN</h1>
+            <button class="shop-button">BELANJA SEKARANG</button>
+        </section>
+
+        <section class="promo-bar">
+            <p>Daftar sekarang: diskon 50% untuk produk pilihan &nbsp;&nbsp; GRATIS produk dengan kode <a href="#">DAPATKAN SEKARANG</a></p>
+        </section>
+
+        <section class="sale-section">
+            <div class="sale-header">
+                <h2><i class="fas fa-bolt"></i> OBRAL</h2>
+            </div>
+            <div class="product-grid">
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/250x200" alt="T-Shirt">
+                    <p class="product-name">T-Shirt</p>
+                    <div class="rating">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <a href="#" class="sale-tag">Belanja Sekarang</a>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/250x200" alt="POLO">
+                    <p class="product-name">POLO</p>
+                    <div class="rating">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                    </div>
+                    <a href="#" class="sale-tag">Belanja Sekarang</a>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/250x200" alt="HOODIE">
+                    <p class="product-name">HOODIE</p>
+                    <div class="rating">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <a href="#" class="sale-tag">Belanja Sekarang</a>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/250x200" alt="PANT">
+                    <p class="product-name">CELANA</p>
+                    <div class="rating">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                    </div>
+                    <a href="#" class="sale-tag">Belanja Sekarang</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="shop-button-banner">
+            <button>BELANJA KOLEKSI KEKUATAN KAMI <i class="fas fa-chevron-right"></i></button>
+        </section>
+
+        <section class="trending-section">
+            <h2>TRENDING UNTUK ANDA</h2>
+            <div class="trending-grid">
+                <div class="trending-card">
+                    <p>Gaya <br> Sehari-hari</p>
+                    <div class="icons">
+                        <i class="fas fa-tshirt"></i>
+                        <i class="fas fa-shopping-bag"></i>
+                        <i class="fas fa-box"></i>
+                    </div>
+                </div>
+                <div class="trending-card">
+                    <p>Lab Gaya <br> Daring</p>
+                    <div class="icons">
+                        <i class="fas fa-dollar-sign"></i>
+                        <i class="far fa-heart"></i>
+                        <i class="fas fa-cog"></i>
+                    </div>
+                </div>
+                <div class="trending-card">
+                    <p>Mewah & <br> Elegan</p>
+                    <div class="icons">
+                        <i class="fas fa-watch"></i>
+                        <i class="fas fa-gem"></i>
+                        <i class="fas fa-crown"></i>
+                    </div>
+                </div>
+                <div class="trending-card">
+                    <p>Alas Kaki <br> Premium</p>
+                    <div class="icons">
+                        <i class="fas fa-shoe-prints"></i>
+                        <i class="fas fa-dumbbell"></i>
+                        <i class="fas fa-running"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
