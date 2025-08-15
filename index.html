@@ -39,12 +39,14 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap; /* Memastikan header responsif */
         }
         
         .header-left {
             display: flex;
             align-items: center;
             flex-grow: 1;
+            min-width: 250px; /* Lebar minimum untuk responsif */
         }
         
         .header-left .logo {
@@ -73,6 +75,7 @@
             font-size: 14px;
             width: 100%;
             outline: none;
+            border-radius: 5px;
         }
         
         .search-bar button {
@@ -87,12 +90,20 @@
             color: #333;
         }
         
+        .header-right {
+            flex-grow: 1;
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
+        }
+        
         .header-right ul {
             list-style: none;
             padding: 0;
             margin: 0;
             display: flex;
             align-items: center;
+            flex-wrap: wrap;
         }
         
         .header-right li {
@@ -101,6 +112,7 @@
             display: flex;
             align-items: center;
             cursor: pointer;
+            white-space: nowrap;
         }
         
         .header-right li i {
@@ -121,18 +133,15 @@
             -moz-appearance: none;
             appearance: none;
             padding-right: 20px;
-            /* SVG panah ke bawah warna putih */
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 512'%3E%3Cpath fill='%23ffffff' d='M143 352L7 216c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l119 119 119-119c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-128 128c-9.4 9.4-24.6 9.4-33.9 0z'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right center;
             background-size: 10px;
-            /* Menambahkan transisi untuk teks dan panah */
             transition: color 0.3s ease, background-image 0.3s ease;
         }
 
         .language-select:hover {
             color: #CBA135; /* Warna gold saat hover */
-            /* SVG panah ke bawah warna gold */
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 512'%3E%3Cpath fill='%23CBA135' d='M143 352L7 216c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l119 119 119-119c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-128 128c-9.4 9.4-24.6 9.4-33.9 0z'/%3E%3C/svg%3E");
         }
         
@@ -154,11 +163,19 @@
             gap: 30px;
             padding: 10px 0;
             font-weight: 600;
+            flex-wrap: wrap; /* Memastikan navigasi responsif */
+        }
+        
+        .sub-nav a {
+            padding: 5px 0;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.3s, color 0.3s;
         }
 
-        .sub-nav a:hover {
-            text-decoration: underline;
+        .sub-nav a:hover,
+        .sub-nav a.active {
             color: #CBA135; /* Efek warna gold saat kursor di atas link */
+            border-color: #CBA135; /* Garis bawah warna gold */
         }
 
         /* Hero Section */
@@ -191,6 +208,7 @@
             font-size: 14px;
             cursor: pointer;
             transition: box-shadow 0.3s ease-in-out;
+            font-weight: 600;
         }
 
         .shop-button:hover {
@@ -218,42 +236,23 @@
             color: #CBA135;
         }
 
-        /* Sale Section */
-        .sale-section {
+        /* Main Sections */
+        .main-section {
             padding: 40px 20px;
         }
-
-        .sale-header {
+        
+        .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 30px;
         }
-
-        .sale-header h2 {
+        
+        .section-header h2 {
             font-size: 24px;
             font-weight: 700;
         }
-
-        .sale-header h2 i {
-            color: #ff0000;
-        }
-
-        .sale-tabs {
-            display: flex;
-            gap: 20px;
-            font-size: 14px;
-        }
-
-        .sale-tabs a {
-            border-bottom: 2px solid transparent;
-            transition: border-color 0.3s;
-        }
-
-        .sale-tabs a:hover {
-            border-color: #333;
-        }
-
+        
         .product-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -262,17 +261,29 @@
 
         .product-card {
             text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
 
         .product-card img {
             width: 100%;
-            height: auto;
+            height: 200px; /* Tinggi gambar yang konsisten */
+            object-fit: cover;
             display: block;
+            border-radius: 6px;
         }
 
         .product-name {
             font-weight: 600;
-            margin-top: 10px;
+            margin-top: 15px;
         }
 
         .rating {
@@ -280,7 +291,24 @@
             font-size: 14px;
             margin: 5px 0;
         }
+        
+        .price-container {
+            margin-top: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
 
+        .old-price {
+            text-decoration: line-through;
+            color: #888;
+            font-weight: 400;
+            font-size: 14px;
+        }
+        
         .sale-tag {
             font-size: 12px;
             background-color: #000;
@@ -288,10 +316,29 @@
             padding: 3px 8px;
             display: inline-block;
             margin-top: 5px;
+            border-radius: 4px;
+            cursor: pointer;
         }
 
         .sale-tag:hover {
             background-color: #CBA135;
+        }
+        
+        .add-to-cart-btn {
+            background-color: #1A232E;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 15px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .add-to-cart-btn:hover {
+            background-color: #CBA135;
+            color: #000;
         }
 
         /* Shop Button Banner */
@@ -309,6 +356,11 @@
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .shop-button-banner button:hover {
+            color: #CBA135;
         }
 
         /* Trending Section */
@@ -333,7 +385,13 @@
             background-color: #fff;
             padding: 30px;
             border: 1px solid #e0e0e0;
-            border-radius: 5px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .trending-card:hover {
+            transform: translateY(-5px);
         }
 
         .trending-card p {
@@ -347,6 +405,16 @@
             justify-content: space-around;
             font-size: 30px;
         }
+        
+        .product-section-title {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #CBA135;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
 
         /* Media Queries untuk responsivitas */
         @media (max-width: 768px) {
@@ -357,8 +425,33 @@
             .sub-nav ul {
                 flex-wrap: wrap;
                 gap: 15px;
+                justify-content: center;
+            }
+            
+            .header-top {
+                flex-direction: column;
             }
 
+            .header-left,
+            .header-right {
+                width: 100%;
+                justify-content: center;
+                margin-top: 10px;
+            }
+            
+            .header-right ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .header-right li {
+                margin: 5px 10px;
+            }
+            
+            .search-bar {
+                width: 100%;
+            }
+            
             .sale-header {
                 flex-direction: column;
                 text-align: center;
@@ -368,6 +461,12 @@
                 margin-top: 15px;
                 flex-wrap: wrap;
                 justify-content: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 32px;
             }
         }
     </style>
@@ -401,12 +500,12 @@
 
     <nav class="sub-nav">
         <ul>
-            <li><a href="t-shirt.html" data-i18n="tshirt">T-Shirt</a></li>
-            <li><a href="polo.html" data-i18n="polo">Polo</a></li>
-            <li><a href="hoodie.html" data-i18n="hoodie">Hoodie</a></li>
-            <li><a href="jacket.html" data-i18n="jacket">Jacket</a></li>
-            <li><a href="pant.html" data-i18n="pants">Celana</a></li>
-            <li><a href="accessories.html" data-i18n="accessories">Aksesoris</a></li>
+            <li><a href="#" data-category="tshirt" data-i18n="tshirt">T-Shirt</a></li>
+            <li><a href="#" data-category="polo" data-i18n="polo">Polo</a></li>
+            <li><a href="#" data-category="hoodie" data-i18n="hoodie">Hoodie</a></li>
+            <li><a href="#" data-category="jacket" data-i18n="jacket">Jacket</a></li>
+            <li><a href="#" data-category="pants" data-i18n="pants">Celana</a></li>
+            <li><a href="#" data-category="accessories" data-i18n="accessories">Aksesoris</a></li>
         </ul>
     </nav>
 
@@ -420,50 +519,17 @@
             <p data-i18n-html="promo-text">Daftar sekarang: diskon 50% untuk produk pilihan &nbsp;&nbsp; GRATIS produk dengan kode <a href="#" data-i18n="promo-link">DAPATKAN SEKARANG</a></p>
         </section>
 
-        <section class="sale-section">
-            <div class="sale-header">
-                <h2 data-i18n="sale-heading"><i class="fas fa-bolt"></i> OBRAL</h2>
+        <!-- Bagian produk yang akan dimuat secara dinamis -->
+        <section class="main-section product-categories-section">
+            <div style="text-align: center;">
+                <h2 class="product-section-title" id="dynamic-section-title">Semua Produk</h2>
             </div>
-            <div class="product-grid">
-                <div class="product-card">
-                    <img src="https://via.placeholder.com/250x200" alt="T-Shirt">
-                    <p class="product-name" data-i18n="tshirt">T-Shirt</p>
-                    <div class="rating">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <a href="#" class="sale-tag" data-i18n="shop-now-tag">Belanja Sekarang</a>
-                </div>
-                <div class="product-card">
-                    <img src="https://via.placeholder.com/250x200" alt="POLO">
-                    <p class="product-name" data-i18n="polo">POLO</p>
-                    <div class="rating">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
-                    </div>
-                    <a href="#" class="sale-tag" data-i18n="shop-now-tag">Belanja Sekarang</a>
-                </div>
-                <div class="product-card">
-                    <img src="https://via.placeholder.com/250x200" alt="HOODIE">
-                    <p class="product-name" data-i18n="hoodie">HOODIE</p>
-                    <div class="rating">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <a href="#" class="sale-tag" data-i18n="shop-now-tag">Belanja Sekarang</a>
-                </div>
-                <div class="product-card">
-                    <img src="https://via.placeholder.com/250x200" alt="PANT">
-                    <p class="product-name" data-i18n="pants">CELANA</p>
-                    <div class="rating">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
-                    </div>
-                    <a href="#" class="sale-tag" data-i18n="shop-now-tag">Belanja Sekarang</a>
-                </div>
+            <div class="product-grid" id="product-container">
+                <!-- Produk akan dimuat di sini oleh JavaScript -->
             </div>
         </section>
 
-        <section class="shop-button-banner">
-            <button data-i18n="shop-collection">BELANJA KOLEKSI KEKUATAN KAMI <i class="fas fa-chevron-right"></i></button>
-        </section>
-
+        <!-- Bagian trending tetap statis -->
         <section class="trending-section">
             <h2 data-i18n="trending-heading">TRENDING UNTUK ANDA</h2>
             <div class="trending-grid">
@@ -534,6 +600,7 @@
                     'trending-lab': 'Lab Gaya <br> Daring',
                     'trending-luxury': 'Mewah & <br> Elegan',
                     'trending-footwear': 'Alas Kaki <br> Premium',
+                    'all-products': 'Semua Produk'
                 },
                 'en': {
                     'title': 'ORIVID - Wear The Moment',
@@ -562,56 +629,152 @@
                     'trending-lab': 'Online Style <br> Lab',
                     'trending-luxury': 'Luxury & <br> Fine',
                     'trending-footwear': 'Premium <br> Footwear',
+                    'all-products': 'All Products'
                 }
             };
             
             const langSelect = document.getElementById('lang-select');
             
-            function updateLanguage(lang) {
-                // Update the lang attribute of the HTML tag
-                document.documentElement.lang = lang;
+            // Data produk dinamis
+            const products = {
+                tshirt: [
+                    { name_id: "Kaos Klasik Putih", name_en: "Classic White T-Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+1", price: "Rp150.000", oldPrice: "Rp200.000", rating: 4.5 },
+                    { name_id: "Kaos Polos Hitam", name_en: "Plain Black T-Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+2", price: "Rp145.000", oldPrice: null, rating: 4.0 },
+                    { name_id: "Kaos Distro Keren", name_en: "Cool Distro T-Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+3", price: "Rp175.000", oldPrice: "Rp250.000", rating: 5.0 },
+                    { name_id: "Kaos Lengan Panjang", name_en: "Long Sleeve T-Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+4", price: "Rp190.000", oldPrice: null, rating: 3.5 }
+                ],
+                polo: [
+                    { name_id: "Polo Shirt Biru", name_en: "Blue Polo Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=Polo+1", price: "Rp210.000", oldPrice: "Rp280.000", rating: 4.0 },
+                    { name_id: "Polo Shirt Berkerah", name_en: "Collared Polo Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=Polo+2", price: "Rp230.000", oldPrice: null, rating: 4.5 }
+                ],
+                hoodie: [
+                    { name_id: "Hoodie Abu-abu", name_en: "Grey Hoodie", image: "https://placehold.co/250x200/cccccc/000000?text=Hoodie+1", price: "Rp350.000", oldPrice: "Rp450.000", rating: 5.0 },
+                    { name_id: "Hoodie Polos Navy", name_en: "Plain Navy Hoodie", image: "https://placehold.co/250x200/cccccc/000000?text=Hoodie+2", price: "Rp320.000", oldPrice: null, rating: 4.0 }
+                ],
+                jacket: [
+                    { name_id: "Jaket Bomber Hitam", name_en: "Black Bomber Jacket", image: "https://placehold.co/250x200/cccccc/000000?text=Jacket+1", price: "Rp450.000", oldPrice: "Rp600.000", rating: 4.5 },
+                    { name_id: "Jaket Jeans Biru", name_en: "Blue Denim Jacket", image: "https://placehold.co/250x200/cccccc/000000?text=Jacket+2", price: "Rp500.000", oldPrice: null, rating: 5.0 }
+                ],
+                pants: [
+                    { name_id: "Celana Jeans Slim Fit", name_en: "Slim Fit Jeans", image: "https://placehold.co/250x200/cccccc/000000?text=Pants+1", price: "Rp300.000", oldPrice: null, rating: 4.5 },
+                    { name_id: "Celana Chino Cream", name_en: "Cream Chino Pants", image: "https://placehold.co/250x200/cccccc/000000?text=Pants+2", price: "Rp280.000", oldPrice: "Rp350.000", rating: 4.0 }
+                ],
+                accessories: [
+                    { name_id: "Topi Baseball ORIVID", name_en: "ORIVID Baseball Cap", image: "https://placehold.co/250x200/cccccc/000000?text=Aksesoris+1", price: "Rp80.000", oldPrice: null, rating: 4.5 },
+                    { name_id: "Jam Tangan Kulit", name_en: "Leather Watch", image: "https://placehold.co/250x200/cccccc/000000?text=Aksesoris+2", price: "Rp550.000", oldPrice: "Rp700.000", rating: 5.0 }
+                ]
+            };
 
-                // Update text content for elements with data-i18n attribute
+            // Fungsi untuk mengupdate bahasa
+            function updateLanguage(lang) {
+                document.documentElement.lang = lang;
                 const elementsToTranslate = document.querySelectorAll('[data-i18n]');
                 elementsToTranslate.forEach(element => {
                     const key = element.getAttribute('data-i18n');
-                    if (translations[lang][key]) {
+                    if (translations[lang] && translations[lang][key]) {
                         element.textContent = translations[lang][key];
                     }
                 });
-
-                // Update innerHTML content for elements with data-i18n-html attribute
                 const elementsToTranslateHtml = document.querySelectorAll('[data-i18n-html]');
                 elementsToTranslateHtml.forEach(element => {
                     const key = element.getAttribute('data-i18n-html');
-                    if (translations[lang][key]) {
+                    if (translations[lang] && translations[lang][key]) {
                         element.innerHTML = translations[lang][key];
                     }
                 });
-
-                // Update placeholder for elements with data-i18n-placeholder attribute
                 const elementsToTranslatePlaceholder = document.querySelectorAll('[data-i18n-placeholder]');
                 elementsToTranslatePlaceholder.forEach(element => {
                     const key = element.getAttribute('data-i18n-placeholder');
-                    if (translations[lang][key]) {
+                    if (translations[lang] && translations[lang][key]) {
                         element.placeholder = translations[lang][key];
                     }
                 });
+                
+                // Panggil ulang renderProducts untuk mengupdate nama produk
+                const activeCategory = document.querySelector('.sub-nav a.active');
+                if (activeCategory) {
+                    renderProducts(activeCategory.dataset.category, lang);
+                    const titleKey = activeCategory.dataset.i18n;
+                    document.getElementById('dynamic-section-title').textContent = translations[lang][titleKey];
+                } else {
+                    document.getElementById('dynamic-section-title').textContent = translations[lang]['all-products'];
+                }
             }
 
-            // Event listener for language change
+            // Fungsi untuk membuat HTML card produk
+            function createProductCard(product, lang) {
+                const productName = lang === 'id' ? product.name_id : product.name_en;
+                const oldPriceHtml = product.oldPrice ? `<span class="old-price">${product.oldPrice}</span>` : '';
+                const starsHtml = '<i class="fas fa-star"></i>'.repeat(Math.floor(product.rating)) + 
+                                 (product.rating % 1 !== 0 ? '<i class="fas fa-star-half-alt"></i>' : '') +
+                                 '<i class="far fa-star"></i>'.repeat(5 - Math.ceil(product.rating));
+
+                return `
+                    <div class="product-card">
+                        <img src="${product.image}" alt="${productName}">
+                        <p class="product-name">${productName}</p>
+                        <div class="rating">${starsHtml}</div>
+                        <div class="price-container">
+                            ${oldPriceHtml}
+                            <span class="price">${product.price}</span>
+                        </div>
+                        <button class="add-to-cart-btn">Tambahkan ke Keranjang</button>
+                    </div>
+                `;
+            }
+
+            // Fungsi untuk merender produk berdasarkan kategori
+            function renderProducts(category, lang) {
+                const productContainer = document.getElementById('product-container');
+                productContainer.innerHTML = ''; // Kosongkan container
+
+                // Dapatkan produk dari objek data
+                const categoryProducts = products[category];
+                if (categoryProducts) {
+                    categoryProducts.forEach(product => {
+                        productContainer.innerHTML += createProductCard(product, lang);
+                    });
+                }
+            }
+            
+            // Event listener untuk perubahan bahasa
             langSelect.addEventListener('change', (event) => {
                 const selectedLang = event.target.value;
                 updateLanguage(selectedLang);
             });
 
-            // Set initial language on page load
+            // Event listener untuk klik pada sub-nav
+            const subNavLinks = document.querySelectorAll('.sub-nav a');
+            subNavLinks.forEach(link => {
+                link.addEventListener('click', (event) => {
+                    event.preventDefault(); // Mencegah link pindah halaman
+                    
+                    // Hapus kelas 'active' dari semua link
+                    subNavLinks.forEach(item => item.classList.remove('active'));
+                    
+                    // Tambahkan kelas 'active' ke link yang diklik
+                    event.target.classList.add('active');
+                    
+                    // Dapatkan kategori dari data-category attribute
+                    const category = event.target.dataset.category;
+                    const lang = langSelect.value;
+                    
+                    // Update judul section
+                    const titleKey = event.target.dataset.i18n;
+                    document.getElementById('dynamic-section-title').textContent = translations[lang][titleKey];
+                    
+                    // Render produk untuk kategori yang dipilih
+                    renderProducts(category, lang);
+                });
+            });
+
+            // Set bahasa awal saat halaman dimuat
             const initialLang = langSelect.value;
             updateLanguage(initialLang);
+
+            // Tampilkan produk pertama secara default (contoh: T-Shirt)
+            document.querySelector('.sub-nav a[data-category="tshirt"]').click();
         });
     </script>
 </body>
 </html>
-
-
-
