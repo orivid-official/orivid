@@ -3,541 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ORIVID: Kenakan Momen. Temukan koleksi pakaian, aksesoris, dan produk terlaris kami.">
     <title data-i18n="title">ORIVID - Kenakan Momen</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome untuk Ikon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Google Fonts: Poppins -->
     <style>
-        /* Import font dari Google Fonts */
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
-
-        /* Reset dan styling dasar */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #f7f5f2; /* Warna latar belakang umum */
-            color: #333;
-            line-height: 1.6;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-            /* Menambahkan transisi untuk efek warna yang lebih halus */
-            transition: color 0.3s ease; 
-        }
-
-        /* Header */
-        .header-top {
-            background-color: #1A232E;
-            color: #fff;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap; /* Memastikan header responsif */
-        }
-        
-        .header-left {
-            display: flex;
-            align-items: center;
-            flex-grow: 1;
-            min-width: 250px; /* Lebar minimum untuk responsif */
-        }
-        
-        .header-left .logo {
-            font-size: 24px;
-            font-weight: bold;
-            margin-right: 20px;
-        }
-        
-        .search-bar {
-            background-color: #fff;
-            border-radius: 5px;
-            display: flex;
-            align-items: center;
-            padding: 0 5px;
-            flex-grow: 1;
-            transition: box-shadow 0.3s ease;
-        }
-        
-        .search-bar:hover {
-            box-shadow: 0 0 5px #CBA135; /* Efek menyala gold saat kursor di atasnya */
-        }
-        
-        .search-bar input {
-            border: none;
-            padding: 8px;
-            font-size: 14px;
-            width: 100%;
-            outline: none;
-            border-radius: 5px;
-        }
-        
-        .search-bar button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 5px;
-            margin-right: 5px;
-        }
-        
-        .search-bar .fa-search {
-            color: #333;
-        }
-        
-        .header-right {
-            flex-grow: 1;
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 10px;
-        }
-        
-        .header-right ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        
-        .header-right li {
-            margin-left: 20px;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            white-space: nowrap;
-        }
-        
-        .header-right li i {
-            margin-right: 5px;
-        }
-        
-        .header-top a:hover {
-            color: #CBA135; /* Warna gold saat hover */
-        }
-        
-        .language-select {
-            background-color: transparent;
-            color: #fff;
-            border: none;
-            font-size: 14px;
-            cursor: pointer;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            padding-right: 20px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 512'%3E%3Cpath fill='%23ffffff' d='M143 352L7 216c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l119 119 119-119c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-128 128c-9.4 9.4-24.6 9.4-33.9 0z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right center;
-            background-size: 10px;
-            transition: color 0.3s ease, background-image 0.3s ease;
-        }
-
-        .language-select:hover {
-            color: #CBA135; /* Warna gold saat hover */
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 512'%3E%3Cpath fill='%23CBA135' d='M143 352L7 216c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l119 119 119-119c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-128 128c-9.4 9.4-24.6 9.4-33.9 0z'/%3E%3C/svg%3E");
-        }
-        
-        .language-select option {
-            background-color: #1A232E;
-            color: #fff;
-        }
-
-        .sub-nav {
-            background-color: #000;
-            color: #fff;
-            border-bottom: 1px solid #333;
-        }
-
-        .sub-nav ul {
-            list-style: none;
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            padding: 10px 0;
-            font-weight: 600;
-            flex-wrap: wrap; /* Memastikan navigasi responsif */
-        }
-        
-        .sub-nav a {
-            padding: 5px 0;
-            border-bottom: 2px solid transparent;
-            transition: border-color 0.3s, color 0.3s;
-        }
-
-        .sub-nav a:hover,
-        .sub-nav a.active {
-            color: #CBA135; /* Efek warna gold saat kursor di atas link */
-            border-color: #CBA135; /* Garis bawah warna gold */
-        }
-
-        /* Hero Section */
-        .hero {
-            background-image: url('https://via.placeholder.com/1200x500/000000/ffffff?text=WEAR+THE+MOMENT');
-            background-size: cover;
-            background-position: center;
-            text-align: center;
-            color: #000;
-            padding: 150px 20px;
-            height: 50vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .hero h1 {
-            font-size: 60px;
-            font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: 20px;
-        }
-
-        .shop-button {
-            background-color: #CBA135;
-            color: #000;
-            border: 1px solid #CBA135;
-            padding: 12px 30px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: box-shadow 0.3s ease-in-out;
-            font-weight: 600;
-        }
-
-        .shop-button:hover {
-            box-shadow: 0 0 10px rgba(203, 161, 53, 0.8); /* Efek menyala pada tombol */
-        }
-
-        /* Promo Bar */
-        .promo-bar {
-            background-color: #000;
-            color: #fff;
-            text-align: center;
-            padding: 15px 20px;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .promo-bar a {
-            color: #fff;
-            text-decoration: underline;
-            /* Efek warna gold saat kursor di atas link */
-            transition: color 0.3s ease; 
-        }
-
-        .promo-bar a:hover {
-            color: #CBA135;
-        }
-
-        /* Main Sections */
-        .main-section {
-            padding: 40px 20px;
-        }
-        
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-        
-        .section-header h2 {
-            font-size: 24px;
-            font-weight: 700;
-        }
-        
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .product-card {
-            text-align: center;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .product-card img {
-            width: 100%;
-            height: 200px; /* Tinggi gambar yang konsisten */
-            object-fit: cover;
-            display: block;
-            border-radius: 6px;
-        }
-
-        .product-name {
-            font-weight: 600;
-            margin-top: 15px;
-        }
-
-        .rating {
-            color: gold;
-            font-size: 14px;
-            margin: 5px 0;
-        }
-        
-        .price-container {
-            margin-top: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .old-price {
-            text-decoration: line-through;
-            color: #888;
-            font-weight: 400;
-            font-size: 14px;
-        }
-        
-        .sale-tag {
-            font-size: 12px;
-            background-color: #000;
-            color: #fff;
-            padding: 3px 8px;
-            display: inline-block;
-            margin-top: 5px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .sale-tag:hover {
-            background-color: #CBA135;
-        }
-        
-        .add-to-cart-btn {
-            background-color: #1A232E;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            margin-top: 15px;
-            transition: background-color 0.3s ease;
-        }
-        
-        .add-to-cart-btn:hover {
-            background-color: #CBA135;
-            color: #000;
-        }
-
-        /* Shop Button Banner */
-        .shop-button-banner {
-            background-color: #000;
-            color: #fff;
-            text-align: center;
-            padding: 20px;
-        }
-
-        .shop-button-banner button {
-            background-color: transparent;
-            border: none;
-            color: #fff;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-        
-        .shop-button-banner button:hover {
-            color: #CBA135;
-        }
-
-        /* Trending Section */
-        .trending-section {
-            padding: 40px 20px;
-        }
-
-        .trending-section h2 {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-
-        .trending-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        .trending-card {
-            background-color: #fff;
-            padding: 30px;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
-        }
-        
-        .trending-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .trending-card p {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-
-        .trending-card .icons {
-            display: flex;
-            justify-content: space-around;
-            font-size: 30px;
-        }
-        
-        .product-section-title {
-            text-align: center;
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 30px;
-            border-bottom: 2px solid #CBA135;
-            display: inline-block;
-            padding-bottom: 5px;
-        }
-
-        /* Media Queries untuk responsivitas */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 40px;
-            }
-
-            .sub-nav ul {
-                flex-wrap: wrap;
-                gap: 15px;
-                justify-content: center;
-            }
-            
-            .header-top {
-                flex-direction: column;
-            }
-
-            .header-left,
-            .header-right {
-                width: 100%;
-                justify-content: center;
-                margin-top: 10px;
-            }
-            
-            .header-right ul {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            .header-right li {
-                margin: 5px 10px;
-            }
-            
-            .search-bar {
-                width: 100%;
-            }
-            
-            .sale-header {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .sale-tabs {
-                margin-top: 15px;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .hero h1 {
-                font-size: 32px;
-            }
         }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="bg-[#f7f5f2] text-[#333] antialiased">
 
-    <header class="header-top">
-        <div class="header-left">
-            <div class="logo">ORIVID</div>
-            <div class="search-bar">
-                <input type="text" data-i18n-placeholder="search-placeholder" placeholder="Cari di Orivid...">
-                <button><i class="fas fa-search"></i></button>
+    <!-- Header Section -->
+    <header class="bg-[#1A232E] text-white p-4 md:px-8 flex flex-col md:flex-row items-center justify-between">
+        <div class="flex items-center w-full md:w-auto">
+            <a href="#" class="text-2xl font-bold mr-4">ORIVID</a>
+            <div class="relative flex-grow md:flex-grow-0 md:w-80">
+                <input type="text" data-i18n-placeholder="search-placeholder" placeholder="Cari di Orivid..." class="w-full pl-4 pr-10 py-2 rounded-md border border-gray-300 text-sm text-black focus:outline-none focus:ring-2 focus:ring-[#CBA135] transition-all">
+                <button class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-[#CBA135]">
+                    <i class="fas fa-search"></i>
+                </button>
             </div>
         </div>
-        <div class="header-right">
-            <ul>
-                <li><a href="#" data-i18n="notifications"><i class="fas fa-bell"></i> Notifikasi</a></li>
-                <li><a href="https://wa.me/628155555579" target="_blank" data-i18n="help"><i class="far fa-question-circle"></i> Bantuan</a></li>
-                <li>
-                    <select class="language-select" id="lang-select">
-                        <option value="id" selected data-i18n="lang-id">Indonesia</option>
-                        <option value="en" data-i18n="lang-en">English</option>
-                    </select>
-                </li>
-                <li><a href="#" data-i18n="register">Daftar</a></li>
-                <li><a href="#" data-i18n="login">Log In</a></li>
-                <li><a href="#"><i class="fas fa-shopping-bag"></i></a></li>
-            </ul>
+        <div class="mt-4 md:mt-0 flex flex-wrap items-center justify-center md:justify-end gap-x-6 gap-y-2 text-sm">
+            <a href="#" data-i18n="notifications" class="flex items-center hover:text-[#CBA135] transition-colors"><i class="fas fa-bell mr-1"></i>Notifikasi</a>
+            <a href="https://wa.me/628155555579" target="_blank" data-i18n="help" class="flex items-center hover:text-[#CBA135] transition-colors"><i class="far fa-question-circle mr-1"></i>Bantuan</a>
+            <!-- Perubahan di sini: styling untuk membuat select lebih mudah dibaca -->
+            <select class="bg-gray-200 text-gray-900 border border-gray-400 rounded-md p-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#CBA135] cursor-pointer" id="lang-select">
+                <option value="id" selected data-i18n="lang-id" class="bg-white text-gray-900">Indonesia</option>
+                <option value="en" data-i18n="lang-en" class="bg-white text-gray-900">English</option>
+            </select>
+            <a href="#" data-i18n="register" class="hover:text-[#CBA135] transition-colors">Daftar</a>
+            <a href="#" data-i18n="login" class="hover:text-[#CBA135] transition-colors">Log In</a>
+            <a href="#" class="hover:text-[#CBA135] transition-colors"><i class="fas fa-shopping-bag text-lg"></i></a>
         </div>
     </header>
 
-    <nav class="sub-nav">
-        <ul>
-            <li><a href="#" data-category="tshirt" data-i18n="tshirt">T-Shirt</a></li>
-            <li><a href="#" data-category="polo" data-i18n="polo">Polo</a></li>
-            <li><a href="#" data-category="hoodie" data-i18n="hoodie">Hoodie</a></li>
-            <li><a href="#" data-category="jacket" data-i18n="jacket">Jacket</a></li>
-            <li><a href="#" data-category="pants" data-i18n="pants">Celana</a></li>
-            <li><a href="#" data-category="accessories" data-i18n="accessories">Aksesoris</a></li>
+    <!-- Navigation Bar -->
+    <nav class="bg-black text-white border-b border-gray-700">
+        <ul class="flex flex-wrap justify-center gap-x-6 md:gap-x-10 py-3 font-semibold text-sm md:text-base">
+            <li><a href="#" data-category="tshirt" data-i18n="tshirt" class="py-2 hover:text-[#CBA135] border-b-2 border-transparent hover:border-[#CBA135] transition-colors">T-Shirt</a></li>
+            <li><a href="#" data-category="polo" data-i18n="polo" class="py-2 hover:text-[#CBA135] border-b-2 border-transparent hover:border-[#CBA135] transition-colors">Polo</a></li>
+            <li><a href="#" data-category="hoodie" data-i18n="hoodie" class="py-2 hover:text-[#CBA135] border-b-2 border-transparent hover:border-[#CBA135] transition-colors">Hoodie</a></li>
+            <li><a href="#" data-category="jacket" data-i18n="jacket" class="py-2 hover:text-[#CBA135] border-b-2 border-transparent hover:border-[#CBA135] transition-colors">Jacket</a></li>
+            <li><a href="#" data-category="pants" data-i18n="pants" class="py-2 hover:text-[#CBA135] border-b-2 border-transparent hover:border-[#CBA135] transition-colors">Celana</a></li>
+            <li><a href="#" data-category="accessories" data-i18n="accessories" class="py-2 hover:text-[#CBA135] border-b-2 border-transparent hover:border-[#CBA135] transition-colors">Aksesoris</a></li>
         </ul>
     </nav>
 
     <main>
-        <section class="hero">
-            <h1 data-i18n-html="hero-title">KENAKAN <br> MOMEN</h1>
-            <button class="shop-button" data-i18n="shop-now">BELANJA SEKARANG</button>
+        <!-- Hero Section -->
+        <section class="bg-cover bg-center h-[50vh] flex flex-col items-center justify-center text-center text-black px-4" style="background-image: url('https://via.placeholder.com/1200x500/000000/ffffff?text=WEAR+THE+MOMENT');">
+            <h1 data-i18n-html="hero-title" class="text-5xl md:text-6xl font-bold leading-tight mb-5">KENAKAN <br> MOMEN</h1>
+            <button class="bg-[#CBA135] text-black border border-[#CBA135] px-8 py-3 text-sm font-semibold cursor-pointer transition-shadow hover:shadow-lg hover:shadow-[#CBA135]/50">
+                BELANJA SEKARANG
+            </button>
         </section>
 
-        <section class="promo-bar">
-            <p data-i18n-html="promo-text">Daftar sekarang: diskon 50% untuk produk pilihan &nbsp;&nbsp; GRATIS produk dengan kode <a href="#" data-i18n="promo-link">DAPATKAN SEKARANG</a></p>
+        <!-- Promo Bar -->
+        <section class="bg-black text-white text-center py-4 text-sm font-semibold">
+            <p data-i18n-html="promo-text">Daftar sekarang: diskon 50% untuk produk pilihan &nbsp;&nbsp; GRATIS produk dengan kode <a href="#" class="underline hover:text-[#CBA135] transition-colors">DAPATKAN SEKARANG</a></p>
         </section>
 
-        <!-- Bagian produk yang akan dimuat secara dinamis -->
-        <section class="main-section product-categories-section">
-            <div style="text-align: center;">
-                <h2 class="product-section-title" id="dynamic-section-title">Semua Produk</h2>
+        <!-- Dynamic Product Section -->
+        <section class="px-4 py-10 md:px-8">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold mb-8 inline-block border-b-2 border-[#CBA135] pb-1" id="dynamic-section-title">Semua Produk</h2>
             </div>
-            <div class="product-grid" id="product-container">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="product-container">
                 <!-- Produk akan dimuat di sini oleh JavaScript -->
             </div>
         </section>
 
-        <!-- Bagian trending sekarang berisi daftar produk terlaris -->
-        <section class="main-section trending-section">
-            <div style="text-align: center;">
-                <h2 class="product-section-title" data-i18n="best-sellers-heading">Produk Terlaris</h2>
+        <!-- Best Sellers Section -->
+        <section class="px-4 py-10 md:px-8">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold mb-8 inline-block border-b-2 border-[#CBA135] pb-1" data-i18n="best-sellers-heading">Produk Terlaris</h2>
             </div>
-            <div class="product-grid" id="trending-product-container">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="trending-product-container">
                 <!-- Produk terlaris akan dimuat di sini oleh JavaScript -->
             </div>
         </section>
     </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#1A232E] text-white text-center py-8">
+        <p class="text-sm">Temukan kami di marketplace favorit Anda</p>
+        <div class="flex justify-center items-center gap-8 mt-5">
+            <a href="#" aria-label="Shopee"><img src="https://placehold.co/100x40/fff/000?text=Shopee" alt="Logo Shopee" class="h-8"></a>
+            <a href="#" aria-label="Tokopedia"><img src="https://placehold.co/100x40/fff/000?text=Tokopedia" alt="Logo Tokopedia" class="h-8"></a>
+            <a href="#" aria-label="TikTok Shop"><img src="https://placehold.co/100x40/fff/000?text=TikTok+Shop" alt="Logo TikTok Shop" class="h-8"></a>
+        </div>
+    </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -610,39 +176,39 @@
             // Data produk dinamis
             const products = {
                 tshirt: [
-                    { name_id: "Kaos Klasik Putih", name_en: "Classic White T-Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+1", price: "Rp150.000", oldPrice: "Rp200.000", rating: 4.5 },
-                    { name_id: "Kaos Polos Hitam", name_en: "Plain Black T-Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+2", price: "Rp145.000", oldPrice: null, rating: 4.0 },
-                    { name_id: "Kaos Distro Keren", name_en: "Cool Distro T-Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+3", price: "Rp175.000", oldPrice: "Rp250.000", rating: 5.0 },
-                    { name_id: "Kaos Lengan Panjang", name_en: "Long Sleeve T-Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+4", price: "Rp190.000", oldPrice: null, rating: 3.5 }
+                    { name_id: "Kaos Klasik Putih", name_en: "Classic White T-Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+1", alt_id: "Kaos Klasik Putih", alt_en: "Classic White T-Shirt", price: "Rp150.000", oldPrice: "Rp200.000", rating: 4.5 },
+                    { name_id: "Kaos Polos Hitam", name_en: "Plain Black T-Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+2", alt_id: "Kaos Polos Hitam", alt_en: "Plain Black T-Shirt", price: "Rp145.000", oldPrice: null, rating: 4.0 },
+                    { name_id: "Kaos Distro Keren", name_en: "Cool Distro T-Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+3", alt_id: "Kaos Distro Keren", alt_en: "Cool Distro T-Shirt", price: "Rp175.000", oldPrice: "Rp250.000", rating: 5.0 },
+                    { name_id: "Kaos Lengan Panjang", name_en: "Long Sleeve T-Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+4", alt_id: "Kaos Lengan Panjang", alt_en: "Long Sleeve T-Shirt", price: "Rp190.000", oldPrice: null, rating: 3.5 }
                 ],
                 polo: [
-                    { name_id: "Polo Shirt Biru", name_en: "Blue Polo Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=Polo+1", price: "Rp210.000", oldPrice: "Rp280.000", rating: 4.0 },
-                    { name_id: "Polo Shirt Berkerah", name_en: "Collared Polo Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=Polo+2", price: "Rp230.000", oldPrice: null, rating: 4.5 }
+                    { name_id: "Polo Shirt Biru", name_en: "Blue Polo Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=Polo+1", alt_id: "Polo Shirt Biru", alt_en: "Blue Polo Shirt", price: "Rp210.000", oldPrice: "Rp280.000", rating: 4.0 },
+                    { name_id: "Polo Shirt Berkerah", name_en: "Collared Polo Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=Polo+2", alt_id: "Polo Shirt Berkerah", alt_en: "Collared Polo Shirt", price: "Rp230.000", oldPrice: null, rating: 4.5 }
                 ],
                 hoodie: [
-                    { name_id: "Hoodie Abu-abu", name_en: "Grey Hoodie", image: "https://placehold.co/250x200/cccccc/000000?text=Hoodie+1", price: "Rp350.000", oldPrice: "Rp450.000", rating: 5.0 },
-                    { name_id: "Hoodie Polos Navy", name_en: "Plain Navy Hoodie", image: "https://placehold.co/250x200/cccccc/000000?text=Hoodie+2", price: "Rp320.000", oldPrice: null, rating: 4.0 }
+                    { name_id: "Hoodie Abu-abu", name_en: "Grey Hoodie", image: "https://placehold.co/250x200/cccccc/000000?text=Hoodie+1", alt_id: "Hoodie Abu-abu", alt_en: "Grey Hoodie", price: "Rp350.000", oldPrice: "Rp450.000", rating: 5.0 },
+                    { name_id: "Hoodie Polos Navy", name_en: "Plain Navy Hoodie", image: "https://placehold.co/250x200/cccccc/000000?text=Hoodie+2", alt_id: "Hoodie Polos Navy", alt_en: "Plain Navy Hoodie", price: "Rp320.000", oldPrice: null, rating: 4.0 }
                 ],
                 jacket: [
-                    { name_id: "Jaket Bomber Hitam", name_en: "Black Bomber Jacket", image: "https://placehold.co/250x200/cccccc/000000?text=Jacket+1", price: "Rp450.000", oldPrice: "Rp600.000", rating: 4.5 },
-                    { name_id: "Jaket Jeans Biru", name_en: "Blue Denim Jacket", image: "https://placehold.co/250x200/cccccc/000000?text=Jacket+2", price: "Rp500.000", oldPrice: null, rating: 5.0 }
+                    { name_id: "Jaket Bomber Hitam", name_en: "Black Bomber Jacket", image: "https://placehold.co/250x200/cccccc/000000?text=Jacket+1", alt_id: "Jaket Bomber Hitam", alt_en: "Black Bomber Jacket", price: "Rp450.000", oldPrice: "Rp600.000", rating: 4.5 },
+                    { name_id: "Jaket Jeans Biru", name_en: "Blue Denim Jacket", image: "https://placehold.co/250x200/cccccc/000000?text=Jacket+2", alt_id: "Jaket Jeans Biru", alt_en: "Blue Denim Jacket", price: "Rp500.000", oldPrice: null, rating: 5.0 }
                 ],
                 pants: [
-                    { name_id: "Celana Jeans Slim Fit", name_en: "Slim Fit Jeans", image: "https://placehold.co/250x200/cccccc/000000?text=Pants+1", price: "Rp300.000", oldPrice: null, rating: 4.5 },
-                    { name_id: "Celana Chino Cream", name_en: "Cream Chino Pants", image: "https://placehold.co/250x200/cccccc/000000?text=Pants+2", price: "Rp280.000", oldPrice: "Rp350.000", rating: 4.0 }
+                    { name_id: "Celana Jeans Slim Fit", name_en: "Slim Fit Jeans", image: "https://placehold.co/250x200/cccccc/000000?text=Pants+1", alt_id: "Celana Jeans Slim Fit", alt_en: "Slim Fit Jeans", price: "Rp300.000", oldPrice: null, rating: 4.5 },
+                    { name_id: "Celana Chino Cream", name_en: "Cream Chino Pants", image: "https://placehold.co/250x200/cccccc/000000?text=Pants+2", alt_id: "Celana Chino Cream", alt_en: "Cream Chino Pants", price: "Rp280.000", oldPrice: "Rp350.000", rating: 4.0 }
                 ],
                 accessories: [
-                    { name_id: "Topi Baseball ORIVID", name_en: "ORIVID Baseball Cap", image: "https://placehold.co/250x200/cccccc/000000?text=Aksesoris+1", price: "Rp80.000", oldPrice: null, rating: 4.5 },
-                    { name_id: "Jam Tangan Kulit", name_en: "Leather Watch", image: "https://placehold.co/250x200/cccccc/000000?text=Aksesoris+2", price: "Rp550.000", oldPrice: "Rp700.000", rating: 5.0 }
+                    { name_id: "Topi Baseball ORIVID", name_en: "ORIVID Baseball Cap", image: "https://placehold.co/250x200/cccccc/000000?text=Aksesoris+1", alt_id: "Topi Baseball ORIVID", alt_en: "ORIVID Baseball Cap", price: "Rp80.000", oldPrice: null, rating: 4.5 },
+                    { name_id: "Jam Tangan Kulit", name_en: "Leather Watch", image: "https://placehold.co/250x200/cccccc/000000?text=Aksesoris+2", alt_id: "Jam Tangan Kulit", alt_en: "Leather Watch", price: "Rp550.000", oldPrice: "Rp700.000", rating: 5.0 }
                 ]
             };
             
             // Data produk terlaris baru
             const trendingProducts = [
-                { name_id: "Kaos Klasik Putih", name_en: "Classic White T-Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+1", price: "Rp150.000", oldPrice: "Rp200.000", rating: 4.5 },
-                { name_id: "Polo Shirt Biru", name_en: "Blue Polo Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=Polo+1", price: "Rp210.000", oldPrice: "Rp280.000", rating: 4.0 },
-                { name_id: "Jaket Jeans Biru", name_en: "Blue Denim Jacket", image: "https://placehold.co/250x200/cccccc/000000?text=Jacket+2", price: "Rp500.000", oldPrice: null, rating: 5.0 },
-                { name_id: "Hoodie Abu-abu", name_en: "Grey Hoodie", image: "https://placehold.co/250x200/cccccc/000000?text=Hoodie+1", price: "Rp350.000", oldPrice: "Rp450.000", rating: 5.0 }
+                { name_id: "Kaos Klasik Putih", name_en: "Classic White T-Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+1", alt_id: "Kaos Klasik Putih", alt_en: "Classic White T-Shirt", price: "Rp150.000", oldPrice: "Rp200.000", rating: 4.5 },
+                { name_id: "Polo Shirt Biru", name_en: "Blue Polo Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=Polo+1", alt_id: "Polo Shirt Biru", alt_en: "Blue Polo Shirt", price: "Rp210.000", oldPrice: "Rp280.000", rating: 4.0 },
+                { name_id: "Jaket Jeans Biru", name_en: "Blue Denim Jacket", image: "https://placehold.co/250x200/cccccc/000000?text=Jacket+2", alt_id: "Jaket Jeans Biru", alt_en: "Blue Denim Jacket", price: "Rp500.000", oldPrice: null, rating: 5.0 },
+                { name_id: "Hoodie Abu-abu", name_en: "Grey Hoodie", image: "https://placehold.co/250x200/cccccc/000000?text=Hoodie+1", alt_id: "Hoodie Abu-abu", alt_en: "Grey Hoodie", price: "Rp350.000", oldPrice: "Rp450.000", rating: 5.0 }
             ];
 
             // Fungsi untuk mengupdate bahasa
@@ -670,13 +236,14 @@
                     }
                 });
                 
-                // Panggil ulang renderProducts untuk mengupdate nama produk
-                const activeCategory = document.querySelector('.sub-nav a.active');
+                // Panggil ulang renderProducts untuk mengupdate nama produk dan alt text
+                const activeCategory = document.querySelector('nav a.active');
                 if (activeCategory) {
                     renderProducts(activeCategory.dataset.category, lang);
                     const titleKey = activeCategory.dataset.i18n;
                     document.getElementById('dynamic-section-title').textContent = translations[lang][titleKey];
                 } else {
+                    renderProducts('tshirt', lang); // Default to tshirt
                     document.getElementById('dynamic-section-title').textContent = translations[lang]['all-products'];
                 }
                 
@@ -687,21 +254,32 @@
             // Fungsi untuk membuat HTML card produk
             function createProductCard(product, lang) {
                 const productName = lang === 'id' ? product.name_id : product.name_en;
-                const oldPriceHtml = product.oldPrice ? `<span class="old-price">${product.oldPrice}</span>` : '';
-                const starsHtml = '<i class="fas fa-star"></i>'.repeat(Math.floor(product.rating)) + 
-                                 (product.rating % 1 !== 0 ? '<i class="fas fa-star-half-alt"></i>' : '') +
-                                 '<i class="far fa-star"></i>'.repeat(5 - Math.ceil(product.rating));
+                const altText = lang === 'id' ? product.alt_id : product.alt_en;
+                const oldPriceHtml = product.oldPrice ? `<span class="text-gray-500 line-through text-sm font-normal">${product.oldPrice}</span>` : '';
+                
+                let starsHtml = '';
+                for (let i = 0; i < 5; i++) {
+                    if (i < Math.floor(product.rating)) {
+                        starsHtml += '<i class="fas fa-star"></i>';
+                    } else if (i < product.rating) {
+                        starsHtml += '<i class="fas fa-star-half-alt"></i>';
+                    } else {
+                        starsHtml += '<i class="far fa-star"></i>';
+                    }
+                }
 
                 return `
-                    <div class="product-card">
-                        <img src="${product.image}" alt="${productName}">
-                        <p class="product-name">${productName}</p>
-                        <div class="rating">${starsHtml}</div>
-                        <div class="price-container">
+                    <div class="bg-white p-4 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-center">
+                        <img src="${product.image}" alt="${altText}" class="w-full h-48 object-cover rounded-md mb-4">
+                        <p class="font-semibold text-base mb-1">${productName}</p>
+                        <div class="text-yellow-400 text-sm mb-2">${starsHtml}</div>
+                        <div class="flex items-center justify-center gap-2">
                             ${oldPriceHtml}
-                            <span class="price">${product.price}</span>
+                            <span class="text-lg font-bold">${product.price}</span>
                         </div>
-                        <button class="add-to-cart-btn">Tambahkan ke Keranjang</button>
+                        <button class="mt-4 bg-[#1A232E] text-white text-sm font-semibold px-4 py-2 rounded-full hover:bg-[#CBA135] hover:text-black transition-colors duration-300">
+                            Tambahkan ke Keranjang
+                        </button>
                     </div>
                 `;
             }
@@ -737,16 +315,16 @@
             });
 
             // Event listener untuk klik pada sub-nav
-            const subNavLinks = document.querySelectorAll('.sub-nav a');
+            const subNavLinks = document.querySelectorAll('nav a');
             subNavLinks.forEach(link => {
                 link.addEventListener('click', (event) => {
                     event.preventDefault(); // Mencegah link pindah halaman
                     
                     // Hapus kelas 'active' dari semua link
-                    subNavLinks.forEach(item => item.classList.remove('active'));
+                    subNavLinks.forEach(item => item.classList.remove('active', 'border-[#CBA135]'));
                     
                     // Tambahkan kelas 'active' ke link yang diklik
-                    event.target.classList.add('active');
+                    event.target.classList.add('active', 'border-[#CBA135]');
                     
                     // Dapatkan kategori dari data-category attribute
                     const category = event.target.dataset.category;
@@ -766,7 +344,12 @@
             updateLanguage(initialLang);
 
             // Tampilkan produk pertama secara default (contoh: T-Shirt)
-            document.querySelector('.sub-nav a[data-category="tshirt"]').click();
+            const defaultLink = document.querySelector('nav a[data-category="tshirt"]');
+            if (defaultLink) {
+                 defaultLink.click();
+            } else {
+                renderProducts('tshirt', initialLang);
+            }
         });
     </script>
 </body>
