@@ -37,7 +37,7 @@
         <div class="mt-4 md:mt-0 flex flex-wrap items-center justify-center md:justify-end gap-x-6 gap-y-2 text-sm">
             <a href="#" data-i18n="notifications" class="flex items-center hover:text-[#CBA135] transition-colors"><i class="fas fa-bell mr-1"></i>Notifikasi</a>
             <a href="https://wa.me/628155555579" target="_blank" data-i18n="help" class="flex items-center hover:text-[#CBA135] transition-colors"><i class="far fa-question-circle mr-1"></i>Bantuan</a>
-            <!-- Perubahan di sini: styling untuk membuat select lebih mudah dibaca -->
+            <!-- Dropdown pilihan bahasa. Kelas 'bg-gray-200' dan 'text-gray-900' ditambahkan untuk keterbacaan yang lebih baik. -->
             <select class="bg-gray-200 text-gray-900 border border-gray-400 rounded-md p-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#CBA135] cursor-pointer" id="lang-select">
                 <option value="id" selected data-i18n="lang-id" class="bg-white text-gray-900">Indonesia</option>
                 <option value="en" data-i18n="lang-en" class="bg-white text-gray-900">English</option>
@@ -62,11 +62,17 @@
 
     <main>
         <!-- Hero Section -->
-        <section class="bg-cover bg-center h-[50vh] flex flex-col items-center justify-center text-center text-black px-4" style="background-image: url('https://via.placeholder.com/1200x500/000000/ffffff?text=WEAR+THE+MOMENT');">
-            <h1 data-i18n-html="hero-title" class="text-5xl md:text-6xl font-bold leading-tight mb-5">KENAKAN <br> MOMEN</h1>
-            <button class="bg-[#CBA135] text-black border border-[#CBA135] px-8 py-3 text-sm font-semibold cursor-pointer transition-shadow hover:shadow-lg hover:shadow-[#CBA135]/50">
-                BELANJA SEKARANG
-            </button>
+        <!-- URL gambar telah diperbarui dan ketinggian disesuaikan. Overlay ditambahkan untuk keterbacaan teks. -->
+        <section class="relative bg-cover bg-center h-[75vh] flex items-center justify-center text-center px-4" style="background-image: url('https://i.imgur.com/SCqt0yv.jpeg');">
+            <!-- Dark overlay for better text readability -->
+            <div class="absolute inset-0 bg-black opacity-40"></div>
+            <div class="relative z-10">
+                <h1 data-i18n-html="hero-title" class="text-white text-5xl md:text-6xl font-bold leading-tight mb-5">KENAKAN <br> MOMEN</h1>
+                <!-- Tombol ini sekarang memiliki atribut data-i18n untuk terjemahan -->
+                <button data-i18n="shop-now" class="bg-[#CBA135] text-black border border-[#CBA135] px-8 py-3 text-sm font-semibold cursor-pointer transition-shadow hover:shadow-lg hover:shadow-[#CBA135]/50">
+                    BELANJA SEKARANG
+                </button>
+            </div>
         </section>
 
         <!-- Promo Bar -->
@@ -97,7 +103,8 @@
 
     <!-- Footer -->
     <footer class="bg-[#1A232E] text-white text-center py-8">
-        <p class="text-sm">Temukan kami di marketplace favorit Anda</p>
+        <!-- Teks ini sekarang memiliki atribut data-i18n untuk terjemahan -->
+        <p data-i18n="find-us-on-marketplace" class="text-sm">Temukan kami di marketplace favorit Anda</p>
         <div class="flex justify-center items-center gap-8 mt-5">
             <a href="#" aria-label="Shopee"><img src="https://placehold.co/100x40/fff/000?text=Shopee" alt="Logo Shopee" class="h-8"></a>
             <a href="#" aria-label="Tokopedia"><img src="https://placehold.co/100x40/fff/000?text=Tokopedia" alt="Logo Tokopedia" class="h-8"></a>
@@ -107,7 +114,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Objek untuk menyimpan terjemahan
+            // Objek untuk menyimpan semua terjemahan yang diperlukan
             const translations = {
                 'id': {
                     'title': 'ORIVID - Kenakan Momen',
@@ -125,7 +132,10 @@
                     'pants': 'Celana',
                     'accessories': 'Aksesoris',
                     'hero-title': 'KENAKAN <br> MOMEN',
+                    // Tambahan: terjemahan untuk tombol 'Belanja Sekarang'
                     'shop-now': 'BELANJA SEKARANG',
+                    // Tambahan: terjemahan untuk tombol 'Tambahkan ke Keranjang'
+                    'add-to-cart': 'Tambahkan ke Keranjang',
                     'promo-text': 'Daftar sekarang: diskon 50% untuk produk pilihan &nbsp;&nbsp; GRATIS produk dengan kode <a href="#">DAPATKAN SEKARANG</a>',
                     'promo-link': 'DAPATKAN SEKARANG',
                     'sale-heading': 'OBRAL',
@@ -137,7 +147,9 @@
                     'trending-luxury': 'Mewah & <br> Elegan',
                     'trending-footwear': 'Alas Kaki <br> Premium',
                     'all-products': 'Semua Produk',
-                    'best-sellers-heading': 'Produk Terlaris'
+                    'best-sellers-heading': 'Produk Terlaris',
+                    // Tambahan: terjemahan untuk teks di footer
+                    'find-us-on-marketplace': 'Temukan kami di marketplace favorit Anda'
                 },
                 'en': {
                     'title': 'ORIVID - Wear The Moment',
@@ -155,7 +167,10 @@
                     'pants': 'Pants',
                     'accessories': 'Accessories',
                     'hero-title': 'WEAR <br> THE MOMENT',
+                    // Tambahan: terjemahan untuk tombol 'Shop Now'
                     'shop-now': 'SHOP NOW',
+                    // Tambahan: terjemahan untuk tombol 'Add to Cart'
+                    'add-to-cart': 'Add to Cart',
                     'promo-text': 'Register now: 50% off selected items &nbsp;&nbsp; FREE item with code <a href="#">GET IT NOW</a>',
                     'promo-link': 'GET IT NOW',
                     'sale-heading': 'SALE',
@@ -167,7 +182,9 @@
                     'trending-luxury': 'Luxury & <br> Fine',
                     'trending-footwear': 'Premium <br> Footwear',
                     'all-products': 'All Products',
-                    'best-sellers-heading': 'Best-Selling Products'
+                    'best-sellers-heading': 'Best-Selling Products',
+                    // Tambahan: terjemahan untuk teks di footer
+                    'find-us-on-marketplace': 'Find us on your favorite marketplace'
                 }
             };
             
@@ -187,7 +204,7 @@
                 ],
                 hoodie: [
                     { name_id: "Hoodie Abu-abu", name_en: "Grey Hoodie", image: "https://placehold.co/250x200/cccccc/000000?text=Hoodie+1", alt_id: "Hoodie Abu-abu", alt_en: "Grey Hoodie", price: "Rp350.000", oldPrice: "Rp450.000", rating: 5.0 },
-                    { name_id: "Hoodie Polos Navy", name_en: "Plain Navy Hoodie", image: "https://placehold.co/250x200/cccccc/000000?text=Hoodie+2", alt_id: "Hoodie Polos Navy", alt_en: "Plain Navy Hoodie", price: "Rp320.000", oldPrice: null, rating: 4.0 }
+                    { name_id: "Hoodie Polos Navy", name_en: "Plain Navy Hoodie", image: "https://placehold.co/250x200/cccccc/000000?text=Hoodie+2", alt_id: "Hoodie Abu-abu", alt_en: "Grey Hoodie", price: "Rp320.000", oldPrice: null, rating: 4.0 }
                 ],
                 jacket: [
                     { name_id: "Jaket Bomber Hitam", name_en: "Black Bomber Jacket", image: "https://placehold.co/250x200/cccccc/000000?text=Jacket+1", alt_id: "Jaket Bomber Hitam", alt_en: "Black Bomber Jacket", price: "Rp450.000", oldPrice: "Rp600.000", rating: 4.5 },
@@ -211,9 +228,11 @@
                 { name_id: "Hoodie Abu-abu", name_en: "Grey Hoodie", image: "https://placehold.co/250x200/cccccc/000000?text=Hoodie+1", alt_id: "Hoodie Abu-abu", alt_en: "Grey Hoodie", price: "Rp350.000", oldPrice: "Rp450.000", rating: 5.0 }
             ];
 
-            // Fungsi untuk mengupdate bahasa
+            // Fungsi untuk mengupdate bahasa di seluruh halaman berdasarkan `lang` yang dipilih
             function updateLanguage(lang) {
-                document.documentElement.lang = lang;
+                document.documentElement.lang = lang; // Mengatur atribut lang HTML
+                
+                // Mengubah teks untuk elemen dengan atribut `data-i18n`
                 const elementsToTranslate = document.querySelectorAll('[data-i18n]');
                 elementsToTranslate.forEach(element => {
                     const key = element.getAttribute('data-i18n');
@@ -221,6 +240,8 @@
                         element.textContent = translations[lang][key];
                     }
                 });
+                
+                // Mengubah innerHTML untuk elemen dengan atribut `data-i18n-html`
                 const elementsToTranslateHtml = document.querySelectorAll('[data-i18n-html]');
                 elementsToTranslateHtml.forEach(element => {
                     const key = element.getAttribute('data-i18n-html');
@@ -228,6 +249,8 @@
                         element.innerHTML = translations[lang][key];
                     }
                 });
+                
+                // Mengubah placeholder untuk elemen dengan atribut `data-i18n-placeholder`
                 const elementsToTranslatePlaceholder = document.querySelectorAll('[data-i18n-placeholder]');
                 elementsToTranslatePlaceholder.forEach(element => {
                     const key = element.getAttribute('data-i18n-placeholder');
@@ -236,18 +259,18 @@
                     }
                 });
                 
-                // Panggil ulang renderProducts untuk mengupdate nama produk dan alt text
+                // Memanggil ulang fungsi render produk untuk memperbarui nama produk dan alt text
                 const activeCategory = document.querySelector('nav a.active');
                 if (activeCategory) {
                     renderProducts(activeCategory.dataset.category, lang);
                     const titleKey = activeCategory.dataset.i18n;
                     document.getElementById('dynamic-section-title').textContent = translations[lang][titleKey];
                 } else {
-                    renderProducts('tshirt', lang); // Default to tshirt
+                    renderProducts('tshirt', lang); // Default ke kategori t-shirt
                     document.getElementById('dynamic-section-title').textContent = translations[lang]['all-products'];
                 }
                 
-                // Panggil fungsi untuk merender produk trending dengan bahasa baru
+                // Merender produk terlaris dengan bahasa yang baru
                 renderTrendingProducts(lang);
             }
 
@@ -268,6 +291,9 @@
                     }
                 }
 
+                // Tambahan: tombol 'Tambahkan ke Keranjang' sekarang mengambil teks dari objek terjemahan
+                const addToCartText = translations[lang]['add-to-cart'];
+                
                 return `
                     <div class="bg-white p-4 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-center">
                         <img src="${product.image}" alt="${altText}" class="w-full h-48 object-cover rounded-md mb-4">
@@ -278,13 +304,13 @@
                             <span class="text-lg font-bold">${product.price}</span>
                         </div>
                         <button class="mt-4 bg-[#1A232E] text-white text-sm font-semibold px-4 py-2 rounded-full hover:bg-[#CBA135] hover:text-black transition-colors duration-300">
-                            Tambahkan ke Keranjang
+                            ${addToCartText}
                         </button>
                     </div>
                 `;
             }
 
-            // Fungsi untuk merender produk berdasarkan kategori
+            // Fungsi untuk merender produk berdasarkan kategori yang dipilih
             function renderProducts(category, lang) {
                 const productContainer = document.getElementById('product-container');
                 productContainer.innerHTML = ''; // Kosongkan container
@@ -308,7 +334,7 @@
                 });
             }
             
-            // Event listener untuk perubahan bahasa
+            // Event listener untuk perubahan pada dropdown bahasa
             langSelect.addEventListener('change', (event) => {
                 const selectedLang = event.target.value;
                 updateLanguage(selectedLang);
