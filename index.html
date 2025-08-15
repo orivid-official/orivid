@@ -366,7 +366,6 @@
         /* Trending Section */
         .trending-section {
             padding: 40px 20px;
-            text-align: center;
         }
 
         .trending-section h2 {
@@ -484,7 +483,7 @@
         <div class="header-right">
             <ul>
                 <li><a href="#" data-i18n="notifications"><i class="fas fa-bell"></i> Notifikasi</a></li>
-                <li><a href="#" data-i18n="help"><i class="far fa-question-circle"></i> Bantuan</a></li>
+                <li><a href="https://wa.me/628155555579" target="_blank" data-i18n="help"><i class="far fa-question-circle"></i> Bantuan</a></li>
                 <li>
                     <select class="language-select" id="lang-select">
                         <option value="id" selected data-i18n="lang-id">Indonesia</option>
@@ -529,42 +528,13 @@
             </div>
         </section>
 
-        <!-- Bagian trending tetap statis -->
-        <section class="trending-section">
-            <h2 data-i18n="trending-heading">TRENDING UNTUK ANDA</h2>
-            <div class="trending-grid">
-                <div class="trending-card">
-                    <p data-i18n-html="trending-everyday">Gaya <br> Sehari-hari</p>
-                    <div class="icons">
-                        <i class="fas fa-tshirt"></i>
-                        <i class="fas fa-shopping-bag"></i>
-                        <i class="fas fa-box"></i>
-                    </div>
-                </div>
-                <div class="trending-card">
-                    <p data-i18n-html="trending-lab">Lab Gaya <br> Daring</p>
-                    <div class="icons">
-                        <i class="fas fa-dollar-sign"></i>
-                        <i class="far fa-heart"></i>
-                        <i class="fas fa-cog"></i>
-                    </div>
-                </div>
-                <div class="trending-card">
-                    <p data-i18n-html="trending-luxury">Mewah & <br> Elegan</p>
-                    <div class="icons">
-                        <i class="fas fa-watch"></i>
-                        <i class="fas fa-gem"></i>
-                        <i class="fas fa-crown"></i>
-                    </div>
-                </div>
-                <div class="trending-card">
-                    <p data-i18n-html="trending-footwear">Alas Kaki <br> Premium</p>
-                    <div class="icons">
-                        <i class="fas fa-shoe-prints"></i>
-                        <i class="fas fa-dumbbell"></i>
-                        <i class="fas fa-running"></i>
-                    </div>
-                </div>
+        <!-- Bagian trending sekarang berisi daftar produk terlaris -->
+        <section class="main-section trending-section">
+            <div style="text-align: center;">
+                <h2 class="product-section-title" data-i18n="best-sellers-heading">Produk Terlaris</h2>
+            </div>
+            <div class="product-grid" id="trending-product-container">
+                <!-- Produk terlaris akan dimuat di sini oleh JavaScript -->
             </div>
         </section>
     </main>
@@ -600,7 +570,8 @@
                     'trending-lab': 'Lab Gaya <br> Daring',
                     'trending-luxury': 'Mewah & <br> Elegan',
                     'trending-footwear': 'Alas Kaki <br> Premium',
-                    'all-products': 'Semua Produk'
+                    'all-products': 'Semua Produk',
+                    'best-sellers-heading': 'Produk Terlaris'
                 },
                 'en': {
                     'title': 'ORIVID - Wear The Moment',
@@ -629,7 +600,8 @@
                     'trending-lab': 'Online Style <br> Lab',
                     'trending-luxury': 'Luxury & <br> Fine',
                     'trending-footwear': 'Premium <br> Footwear',
-                    'all-products': 'All Products'
+                    'all-products': 'All Products',
+                    'best-sellers-heading': 'Best-Selling Products'
                 }
             };
             
@@ -664,6 +636,14 @@
                     { name_id: "Jam Tangan Kulit", name_en: "Leather Watch", image: "https://placehold.co/250x200/cccccc/000000?text=Aksesoris+2", price: "Rp550.000", oldPrice: "Rp700.000", rating: 5.0 }
                 ]
             };
+            
+            // Data produk terlaris baru
+            const trendingProducts = [
+                { name_id: "Kaos Klasik Putih", name_en: "Classic White T-Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+1", price: "Rp150.000", oldPrice: "Rp200.000", rating: 4.5 },
+                { name_id: "Polo Shirt Biru", name_en: "Blue Polo Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=Polo+1", price: "Rp210.000", oldPrice: "Rp280.000", rating: 4.0 },
+                { name_id: "Jaket Jeans Biru", name_en: "Blue Denim Jacket", image: "https://placehold.co/250x200/cccccc/000000?text=Jacket+2", price: "Rp500.000", oldPrice: null, rating: 5.0 },
+                { name_id: "Hoodie Abu-abu", name_en: "Grey Hoodie", image: "https://placehold.co/250x200/cccccc/000000?text=Hoodie+1", price: "Rp350.000", oldPrice: "Rp450.000", rating: 5.0 }
+            ];
 
             // Fungsi untuk mengupdate bahasa
             function updateLanguage(lang) {
@@ -699,6 +679,9 @@
                 } else {
                     document.getElementById('dynamic-section-title').textContent = translations[lang]['all-products'];
                 }
+                
+                // Panggil fungsi untuk merender produk trending dengan bahasa baru
+                renderTrendingProducts(lang);
             }
 
             // Fungsi untuk membuat HTML card produk
@@ -735,6 +718,16 @@
                         productContainer.innerHTML += createProductCard(product, lang);
                     });
                 }
+            }
+
+            // Fungsi untuk merender produk terlaris
+            function renderTrendingProducts(lang) {
+                const trendingContainer = document.getElementById('trending-product-container');
+                trendingContainer.innerHTML = ''; // Kosongkan container
+
+                trendingProducts.forEach(product => {
+                    trendingContainer.innerHTML += createProductCard(product, lang);
+                });
             }
             
             // Event listener untuk perubahan bahasa
