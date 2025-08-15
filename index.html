@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ORIVID - Kenakan Momen</title>
+    <title data-i18n="title">ORIVID - Kenakan Momen</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -378,22 +378,22 @@
         <div class="header-left">
             <div class="logo">ORIVID</div>
             <div class="search-bar">
-                <input type="text" placeholder="Cari di Orivid...">
+                <input type="text" data-i18n-placeholder="search-placeholder" placeholder="Cari di Orivid...">
                 <button><i class="fas fa-search"></i></button>
             </div>
         </div>
         <div class="header-right">
             <ul>
-                <li><a href="#"><i class="fas fa-bell"></i> Notifikasi</a></li>
-                <li><a href="#"><i class="far fa-question-circle"></i> Bantuan</a></li>
+                <li><a href="#" data-i18n="notifications"><i class="fas fa-bell"></i> Notifikasi</a></li>
+                <li><a href="#" data-i18n="help"><i class="far fa-question-circle"></i> Bantuan</a></li>
                 <li>
-                    <select class="language-select">
-                        <option value="id" selected>Bahasa Indonesia</option>
-                        <option value="en">English</option>
+                    <select class="language-select" id="lang-select">
+                        <option value="id" selected data-i18n="lang-id">Bahasa Indonesia</option>
+                        <option value="en" data-i18n="lang-en">English</option>
                     </select>
                 </li>
-                <li><a href="#">Daftar</a></li>
-                <li><a href="#">Log In</a></li>
+                <li><a href="#" data-i18n="register">Daftar</a></li>
+                <li><a href="#" data-i18n="login">Log In</a></li>
                 <li><a href="#"><i class="fas fa-shopping-bag"></i></a></li>
             </ul>
         </div>
@@ -401,74 +401,74 @@
 
     <nav class="sub-nav">
         <ul>
-            <li><a href="t-shirt.html">T-Shirt</a></li>
-            <li><a href="polo.html">Polo</a></li>
-            <li><a href="hoodie.html">Hoodie</a></li>
-            <li><a href="jacket.html">Jacket</a></li>
-            <li><a href="pant.html">Celana</a></li>
-            <li><a href="accessories.html">Aksesoris</a></li>
+            <li><a href="t-shirt.html" data-i18n="tshirt">T-Shirt</a></li>
+            <li><a href="polo.html" data-i18n="polo">Polo</a></li>
+            <li><a href="hoodie.html" data-i18n="hoodie">Hoodie</a></li>
+            <li><a href="jacket.html" data-i18n="jacket">Jacket</a></li>
+            <li><a href="pant.html" data-i18n="pants">Celana</a></li>
+            <li><a href="accessories.html" data-i18n="accessories">Aksesoris</a></li>
         </ul>
     </nav>
 
     <main>
         <section class="hero">
-            <h1>KENAKAN <br> MOMEN</h1>
-            <button class="shop-button">BELANJA SEKARANG</button>
+            <h1 data-i18n-html="hero-title">KENAKAN <br> MOMEN</h1>
+            <button class="shop-button" data-i18n="shop-now">BELANJA SEKARANG</button>
         </section>
 
         <section class="promo-bar">
-            <p>Daftar sekarang: diskon 50% untuk produk pilihan &nbsp;&nbsp; GRATIS produk dengan kode <a href="#">DAPATKAN SEKARANG</a></p>
+            <p data-i18n-html="promo-text">Daftar sekarang: diskon 50% untuk produk pilihan &nbsp;&nbsp; GRATIS produk dengan kode <a href="#" data-i18n="promo-link">DAPATKAN SEKARANG</a></p>
         </section>
 
         <section class="sale-section">
             <div class="sale-header">
-                <h2><i class="fas fa-bolt"></i> OBRAL</h2>
+                <h2 data-i18n="sale-heading"><i class="fas fa-bolt"></i> OBRAL</h2>
             </div>
             <div class="product-grid">
                 <div class="product-card">
                     <img src="https://via.placeholder.com/250x200" alt="T-Shirt">
-                    <p class="product-name">T-Shirt</p>
+                    <p class="product-name" data-i18n="tshirt">T-Shirt</p>
                     <div class="rating">
                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
                     </div>
-                    <a href="#" class="sale-tag">Belanja Sekarang</a>
+                    <a href="#" class="sale-tag" data-i18n="shop-now-tag">Belanja Sekarang</a>
                 </div>
                 <div class="product-card">
                     <img src="https://via.placeholder.com/250x200" alt="POLO">
-                    <p class="product-name">POLO</p>
+                    <p class="product-name" data-i18n="polo">POLO</p>
                     <div class="rating">
                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
                     </div>
-                    <a href="#" class="sale-tag">Belanja Sekarang</a>
+                    <a href="#" class="sale-tag" data-i18n="shop-now-tag">Belanja Sekarang</a>
                 </div>
                 <div class="product-card">
                     <img src="https://via.placeholder.com/250x200" alt="HOODIE">
-                    <p class="product-name">HOODIE</p>
+                    <p class="product-name" data-i18n="hoodie">HOODIE</p>
                     <div class="rating">
                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
                     </div>
-                    <a href="#" class="sale-tag">Belanja Sekarang</a>
+                    <a href="#" class="sale-tag" data-i18n="shop-now-tag">Belanja Sekarang</a>
                 </div>
                 <div class="product-card">
                     <img src="https://via.placeholder.com/250x200" alt="PANT">
-                    <p class="product-name">CELANA</p>
+                    <p class="product-name" data-i18n="pants">CELANA</p>
                     <div class="rating">
                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
                     </div>
-                    <a href="#" class="sale-tag">Belanja Sekarang</a>
+                    <a href="#" class="sale-tag" data-i18n="shop-now-tag">Belanja Sekarang</a>
                 </div>
             </div>
         </section>
 
         <section class="shop-button-banner">
-            <button>BELANJA KOLEKSI KEKUATAN KAMI <i class="fas fa-chevron-right"></i></button>
+            <button data-i18n="shop-collection">BELANJA KOLEKSI KEKUATAN KAMI <i class="fas fa-chevron-right"></i></button>
         </section>
 
         <section class="trending-section">
-            <h2>TRENDING UNTUK ANDA</h2>
+            <h2 data-i18n="trending-heading">TRENDING UNTUK ANDA</h2>
             <div class="trending-grid">
                 <div class="trending-card">
-                    <p>Gaya <br> Sehari-hari</p>
+                    <p data-i18n-html="trending-everyday">Gaya <br> Sehari-hari</p>
                     <div class="icons">
                         <i class="fas fa-tshirt"></i>
                         <i class="fas fa-shopping-bag"></i>
@@ -476,7 +476,7 @@
                     </div>
                 </div>
                 <div class="trending-card">
-                    <p>Lab Gaya <br> Daring</p>
+                    <p data-i18n-html="trending-lab">Lab Gaya <br> Daring</p>
                     <div class="icons">
                         <i class="fas fa-dollar-sign"></i>
                         <i class="far fa-heart"></i>
@@ -484,7 +484,7 @@
                     </div>
                 </div>
                 <div class="trending-card">
-                    <p>Mewah & <br> Elegan</p>
+                    <p data-i18n-html="trending-luxury">Mewah & <br> Elegan</p>
                     <div class="icons">
                         <i class="fas fa-watch"></i>
                         <i class="fas fa-gem"></i>
@@ -492,7 +492,7 @@
                     </div>
                 </div>
                 <div class="trending-card">
-                    <p>Alas Kaki <br> Premium</p>
+                    <p data-i18n-html="trending-footwear">Alas Kaki <br> Premium</p>
                     <div class="icons">
                         <i class="fas fa-shoe-prints"></i>
                         <i class="fas fa-dumbbell"></i>
@@ -502,5 +502,113 @@
             </div>
         </section>
     </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Objek untuk menyimpan terjemahan
+            const translations = {
+                'id': {
+                    'title': 'ORIVID - Kenakan Momen',
+                    'search-placeholder': 'Cari di Orivid...',
+                    'notifications': 'Notifikasi',
+                    'help': 'Bantuan',
+                    'register': 'Daftar',
+                    'login': 'Log In',
+                    'lang-id': 'Bahasa Indonesia',
+                    'lang-en': 'English',
+                    'tshirt': 'T-Shirt',
+                    'polo': 'Polo',
+                    'hoodie': 'Hoodie',
+                    'jacket': 'Jacket',
+                    'pants': 'Celana',
+                    'accessories': 'Aksesoris',
+                    'hero-title': 'KENAKAN <br> MOMEN',
+                    'shop-now': 'BELANJA SEKARANG',
+                    'promo-text': 'Daftar sekarang: diskon 50% untuk produk pilihan &nbsp;&nbsp; GRATIS produk dengan kode <a href="#">DAPATKAN SEKARANG</a>',
+                    'promo-link': 'DAPATKAN SEKARANG',
+                    'sale-heading': 'OBRAL',
+                    'shop-now-tag': 'Belanja Sekarang',
+                    'shop-collection': 'BELANJA KOLEKSI KEKUATAN KAMI',
+                    'trending-heading': 'TRENDING UNTUK ANDA',
+                    'trending-everyday': 'Gaya <br> Sehari-hari',
+                    'trending-lab': 'Lab Gaya <br> Daring',
+                    'trending-luxury': 'Mewah & <br> Elegan',
+                    'trending-footwear': 'Alas Kaki <br> Premium',
+                },
+                'en': {
+                    'title': 'ORIVID - Wear The Moment',
+                    'search-placeholder': 'Search on Orivid...',
+                    'notifications': 'Notifications',
+                    'help': 'Help',
+                    'register': 'Register',
+                    'login': 'Log In',
+                    'lang-id': 'Bahasa Indonesia',
+                    'lang-en': 'English',
+                    'tshirt': 'T-Shirt',
+                    'polo': 'Polo',
+                    'hoodie': 'Hoodie',
+                    'jacket': 'Jacket',
+                    'pants': 'Pants',
+                    'accessories': 'Accessories',
+                    'hero-title': 'WEAR <br> THE MOMENT',
+                    'shop-now': 'SHOP NOW',
+                    'promo-text': 'Register now: 50% off selected items &nbsp;&nbsp; FREE item with code <a href="#">GET IT NOW</a>',
+                    'promo-link': 'GET IT NOW',
+                    'sale-heading': 'SALE',
+                    'shop-now-tag': 'Shop Now',
+                    'shop-collection': 'SHOP OUR POWER COLLECTION',
+                    'trending-heading': 'TRENDING FOR YOU',
+                    'trending-everyday': 'Everyday <br> Styles',
+                    'trending-lab': 'Online Style <br> Lab',
+                    'trending-luxury': 'Luxury & <br> Fine',
+                    'trending-footwear': 'Premium <br> Footwear',
+                }
+            };
+            
+            const langSelect = document.getElementById('lang-select');
+            
+            function updateLanguage(lang) {
+                // Update the lang attribute of the HTML tag
+                document.documentElement.lang = lang;
+
+                // Update text content for elements with data-i18n attribute
+                const elementsToTranslate = document.querySelectorAll('[data-i18n]');
+                elementsToTranslate.forEach(element => {
+                    const key = element.getAttribute('data-i18n');
+                    if (translations[lang][key]) {
+                        element.textContent = translations[lang][key];
+                    }
+                });
+
+                // Update innerHTML content for elements with data-i18n-html attribute
+                const elementsToTranslateHtml = document.querySelectorAll('[data-i18n-html]');
+                elementsToTranslateHtml.forEach(element => {
+                    const key = element.getAttribute('data-i18n-html');
+                    if (translations[lang][key]) {
+                        element.innerHTML = translations[lang][key];
+                    }
+                });
+
+                // Update placeholder for elements with data-i18n-placeholder attribute
+                const elementsToTranslatePlaceholder = document.querySelectorAll('[data-i18n-placeholder]');
+                elementsToTranslatePlaceholder.forEach(element => {
+                    const key = element.getAttribute('data-i18n-placeholder');
+                    if (translations[lang][key]) {
+                        element.placeholder = translations[lang][key];
+                    }
+                });
+            }
+
+            // Event listener for language change
+            langSelect.addEventListener('change', (event) => {
+                const selectedLang = event.target.value;
+                updateLanguage(selectedLang);
+            });
+
+            // Set initial language on page load
+            const initialLang = langSelect.value;
+            updateLanguage(initialLang);
+        });
+    </script>
 </body>
 </html>
