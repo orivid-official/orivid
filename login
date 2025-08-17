@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ORIVID login</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome untuk ikon sosial media -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #1A232E;
+            color: #f7f5f2;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #CBA135;
+            box-shadow: 0 0 0 2px rgba(203, 161, 53, 0.5);
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body class="antialiased flex flex-col min-h-screen">
+
+    <!-- Tombol Bantuan di Pojok Kanan Atas -->
+    <div class="fixed top-4 right-4 text-sm text-[#f7f5f2] z-50">
+        <a href="#" class="hover:underline">Butuh bantuan?</a>
+    </div>
+
+    <main class="flex-grow flex items-center justify-center">
+
+        <!-- Login Section -->
+        <section id="loginSection" class="w-full h-full flex flex-col md:flex-row bg-[#1A232E]">
+            <!-- Left Side Branding -->
+            <div class="md:w-1/2 flex flex-col items-center justify-center text-center p-8 bg-[#1A232E]">
+                <div class="mb-4">
+                    <h1 class="text-6xl font-bold text-[#f7f5f2]">ORIVID</h1>
+                </div>
+                <p class="text-xl font-semibold text-[#f7f5f2]">
+                    Wear the Moment
+                </p>
+            </div>
+
+            <!-- Right Side Login Form -->
+            <div class="md:w-1/2 flex items-center justify-center p-8 bg-[#f7f5f2]">
+                <div class="bg-white p-8 md:p-10 rounded-lg shadow-lg w-full max-w-sm">
+                    <h2 class="text-2xl font-bold mb-4 text-center border-b-2 border-[#CBA135] pb-2 text-[#333]">Log In</h2>
+                    <form id="loginForm" class="space-y-4">
+                        <div>
+                            <label for="email" class="block text-sm font-medium mb-1 text-[#333]">Email</label>
+                            <input type="email" id="email" required class="w-full border rounded-md p-2 text-[#333]">
+                        </div>
+                        <div>
+                            <label for="password" class="block text-sm font-medium mb-1 text-[#333]">Password</label>
+                            <input type="password" id="password" required class="w-full border rounded-md p-2 text-[#333]">
+                        </div>
+                        <!-- Pesan kesalahan akan ditampilkan di sini -->
+                        <p id="loginMessage" class="text-red-500 text-sm font-semibold hidden"></p>
+                        <div>
+                            <button type="submit" class="w-full bg-[#CBA135] text-[#1A232E] font-semibold py-2 rounded-md hover:bg-[#a9882a] transition-colors">
+                                LOGIN
+                            </button>
+                        </div>
+                        <a href="#" class="block text-center text-sm text-[#CBA135] hover:underline">Lupa Password?</a>
+                        <div class="flex items-center space-x-2 text-gray-400">
+                            <hr class="flex-grow border-gray-300">
+                            <span>atau</span>
+                            <hr class="flex-grow border-gray-300">
+                        </div>
+                        <div class="space-y-2">
+                            <button type="button" class="w-full border border-gray-300 rounded-md p-2 text-[#333] flex items-center justify-center space-x-2 hover:bg-gray-50 transition-colors">
+                                <i class="fab fa-facebook-f text-blue-600"></i>
+                                <span>Facebook</span>
+                            </button>
+                            <button type="button" class="w-full border border-gray-300 rounded-md p-2 text-[#333] flex items-center justify-center space-x-2 hover:bg-gray-50 transition-colors">
+                                <i class="fab fa-google text-red-500"></i>
+                                <span>Google</span>
+                            </button>
+                        </div>
+                    </form>
+                    <div class="text-center text-sm mt-4 text-[#333]">
+                        <span>Baru di ORIVID?</span>
+                        <a href="#" class="text-[#CBA135] font-semibold hover:underline ml-1">Daftar</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Admin Panel Section -->
+        <div id="adminPanel" class="hidden w-full max-w-7xl mx-auto p-4 md:p-8">
+            <!-- Add New Product Section -->
+            <section class="bg-[#f7f5f2] p-6 rounded-lg shadow-lg mb-8 text-[#333]">
+                <h2 class="text-2xl font-bold mb-4 border-b-2 border-[#CBA135] pb-2">Tambah Produk Baru</h2>
+                <form id="addProductForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="name_id" class="block text-sm font-medium mb-1">Nama Produk (ID)</label>
+                        <input type="text" id="name_id" required class="w-full border rounded-md p-2">
+                    </div>
+                    <div>
+                        <label for="name_en" class="block text-sm font-medium mb-1">Nama Produk (EN)</label>
+                        <input type="text" id="name_en" required class="w-full border rounded-md p-2">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label for="image" class="block text-sm font-medium mb-1">URL Gambar</label>
+                        <input type="url" id="image" required class="w-full border rounded-md p-2">
+                    </div>
+                    <div>
+                        <label for="category" class="block text-sm font-medium mb-1">Kategori</label>
+                        <select id="category" required class="w-full border rounded-md p-2">
+                            <option value="tshirt">T-Shirt</option>
+                            <option value="polo">Polo</option>
+                            <option value="hoodie">Hoodie</option>
+                            <option value="jacket">Jacket</option>
+                            <option value="pants">Celana</option>
+                            <option value="accessories">Aksesoris</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="price" class="block text-sm font-medium mb-1">Harga (contoh: Rp150.000)</label>
+                        <input type="text" id="price" required class="w-full border rounded-md p-2">
+                    </div>
+                    <div>
+                        <label for="oldPrice" class="block text-sm font-medium mb-1">Harga Lama (Opsional)</label>
+                        <input type="text" id="oldPrice" class="w-full border rounded-md p-2">
+                    </div>
+                    <div>
+                        <label for="rating" class="block text-sm font-medium mb-1">Rating (1.0 - 5.0)</label>
+                        <input type="number" id="rating" min="1" max="5" step="0.1" value="5.0" required class="w-full border rounded-md p-2">
+                    </div>
+                    <div class="md:col-span-2">
+                        <button type="submit" class="w-full bg-[#1A232E] text-white font-semibold py-2 rounded-md hover:bg-[#CBA135] hover:text-black transition-colors">
+                            Tambahkan Produk
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Product List Section -->
+            <section class="bg-[#f7f5f2] p-6 rounded-lg shadow-lg text-[#333]">
+                <h2 class="text-2xl font-bold mb-4 border-b-2 border-[#CBA135] pb-2">Daftar Produk</h2>
+                <div id="productList" class="space-y-4">
+                    <!-- Products will be rendered here -->
+                </div>
+            </section>
+        </div>
+
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginSection = document.getElementById('loginSection');
+            const loginForm = document.getElementById('loginForm');
+            const loginMessage = document.getElementById('loginMessage');
+            const adminPanel = document.getElementById('adminPanel');
+            const adminHeader = document.getElementById('adminHeader');
+
+            const products = {
+                tshirt: [
+                    { name_id: "Kaos Klasik Putih", name_en: "Classic White T-Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+1", alt_id: "Kaos Klasik Putih", alt_en: "Classic White T-Shirt", price: "Rp150.000", oldPrice: "Rp200.000", rating: 4.5 },
+                    { name_id: "Kaos Polos Hitam", name_en: "Plain Black T-Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+2", alt_id: "Kaos Polos Hitam", alt_en: "Plain Black T-Shirt", price: "Rp145.000", oldPrice: null, rating: 4.0 },
+                    { name_id: "Kaos Distro Keren", name_en: "Cool Distro T-Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+3", alt_id: "Kaos Distro Keren", alt_en: "Cool Distro T-Shirt", price: "Rp175.000", oldPrice: "Rp250.000", rating: 5.0 },
+                    { name_id: "Kaos Lengan Panjang", name_en: "Long Sleeve T-Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+4", alt_id: "Kaos Lengan Panjang", alt_en: "Long Sleeve T-Shirt", price: "Rp190.000", oldPrice: null, rating: 3.5 }
+                ],
+                polo: [
+                    { name_id: "Polo Shirt Biru", name_en: "Blue Polo Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=Polo+1", alt_id: "Polo Shirt Biru", alt_en: "Blue Polo Shirt", price: "Rp210.000", oldPrice: "Rp280.000", rating: 4.0 },
+                    { name_id: "Polo Shirt Berkerah", name_en: "Collared Polo Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=Polo+2", alt_id: "Polo Shirt Berkerah", alt_en: "Collared Polo Shirt", price: "Rp230.000", oldPrice: null, rating: 4.5 }
+                ],
+                hoodie: [
+                    { name_id: "Hoodie Abu-abu", name_en: "Grey Hoodie", image: "https://placehold.co/250x200/cccccc/000000?text=Hoodie+1", alt_id: "Hoodie Abu-abu", alt_en: "Grey Hoodie", price: "Rp350.000", oldPrice: "Rp450.000", rating: 5.0 },
+                    { name_id: "Hoodie Polos Navy", name_en: "Plain Navy Hoodie", image: "https://placehold.co/250x200/cccccc/000000?text=Hoodie+2", alt_id: "Hoodie Abu-abu", alt_en: "Grey Hoodie", price: "Rp320.000", oldPrice: null, rating: 4.0 }
+                ],
+                jacket: [
+                    { name_id: "Jaket Bomber Hitam", name_en: "Black Bomber Jacket", image: "https://placehold.co/250x200/cccccc/000000?text=Jacket+1", alt_id: "Jaket Bomber Hitam", alt_en: "Black Bomber Jacket", price: "Rp450.000", oldPrice: "Rp600.000", rating: 4.5 },
+                    { name_id: "Jaket Jeans Biru", name_en: "Blue Denim Jacket", image: "https://placehold.co/250x200/cccccc/000000?text=Jacket+2", alt_id: "Jaket Jeans Biru", alt_en: "Blue Denim Jacket", price: "Rp500.000", oldPrice: null, rating: 5.0 }
+                ],
+                pants: [
+                    { name_id: "Celana Jeans Slim Fit", name_en: "Slim Fit Jeans", image: "https://placehold.co/250x200/cccccc/000000?text=Pants+1", alt_id: "Celana Jeans Slim Fit", alt_en: "Slim Fit Jeans", price: "Rp300.000", oldPrice: null, rating: 4.5 },
+                    { name_id: "Celana Chino Cream", name_en: "Cream Chino Pants", image: "https://placehold.co/250x200/cccccc/000000?text=Pants+2", alt_id: "Celana Chino Cream", alt_en: "Cream Chino Pants", price: "Rp280.000", oldPrice: "Rp350.000", rating: 4.0 }
+                ],
+                accessories: [
+                    { name_id: "Topi Baseball ORIVID", name_en: "ORIVID Baseball Cap", image: "https://placehold.co/250x200/cccccc/000000?text=Aksesoris+1", alt_id: "Topi Baseball ORIVID", alt_en: "ORIVID Baseball Cap", price: "Rp80.000", oldPrice: null, rating: 4.5 },
+                    { name_id: "Jam Tangan Kulit", name_en: "Leather Watch", image: "https://placehold.co/250x200/cccccc/000000?text=Aksesoris+2", alt_id: "Jam Tangan Kulit", alt_en: "Leather Watch", price: "Rp550.000", oldPrice: "Rp700.000", rating: 5.0 }
+                ]
+            };
+            
+            function renderProductList() {
+                const productList = document.getElementById('productList');
+                productList.innerHTML = '';
+                Object.keys(products).forEach(category => {
+                    products[category].forEach(product => {
+                        const productCard = document.createElement('div');
+                        productCard.className = 'flex items-center justify-between p-4 bg-gray-50 rounded-md shadow-sm border border-gray-200';
+                        productCard.innerHTML = `
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-lg">${product.name_id}</h3>
+                                <p class="text-sm text-gray-600">${product.price}</p>
+                            </div>
+                            <button class="delete-btn bg-red-500 text-white text-sm font-semibold px-4 py-2 rounded-md hover:bg-red-600 transition-colors" data-name-id="${product.name_id}">
+                                Hapus
+                            </button>
+                        `;
+                        productList.appendChild(productCard);
+                    });
+                });
+            }
+
+            // Handler untuk submit form login
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                
+                // Hardcoded credentials
+                const correctEmail = 'orivid325@gmail.com';
+                const correctPassword = 'mantapkan_langkah234';
+
+                // Sembunyikan pesan kesalahan sebelumnya
+                loginMessage.classList.add('hidden');
+                
+                if (email === correctEmail && password === correctPassword) {
+                    // Login berhasil
+                    loginSection.classList.add('hidden');
+                    adminPanel.classList.remove('hidden');
+                    document.body.style.backgroundColor = '#f7f5f2';
+                    renderProductList();
+                } else {
+                    // Tampilkan pesan kesalahan spesifik
+                    loginMessage.classList.remove('hidden');
+                    if (email !== correctEmail && password !== correctPassword) {
+                        loginMessage.textContent = 'Email dan password tidak sesuai.';
+                    } else if (email !== correctEmail) {
+                        loginMessage.textContent = 'Email tidak sesuai.';
+                    } else { // password !== correctPassword
+                        loginMessage.textContent = 'Password tidak sesuai.';
+                    }
+                }
+            });
+
+            // Event listener for the form submission
+            const addProductForm = document.getElementById('addProductForm');
+            addProductForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const newProduct = {
+                    name_id: document.getElementById('name_id').value,
+                    name_en: document.getElementById('name_en').value,
+                    image: document.getElementById('image').value,
+                    category: document.getElementById('category').value,
+                    price: document.getElementById('price').value,
+                    oldPrice: document.getElementById('oldPrice').value || null,
+                    rating: parseFloat(document.getElementById('rating').value)
+                };
+
+                // Add the new product to the correct category
+                if (!products[newProduct.category]) {
+                    products[newProduct.category] = [];
+                }
+                products[newProduct.category].push(newProduct);
+                
+                console.log('Produk baru ditambahkan (hanya di browser):', newProduct);
+                <comment-tag id="1">alert('Produk berhasil ditambahkan! Buka konsol browser untuk melihat objek produk baru. Anda harus memperbarui file index.html secara manual dengan data ini.');</comment-tag id="1">
+
+                // Render the list again to show the new product
+                renderProductList();
+                
+                addProductForm.reset();
+            });
+
+            // Event listener for delete buttons
+            document.getElementById('productList').addEventListener('click', (e) => {
+                if (e.target.classList.contains('delete-btn')) {
+                    const productNameId = e.target.dataset.nameId;
+                    
+                    console.log('Akan menghapus produk:', productNameId);
+                    <comment-tag id="2">alert(`Produk "${productNameId}" akan dihapus. Anda perlu menghapus data ini secara manual dari file index.html.`);</comment-tag id="2">
+                    
+                    // Find and remove the product from the local `products` object
+                    Object.keys(products).forEach(category => {
+                        products[category] = products[category].filter(p => p.name_id !== productNameId);
+                    });
+
+                    renderProductList();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
