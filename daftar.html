@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ORIVID Daftar Akun Baru</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome untuk ikon sosial media -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Gaya dasar untuk font dan warna latar belakang */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #1A232E;
+            color: #f7f5f2;
+        }
+        /* Gaya fokus untuk input, select, dan textarea */
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #CBA135;
+            box-shadow: 0 0 0 2px rgba(203, 161, 53, 0.5);
+        }
+        /* Kelas untuk menyembunyikan elemen */
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body class="antialiased flex flex-col min-h-screen">
+
+    <!-- Tombol Bantuan di Pojok Kanan Atas -->
+    <div class="fixed top-4 right-4 text-sm text-[#f7f5f2] z-50">
+        <a href="#" class="hover:underline">Butuh bantuan?</a>
+    </div>
+
+    <main class="flex-grow flex items-center justify-center">
+
+        <!-- Register Section -->
+        <section id="registerSection" class="w-full h-full flex flex-col md:flex-row bg-[#1A232E]">
+            <!-- Left Side Branding -->
+            <div class="md:w-1/2 flex flex-col items-center justify-center text-center p-8 bg-[#1A232E]">
+                <div class="mb-4">
+                    <h1 class="text-6xl font-bold text-[#f7f5f2]">ORIVID</h1>
+                </div>
+                <p class="text-xl font-semibold text-[#f7f5f2]">
+                    Wear the Moment
+                </p>
+            </div>
+
+            <!-- Right Side Registration Form -->
+            <div class="md:w-1/2 flex items-center justify-center p-8 bg-[#f7f5f2]">
+                <div class="bg-white p-8 md:p-10 rounded-lg shadow-lg w-full max-w-sm">
+                    <h2 class="text-2xl font-bold mb-4 text-center border-b-2 border-[#CBA135] pb-2 text-[#333]">Daftar Akun Baru</h2>
+                    
+                    <form id="registerForm" class="space-y-4">
+                        <div>
+                            <label for="fullName" class="block text-sm font-medium mb-1 text-[#333]">Nama Lengkap</label>
+                            <input type="text" id="fullName" required class="w-full border rounded-md p-2 text-[#333]">
+                        </div>
+                        <div>
+                            <label for="username" class="block text-sm font-medium mb-1 text-[#333]">Nama Pengguna</label>
+                            <input type="text" id="username" required class="w-full border rounded-md p-2 text-[#333]">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium mb-1 text-[#333]">Email</label>
+                            <input type="email" id="email" required class="w-full border rounded-md p-2 text-[#333]">
+                        </div>
+                        <div>
+                            <label for="phone" class="block text-sm font-medium mb-1 text-[#333]">Nomor Telepon</label>
+                            <input type="tel" id="phone" required class="w-full border rounded-md p-2 text-[#333]">
+                        </div>
+                        <div>
+                            <label for="password" class="block text-sm font-medium mb-1 text-[#333]">Password</label>
+                            <input type="password" id="password" required class="w-full border rounded-md p-2 text-[#333]">
+                        </div>
+                        <div>
+                            <label for="confirmPassword" class="block text-sm font-medium mb-1 text-[#333]">Konfirmasi Password</label>
+                            <input type="password" id="confirmPassword" required class="w-full border rounded-md p-2 text-[#333]">
+                        </div>
+                        <!-- Message Box -->
+                        <div id="messageBox" class="p-3 rounded-md text-sm hidden" role="alert"></div>
+
+                        <div>
+                            <button type="submit" class="w-full bg-[#CBA135] text-[#1A232E] font-semibold py-2 rounded-md hover:bg-[#a9882a] transition-colors">
+                                DAFTAR
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <div class="text-center text-sm mt-4 text-[#333]">
+                        <span>Sudah punya akun?</span>
+                        <a href="login.html" class="text-[#CBA135] font-semibold hover:underline ml-1">Masuk</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const registerForm = document.getElementById('registerForm');
+            const messageBox = document.getElementById('messageBox');
+
+            /**
+             * Shows a message in the message box element.
+             * @param {string} message - The message to display.
+             * @param {string} type - The type of message ('success' or 'error').
+             */
+            function showMessage(message, type) {
+                messageBox.textContent = message;
+                messageBox.classList.remove('hidden');
+                
+                // Set colors based on message type
+                if (type === 'success') {
+                    messageBox.classList.remove('bg-red-100', 'text-red-700');
+                    messageBox.classList.add('bg-green-100', 'text-green-700');
+                } else if (type === 'error') {
+                    messageBox.classList.remove('bg-green-100', 'text-green-700');
+                    messageBox.classList.add('bg-red-100', 'text-red-700');
+                }
+            }
+
+            // Handler for form submission
+            registerForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+
+                // Hide any previous message
+                messageBox.classList.add('hidden');
+
+                if (password !== confirmPassword) {
+                    showMessage('Password dan konfirmasi password tidak cocok.', 'error');
+                } else {
+                    // Placeholder for a successful registration.
+                    // In a real application, you would send this data to a server.
+                    showMessage('Pendaftaran berhasil! Redirecting...', 'success');
+                    
+                    // You could add a redirect here after a short delay
+                    // setTimeout(() => { window.location.href = 'login.html'; }, 2000);
+                    
+                    console.log('Form data:', {
+                        fullName: document.getElementById('fullName').value,
+                        username: document.getElementById('username').value,
+                        email: document.getElementById('email').value,
+                        phone: document.getElementById('phone').value,
+                        password: password
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
