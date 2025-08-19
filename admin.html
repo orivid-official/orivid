@@ -4,58 +4,91 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ORIVID Admin Panel</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts: Poppins -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome untuk ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #f7f5f2;
-            color: #333;
+            color: #1A232E;
         }
         input:focus, select:focus, textarea:focus {
             outline: none;
             border-color: #CBA135;
             box-shadow: 0 0 0 2px rgba(203, 161, 53, 0.5);
         }
-        .modal {
-            background-color: rgba(0, 0, 0, 0.5);
-            transition: opacity 0.3s ease-in-out;
+        /* Style untuk modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        .category-nav-btn.active {
+            background-color: #1A232E;
+            color: white;
         }
     </style>
 </head>
-<body class="antialiased">
+<body class="antialiased flex flex-col min-h-screen">
 
-    <!-- Header -->
-    <header class="bg-[#1A232E] text-white p-4 text-center relative">
-        <h1 class="text-3xl font-bold">ORIVID Admin Panel</h1>
-        <!-- Tombol Logout -->
-        <button id="logoutBtn" class="absolute top-4 right-4 bg-red-500 text-white font-semibold py-1 px-3 rounded-md hover:bg-red-600 transition-colors">
+    <!-- Header Admin Panel -->
+    <header class="bg-[#1A232E] text-[#f7f5f2] p-4 shadow-md flex justify-between items-center">
+        <div class="flex items-center">
+            <h1 class="text-2xl md:text-3xl font-bold">ORIVID Admin</h1>
+            <span class="ml-4 text-sm md:text-base">Panel Pengelolaan</span>
+        </div>
+        <button id="logoutBtn" class="bg-[#CBA135] text-[#1A232E] font-semibold py-2 px-4 rounded-md hover:bg-[#a9882a] transition-colors">
             Logout
         </button>
     </header>
 
-    <main class="container mx-auto p-4 md:p-8">
-        <!-- Bagian Tambah/Edit Produk -->
-        <section class="bg-white p-6 rounded-lg shadow-lg mb-8">
-            <h2 id="formTitle" class="text-2xl font-bold mb-4 border-b-2 border-[#CBA135] pb-2">Tambah Produk Baru</h2>
-            <form id="productForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <input type="hidden" id="productId">
+    <!-- Navigasi Utama -->
+    <nav class="bg-[#333] p-4 shadow-md">
+        <div class="flex justify-center space-x-4">
+            <button id="navProducts" class="nav-item text-[#f7f5f2] font-semibold py-2 px-4 rounded-md transition-colors bg-[#CBA135] text-[#1A232E]">
+                Kelola Produk
+            </button>
+            <button id="navUsers" class="nav-item text-[#f7f5f2] font-semibold py-2 px-4 rounded-md hover:bg-[#a9882a] transition-colors">
+                Kelola User
+            </button>
+        </div>
+    </nav>
+
+    <main class="flex-grow w-full max-w-7xl mx-auto p-4 md:p-8">
+        <h2 class="text-3xl font-bold mb-6 text-center text-[#1A232E]">Dashboard Admin</h2>
+
+        <!-- Bagian Pengelolaan Produk -->
+        <section id="productSection" class="bg-white p-6 rounded-lg shadow-lg mb-8">
+            <h3 class="text-2xl font-bold mb-4 border-b-2 border-[#CBA135] pb-2 text-[#333]">Kelola Produk</h3>
+            
+            <!-- Formulir Tambah Produk -->
+            <form id="addProductForm" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                 <div>
-                    <label for="name_id" class="block text-sm font-medium mb-1">Nama Produk (ID)</label>
-                    <input type="text" id="name_id" required class="w-full border rounded-md p-2">
+                    <label for="name" class="block text-sm font-medium mb-1 text-[#333]">Nama Produk</label>
+                    <input type="text" id="name" required class="w-full border rounded-md p-2 text-[#333]">
                 </div>
                 <div>
-                    <label for="name_en" class="block text-sm font-medium mb-1">Nama Produk (EN)</label>
-                    <input type="text" id="name_en" required class="w-full border rounded-md p-2">
-                </div>
-                <div class="md:col-span-2">
-                    <label for="image" class="block text-sm font-medium mb-1">URL Gambar</label>
-                    <input type="url" id="image" required class="w-full border rounded-md p-2">
-                </div>
-                <div>
-                    <label for="category" class="block text-sm font-medium mb-1">Kategori</label>
-                    <select id="category" required class="w-full border rounded-md p-2">
+                    <label for="category" class="block text-sm font-medium mb-1 text-[#333]">Kategori</label>
+                    <select id="category" required class="w-full border rounded-md p-2 text-[#333]">
                         <option value="tshirt">T-Shirt</option>
                         <option value="polo">Polo</option>
                         <option value="hoodie">Hoodie</option>
@@ -64,179 +97,230 @@
                         <option value="accessories">Aksesoris</option>
                     </select>
                 </div>
-                <div>
-                    <label for="price" class="block text-sm font-medium mb-1">Harga (contoh: Rp150.000)</label>
-                    <input type="text" id="price" required class="w-full border rounded-md p-2">
-                </div>
-                <div>
-                    <label for="oldPrice" class="block text-sm font-medium mb-1">Harga Lama (Opsional)</label>
-                    <input type="text" id="oldPrice" class="w-full border rounded-md p-2">
-                </div>
-                <div>
-                    <label for="rating" class="block text-sm font-medium mb-1">Rating (1.0 - 5.0)</label>
-                    <input type="number" id="rating" min="1" max="5" step="0.1" value="5.0" required class="w-full border rounded-md p-2">
+                <div class="md:col-span-2">
+                    <label for="image" class="block text-sm font-medium mb-1 text-[#333]">URL Gambar</label>
+                    <input type="url" id="image" required class="w-full border rounded-md p-2 text-[#333]">
                 </div>
                 <div class="md:col-span-2">
-                    <button type="submit" id="submitBtn" class="w-full bg-[#1A232E] text-white font-semibold py-2 rounded-md hover:bg-[#CBA135] hover:text-black transition-colors">
+                    <label for="description" class="block text-sm font-medium mb-1 text-[#333]">Deskripsi Produk</label>
+                    <textarea id="description" rows="4" class="w-full border rounded-md p-2 text-[#333]" required></textarea>
+                </div>
+                <div>
+                    <label for="price" class="block text-sm font-medium mb-1 text-[#333]">Harga (contoh: Rp150.000)</label>
+                    <input type="text" id="price" required class="w-full border rounded-md p-2 text-[#333]">
+                </div>
+                <div>
+                    <label for="oldPrice" class="block text-sm font-medium mb-1 text-[#333]">Harga Awal (Opsional)</label>
+                    <input type="text" id="oldPrice" class="w-full border rounded-md p-2 text-[#333]">
+                </div>
+                <div>
+                    <label for="rating" class="block text-sm font-medium mb-1 text-[#333]">Rating (1.0 - 5.0)</label>
+                    <input type="number" id="rating" min="1" max="5" step="0.1" value="5.0" required class="w-full border rounded-md p-2 text-[#333]">
+                </div>
+                <div class="md:col-span-2">
+                    <button type="submit" class="w-full bg-[#1A232E] text-white font-semibold py-2 rounded-md hover:bg-[#CBA135] hover:text-black transition-colors">
                         Tambahkan Produk
-                    </button>
-                    <button type="button" id="cancelBtn" class="w-full bg-gray-400 text-white font-semibold py-2 rounded-md mt-2 hidden hover:bg-gray-500 transition-colors">
-                        Batal
                     </button>
                 </div>
             </form>
+
+            <!-- Navigasi Kategori Produk -->
+            <div class="flex flex-wrap gap-2 mb-4 justify-center">
+                <button class="category-nav-btn py-2 px-4 rounded-md transition-colors font-semibold text-sm bg-gray-200 hover:bg-gray-300 active" data-category="all">Semua</button>
+                <button class="category-nav-btn py-2 px-4 rounded-md transition-colors font-semibold text-sm bg-gray-200 hover:bg-gray-300" data-category="tshirt">T-Shirt</button>
+                <button class="category-nav-btn py-2 px-4 rounded-md transition-colors font-semibold text-sm bg-gray-200 hover:bg-gray-300" data-category="polo">Polo</button>
+                <button class="category-nav-btn py-2 px-4 rounded-md transition-colors font-semibold text-sm bg-gray-200 hover:bg-gray-300" data-category="hoodie">Hoodie</button>
+                <button class="category-nav-btn py-2 px-4 rounded-md transition-colors font-semibold text-sm bg-gray-200 hover:bg-gray-300" data-category="jacket">Jacket</button>
+                <button class="category-nav-btn py-2 px-4 rounded-md transition-colors font-semibold text-sm bg-gray-200 hover:bg-gray-300" data-category="pants">Celana</button>
+                <button class="category-nav-btn py-2 px-4 rounded-md transition-colors font-semibold text-sm bg-gray-200 hover:bg-gray-300" data-category="accessories">Aksesoris</button>
+            </div>
+            
+            <!-- Fitur Pencarian dan Pengurutan -->
+            <div class="flex flex-col md:flex-row gap-4 mb-6">
+                <input type="search" id="productSearch" placeholder="Cari produk..." class="w-full md:w-1/2 border rounded-md p-2 text-[#333]">
+                <select id="productSort" class="w-full md:w-1/2 border rounded-md p-2 text-[#333]">
+                    <option value="latest">Urutkan: Terbaru</option>
+                    <option value="oldest">Urutkan: Terlama</option>
+                </select>
+            </div>
+            
+            <!-- Daftar Produk -->
+            <div id="productList" class="space-y-4">
+                <!-- Produk akan dimuat di sini oleh JavaScript -->
+            </div>
         </section>
 
-        <!-- Bagian Daftar Produk -->
-        <section class="bg-white p-6 rounded-lg shadow-lg">
-            <h2 class="text-2xl font-bold mb-4 border-b-2 border-[#CBA135] pb-2">Daftar Produk</h2>
-            
-            <!-- Search Bar -->
-            <div class="mb-4">
-                <label for="productSearch" class="block text-sm font-medium mb-1">Cari Produk</label>
-                <input type="text" id="productSearch" placeholder="Cari berdasarkan nama..." class="w-full border rounded-md p-2">
+        <!-- Bagian Pengelolaan User -->
+        <section id="userSection" class="bg-white p-6 rounded-lg shadow-lg hidden">
+            <h3 class="text-2xl font-bold mb-4 border-b-2 border-[#CBA135] pb-2 text-[#333]">Kelola User</h3>
+             <!-- Formulir Tambah User (opsional, sebagai contoh) -->
+            <form id="addUserForm" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                <div>
+                    <label for="user-name" class="block text-sm font-medium mb-1 text-[#333]">Nama User</label>
+                    <input type="text" id="user-name" required class="w-full border rounded-md p-2 text-[#333]">
+                </div>
+                <div>
+                    <label for="user-email" class="block text-sm font-medium mb-1 text-[#333]">Email</label>
+                    <input type="email" id="user-email" required class="w-full border rounded-md p-2 text-[#333]">
+                </div>
+                <div>
+                    <label for="user-phone" class="block text-sm font-medium mb-1 text-[#333]">Nomor HP</label>
+                    <input type="tel" id="user-phone" required class="w-full border rounded-md p-2 text-[#333]">
+                </div>
+                <div class="md:col-span-2 mt-4">
+                    <button type="submit" class="w-full bg-[#1A232E] text-white font-semibold py-2 rounded-md hover:bg-[#CBA135] hover:text-black transition-colors">
+                        Tambahkan User
+                    </button>
+                </div>
+            </form>
+
+            <!-- Fitur Pencarian dan Pengurutan -->
+            <div class="flex flex-col md:flex-row gap-4 mb-6">
+                <input type="search" id="userSearch" placeholder="Cari user..." class="w-full md:w-1/2 border rounded-md p-2 text-[#333]">
+                <select id="userSort" class="w-full md:w-1/2 border rounded-md p-2 text-[#333]">
+                    <option value="latest">Urutkan: Terbaru</option>
+                    <option value="oldest">Urutkan: Terlama</option>
+                </select>
             </div>
 
-            <div id="productList" class="space-y-4">
-                <p>Memuat produk...</p>
+            <!-- Daftar User -->
+            <div id="userList" class="space-y-4">
+                <!-- User akan dimuat di sini oleh JavaScript -->
             </div>
         </section>
     </main>
 
-    <!-- Modal Konfirmasi Hapus Produk -->
-    <div id="deleteModal" class="fixed inset-0 z-50 flex items-center justify-center hidden modal opacity-0">
-        <div class="bg-white rounded-lg p-6 shadow-xl w-full max-w-sm">
-            <h3 class="text-lg font-bold mb-4">Konfirmasi Hapus</h3>
-            <p id="modalMessage" class="text-gray-700 mb-6">Apakah Anda yakin ingin menghapus produk ini?</p>
-            <div class="flex justify-end gap-2">
-                <button id="cancelDeleteBtn" class="bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-md hover:bg-gray-400">Batal</button>
-                <button id="confirmDeleteBtn" class="bg-red-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-red-600">Hapus</button>
-            </div>
+    <!-- Modal Edit Produk (Tersembunyi secara default) -->
+    <div id="editProductModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3 class="text-2xl font-bold mb-4 border-b-2 border-[#CBA135] pb-2 text-[#333]">Edit Produk</h3>
+            <form id="editProductForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input type="hidden" id="edit-product-old-name">
+                <div>
+                    <label for="edit-name" class="block text-sm font-medium mb-1 text-[#333]">Nama Produk</label>
+                    <input type="text" id="edit-name" required class="w-full border rounded-md p-2 text-[#333]">
+                </div>
+                <div>
+                    <label for="edit-category" class="block text-sm font-medium mb-1 text-[#333]">Kategori</label>
+                    <select id="edit-category" required class="w-full border rounded-md p-2 text-[#333]">
+                        <option value="tshirt">T-Shirt</option>
+                        <option value="polo">Polo</option>
+                        <option value="hoodie">Hoodie</option>
+                        <option value="jacket">Jacket</option>
+                        <option value="pants">Celana</option>
+                        <option value="accessories">Aksesoris</option>
+                    </select>
+                </div>
+                <div class="md:col-span-2">
+                    <label for="edit-image" class="block text-sm font-medium mb-1 text-[#333]">URL Gambar</label>
+                    <input type="url" id="edit-image" required class="w-full border rounded-md p-2 text-[#333]">
+                </div>
+                <div class="md:col-span-2">
+                    <label for="edit-description" class="block text-sm font-medium mb-1 text-[#333]">Deskripsi Produk</label>
+                    <textarea id="edit-description" rows="4" class="w-full border rounded-md p-2 text-[#333]" required></textarea>
+                </div>
+                <div>
+                    <label for="edit-price" class="block text-sm font-medium mb-1 text-[#333]">Harga</label>
+                    <input type="text" id="edit-price" required class="w-full border rounded-md p-2 text-[#333]">
+                </div>
+                <div>
+                    <label for="edit-oldPrice" class="block text-sm font-medium mb-1 text-[#333]">Harga Awal (Opsional)</label>
+                    <input type="text" id="edit-oldPrice" class="w-full border rounded-md p-2 text-[#333]">
+                </div>
+                <div>
+                    <label for="edit-rating" class="block text-sm font-medium mb-1 text-[#333]">Rating (1.0 - 5.0)</label>
+                    <input type="number" id="edit-rating" min="1" max="5" step="0.1" required class="w-full border rounded-md p-2 text-[#333]">
+                </div>
+                <div class="md:col-span-2 flex justify-end space-x-4 mt-4">
+                    <button type="button" id="cancelEditProduct" class="bg-gray-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-gray-600 transition-colors">Batal</button>
+                    <button type="submit" class="bg-[#CBA135] text-[#1A232E] font-semibold py-2 px-4 rounded-md hover:bg-[#a9882a] transition-colors">Simpan Perubahan</button>
+                </div>
+            </form>
         </div>
     </div>
 
-    <!-- Firebase SDKs -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInWithCustomToken, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    <!-- Modal Edit User (Tersembunyi secara default) -->
+    <div id="editUserModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3 class="text-2xl font-bold mb-4 border-b-2 border-[#CBA135] pb-2 text-[#333]">Edit User</h3>
+            <form id="editUserForm" class="grid grid-cols-1 gap-4">
+                <input type="hidden" id="edit-user-id">
+                <div>
+                    <label for="edit-user-name" class="block text-sm font-medium mb-1 text-[#333]">Nama User</label>
+                    <input type="text" id="edit-user-name" required class="w-full border rounded-md p-2 text-[#333]">
+                </div>
+                <div>
+                    <label for="edit-user-email" class="block text-sm font-medium mb-1 text-[#333]">Email</label>
+                    <input type="email" id="edit-user-email" required class="w-full border rounded-md p-2 text-[#333]">
+                </div>
+                <div>
+                    <label for="edit-user-phone" class="block text-sm font-medium mb-1 text-[#333]">Nomor HP</label>
+                    <input type="tel" id="edit-user-phone" required class="w-full border rounded-md p-2 text-[#333]">
+                </div>
+                <div class="flex justify-end space-x-4 mt-4">
+                    <button type="button" id="cancelEditUser" class="bg-gray-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-gray-600 transition-colors">Batal</button>
+                    <button type="submit" class="bg-[#CBA135] text-[#1A232E] font-semibold py-2 px-4 rounded-md hover:bg-[#a9882a] transition-colors">Simpan Perubahan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        // Data hardcoded untuk produk (contoh)
+        const products = {
+            tshirt: [
+                { name: "Kaos Klasik Putih", description: "Kaos polos yang nyaman dan serbaguna, cocok untuk semua gaya.", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+1", price: "Rp150.000", oldPrice: "Rp200.000", rating: 4.5, date_created: "2023-01-10T10:00:00Z", date_updated: "2023-01-10T10:00:00Z" },
+                { name: "Kaos Polos Hitam", description: "Kaos hitam klasik dengan bahan katun premium yang lembut dan adem.", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+2", price: "Rp145.000", oldPrice: null, rating: 4.0, date_created: "2023-02-15T12:30:00Z", date_updated: "2023-02-15T12:30:00Z" },
+                { name: "Kaos Distro Keren", description: "Desain unik dan modern, cocok untuk penampilan sehari-hari yang stylish.", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+3", price: "Rp175.000", oldPrice: "Rp250.000", rating: 5.0, date_created: "2023-03-20T15:45:00Z", date_updated: "2023-03-20T15:45:00Z" },
+            ],
+            polo: [
+                { name: "Polo Shirt Biru", description: "Polo shirt berwarna biru cerah dengan kerah yang rapi, ideal untuk acara kasual.", image: "https://placehold.co/250x200/cccccc/000000?text=Polo+1", price: "Rp210.000", oldPrice: "Rp280.000", rating: 4.0, date_created: "2023-04-05T09:10:00Z", date_updated: "2023-04-05T09:10:00Z" },
+            ],
+            hoodie: [],
+            jacket: [],
+            pants: [],
+            accessories: []
+        };
 
-        // Variabel global yang disediakan oleh lingkungan Canvas. JANGAN diubah.
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+        // Data hardcoded untuk user (contoh)
+        const users = [
+            { id: 1, name: "Admin ORIVID", email: "orivid325@gmail.com", phone: "081234567890", date_created: "2022-11-01T08:00:00Z", date_updated: "2023-05-10T14:00:00Z" },
+            { id: 2, name: "Joko Susilo", email: "joko.s@gmail.com", phone: "085678901234", date_created: "2023-03-22T10:00:00Z", date_updated: "2023-03-22T10:00:00Z" },
+            { id: 3, name: "Siti Rahmawati", email: "siti.r@yahoo.com", phone: "087890123456", date_created: "2023-04-18T16:00:00Z", date_updated: "2023-04-18T16:00:00Z" },
+        ];
 
-        let db, auth;
-        let productsCollectionRef;
-        let allProducts = [];
-
-        // Elemen-elemen formulir
-        const productForm = document.getElementById('productForm');
-        const formTitle = document.getElementById('formTitle');
-        const productIdInput = document.getElementById('productId');
-        const submitBtn = document.getElementById('submitBtn');
-        const cancelBtn = document.getElementById('cancelBtn');
-        const productSearchInput = document.getElementById('productSearch');
-        const productListElement = document.getElementById('productList');
-
-        // Elemen modal
-        const deleteModal = document.getElementById('deleteModal');
-        const modalMessage = document.getElementById('modalMessage');
-        const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
-        const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+        let activeCategory = 'all'; // Kategori yang sedang aktif, defaultnya 'all'
         
-        // ID produk yang akan dihapus
-        let productToDeleteId = null;
-
-        /**
-         * Menginisialisasi Firebase dan mengautentikasi pengguna.
-         */
-        async function initializeFirebase() {
-            // Periksa apakah firebaseConfig valid sebelum memulai
-            if (Object.keys(firebaseConfig).length === 0) {
-                const errorMessage = "Kesalahan: Konfigurasi Firebase tidak ditemukan. Pastikan Anda masuk dengan benar.";
-                console.error(errorMessage);
-                productListElement.innerHTML = `<p class="text-red-500">${errorMessage}</p>`;
-                document.getElementById('logoutBtn').disabled = true;
-                return;
-            }
-
-            try {
-                const app = initializeApp(firebaseConfig);
-                auth = getAuth(app);
-                db = getFirestore(app);
-
-                if (initialAuthToken) {
-                    await signInWithCustomToken(auth, initialAuthToken);
-                } else {
-                    await signInAnonymously(auth);
-                }
-
-                const userId = auth.currentUser ? auth.currentUser.uid : 'anonymous';
-                // Gunakan jalur yang aman untuk data aplikasi ini
-                productsCollectionRef = collection(db, `artifacts/${appId}/users/${userId}/products`);
-
-                console.log("Firebase terinisialisasi dan pengguna masuk. ID Pengguna:", userId);
-                
-                // Tambahkan event listener untuk tombol logout
-                document.getElementById('logoutBtn').addEventListener('click', () => {
-                    if (auth) {
-                        auth.signOut().then(() => {
-                            console.log("Pengguna keluar. Mengalihkan ke halaman utama...");
-                            window.location.href = "https://orivid-official.github.io/orivid/";
-                        }).catch((error) => {
-                            console.error("Kesalahan saat keluar:", error);
-                            productListElement.innerHTML = `<p class="text-red-500">Gagal keluar. Silakan coba lagi.</p>`;
-                        });
-                    } else {
-                         console.error("Firebase Auth tidak diinisialisasi.");
-                    }
-                });
-                
-                // Siapkan listener real-time untuk produk
-                setupRealtimeListener();
-
-            } catch (error) {
-                const errorMessage = `Gagal terhubung ke database. Silakan coba lagi nanti. Detail: ${error.message}`;
-                console.error("Kesalahan saat menginisialisasi Firebase atau masuk:", error);
-                productListElement.innerHTML = `<p class="text-red-500">${errorMessage}</p>`;
-            }
+        // Fungsi untuk format tanggal menjadi string yang mudah dibaca
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            return new Date(dateString).toLocaleDateString('id-ID', options);
         }
 
-        /**
-         * Menyiapkan listener real-time untuk koleksi produk.
-         * Mengambil semua produk dan menyimpannya di variabel global.
-         */
-        function setupRealtimeListener() {
-            onSnapshot(productsCollectionRef, (snapshot) => {
-                allProducts = [];
-                snapshot.forEach(doc => {
-                    allProducts.push({ id: doc.id, ...doc.data() });
-                });
-                // Render semua produk saat pertama kali dimuat
-                renderProductList(allProducts);
-                console.log("Daftar produk diperbarui dari Firestore.");
-            }, (error) => {
-                console.error("Kesalahan saat mengambil dokumen: ", error);
-                productListElement.innerHTML = `<p class="text-red-500">Gagal memuat produk. Terjadi kesalahan.</p>`;
-            });
-        }
-
-        /**
-         * Merender daftar produk di halaman, dikelompokkan berdasarkan kategori.
-         * @param {Array<Object>} productsToRender - Array objek produk untuk dirender.
-         */
-        function renderProductList(productsToRender) {
-            productListElement.innerHTML = '';
+        // Fungsi untuk merender daftar produk
+        function renderProductList() {
+            const productList = document.getElementById('productList');
+            productList.innerHTML = '';
             
-            if (productsToRender.length === 0) {
-                productListElement.innerHTML = `<p class="text-gray-500">Tidak ada produk yang cocok dengan pencarian.</p>`;
-                return;
+            // Mengambil nilai search dan sort
+            const searchQuery = document.getElementById('productSearch').value.toLowerCase();
+            const sortOrder = document.getElementById('productSort').value;
+
+            let allProducts;
+            if (activeCategory === 'all') {
+                allProducts = Object.values(products).flat();
+            } else {
+                allProducts = products[activeCategory] || [];
             }
 
-            // Kelompokkan produk berdasarkan kategori
-            const productsByCategory = productsToRender.reduce((acc, product) => {
-                const category = product.category || 'Lainnya';
+            const filteredProducts = allProducts.filter(product =>
+                product.name.toLowerCase().includes(searchQuery) ||
+                product.description.toLowerCase().includes(searchQuery)
+            );
+
+            // Mengelompokkan dan mengurutkan
+            const groupedProducts = filteredProducts.reduce((acc, product) => {
+                const category = product.category || activeCategory; // Gunakan kategori dari data atau yang aktif
                 if (!acc[category]) {
                     acc[category] = [];
                 }
@@ -244,179 +328,383 @@
                 return acc;
             }, {});
 
-            // Urutkan kategori secara manual
-            const categoryOrder = ["tshirt", "polo", "hoodie", "jacket", "pants", "accessories"];
-            const sortedCategories = Object.keys(productsByCategory).sort((a, b) => {
-                const indexA = categoryOrder.indexOf(a);
-                const indexB = categoryOrder.indexOf(b);
-                if (indexA === -1 && indexB === -1) return a.localeCompare(b);
-                if (indexA === -1) return 1;
-                if (indexB === -1) return -1;
-                return indexA - indexB;
-            });
-
-            sortedCategories.forEach(category => {
-                const categoryTitle = document.createElement('h3');
-                categoryTitle.className = 'text-xl font-bold mt-6 mb-2 capitalize text-[#1A232E]';
-                categoryTitle.textContent = category;
-                productListElement.appendChild(categoryTitle);
-
-                productsByCategory[category].forEach(product => {
-                    const productCard = document.createElement('div');
-                    productCard.className = 'flex flex-col md:flex-row items-center justify-between p-4 bg-gray-50 rounded-md shadow-sm border border-gray-200 gap-4';
-                    
-                    // Tentukan tampilan harga
-                    let priceDisplay = `<span class="font-semibold">${product.price}</span>`;
-                    if (product.oldPrice) {
-                        priceDisplay = `<span class="line-through text-gray-400 mr-2">${product.oldPrice}</span><span class="font-semibold">${product.price}</span>`;
+            Object.keys(groupedProducts).forEach(category => {
+                // Urutkan produk dalam setiap kategori
+                groupedProducts[category].sort((a, b) => {
+                    const dateA = new Date(a.date_updated);
+                    const dateB = new Date(b.date_updated);
+                    if (sortOrder === 'latest') {
+                        return dateB - dateA;
+                    } else {
+                        return dateA - dateB;
                     }
+                });
+                
+                // Tambahkan judul kategori jika kategori aktifnya 'all'
+                if (activeCategory === 'all') {
+                    const categoryTitle = document.createElement('h4');
+                    categoryTitle.className = 'text-lg font-bold mt-6 mb-2 capitalize text-[#333]';
+                    categoryTitle.textContent = category.replace(/-/g, ' '); // Ganti dash dengan spasi
+                    productList.appendChild(categoryTitle);
+                }
 
+                // Tambahkan produk-produk di dalam kategori
+                groupedProducts[category].forEach(product => {
+                    const productCard = document.createElement('div');
+                    productCard.className = 'flex flex-col md:flex-row items-center justify-between p-4 bg-gray-50 rounded-md shadow-sm border border-gray-200';
                     productCard.innerHTML = `
-                        <div class="flex items-center gap-4 flex-1 w-full">
-                            <img src="${product.image}" alt="${product.name_id}" onerror="this.src='https://placehold.co/64x64/EFEFEF/AAAAAA?text=No+Image'" class="w-16 h-16 object-cover rounded-md border border-gray-300">
-                            <div class="flex-1">
-                                <h3 class="font-semibold text-lg">${product.name_id}</h3>
-                                <p class="text-sm text-gray-600">${priceDisplay}</p>
+                        <div class="flex-shrink-0 mb-4 md:mb-0">
+                            <img src="${product.image}" alt="${product.name}" class="w-20 h-20 object-cover rounded-md" onerror="this.src='https://placehold.co/80x80?text=Error'">
+                        </div>
+                        <div class="flex-1 flex flex-col w-full md:w-auto md:ml-4 gap-2">
+                            <div class="flex items-center justify-between w-full">
+                                <h4 class="font-semibold text-base">${product.name}</h4>
+                                <div class="flex items-baseline space-x-2">
+                                    ${product.oldPrice ? `<p class="text-sm text-gray-400 line-through">${product.oldPrice}</p>` : ''}
+                                    <p class="text-sm font-bold text-gray-800">${product.price}</p>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-600">${product.description.substring(0, 100)}...</p>
+                            <div class="flex justify-between items-center mt-2">
+                                <p class="text-sm text-gray-600">Rating: ${product.rating}</p>
+                                <div class="text-xs text-gray-400">
+                                    <p>Diperbarui: ${formatDate(product.date_updated)}</p>
+                                    <p>Dibuat: ${formatDate(product.date_created)}</p>
+                                </div>
                             </div>
                         </div>
-                        <div class="flex gap-2 w-full md:w-auto justify-end">
-                            <button class="edit-btn bg-yellow-500 text-white text-sm font-semibold px-4 py-2 rounded-md hover:bg-yellow-600 transition-colors" data-id="${product.id}">
+                        <div class="flex space-x-2 mt-4 md:mt-0">
+                            <button class="edit-product-btn bg-blue-500 text-white text-sm font-semibold px-4 py-2 rounded-md hover:bg-blue-600 transition-colors" data-name="${product.name}" data-category="${category}">
                                 Edit
                             </button>
-                            <button class="delete-btn bg-red-500 text-white text-sm font-semibold px-4 py-2 rounded-md hover:bg-red-600 transition-colors" data-id="${product.id}">
+                            <button class="delete-product-btn bg-red-500 text-white text-sm font-semibold px-4 py-2 rounded-md hover:bg-red-600 transition-colors" data-name="${product.name}" data-category="${category}">
                                 Hapus
                             </button>
                         </div>
                     `;
-                    productListElement.appendChild(productCard);
+                    productList.appendChild(productCard);
                 });
             });
+
+            if (Object.keys(groupedProducts).length === 0) {
+                productList.innerHTML = `<p class="text-center text-gray-500">Tidak ada produk yang ditemukan.</p>`;
+            }
         }
 
-        /**
-         * Membersihkan formulir dan mengaturnya kembali ke mode "Tambah Produk".
-         */
-        function resetForm() {
-            productForm.reset();
-            formTitle.textContent = 'Tambah Produk Baru';
-            submitBtn.textContent = 'Tambahkan Produk';
-            productIdInput.value = '';
-            cancelBtn.classList.add('hidden');
-        }
-
-        // Handler untuk pengiriman formulir (Tambah atau Edit)
-        productForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
+        // Fungsi untuk merender daftar user
+        function renderUserList() {
+            const userList = document.getElementById('userList');
+            userList.innerHTML = '';
             
-            const productId = productIdInput.value;
-            const productData = {
-                name_id: document.getElementById('name_id').value,
-                name_en: document.getElementById('name_en').value,
-                image: document.getElementById('image').value,
-                category: document.getElementById('category').value,
-                price: document.getElementById('price').value,
-                oldPrice: document.getElementById('oldPrice').value || null,
-                rating: parseFloat(document.getElementById('rating').value)
-            };
-            
-            try {
-                if (productId) {
-                    // Perbarui produk yang sudah ada
-                    const productDocRef = doc(db, productsCollectionRef.path, productId);
-                    await updateDoc(productDocRef, productData);
-                    console.log(`Produk dengan ID ${productId} berhasil diperbarui.`);
-                } else {
-                    // Tambahkan produk baru
-                    await addDoc(productsCollectionRef, productData);
-                    console.log('Produk berhasil ditambahkan ke Firestore.');
-                }
-                resetForm();
-            } catch (e) {
-                console.error("Kesalahan saat menambah/memperbarui dokumen: ", e);
-            }
-        });
+            // Mengambil nilai search dan sort
+            const searchQuery = document.getElementById('userSearch').value.toLowerCase();
+            const sortOrder = document.getElementById('userSort').value;
 
-        // Event listener untuk tombol hapus dan edit, menggunakan delegasi event
-        document.getElementById('productList').addEventListener('click', async (e) => {
-            const productId = e.target.dataset.id;
-            
-            if (e.target.classList.contains('delete-btn')) {
-                productToDeleteId = productId;
-                // Tampilkan modal konfirmasi
-                deleteModal.classList.remove('hidden');
-                setTimeout(() => deleteModal.style.opacity = '1', 10);
-            } else if (e.target.classList.contains('edit-btn')) {
-                // Ambil data produk dari Firestore untuk mengisi formulir
-                try {
-                    const productDocRef = doc(db, productsCollectionRef.path, productId);
-                    const productSnapshot = await getDoc(productDocRef);
-
-                    if (productSnapshot.exists()) {
-                        const productData = productSnapshot.data();
-                        
-                        // Isi formulir dengan data produk
-                        document.getElementById('name_id').value = productData.name_id;
-                        document.getElementById('name_en').value = productData.name_en;
-                        document.getElementById('image').value = productData.image;
-                        document.getElementById('category').value = productData.category;
-                        document.getElementById('price').value = productData.price;
-                        document.getElementById('oldPrice').value = productData.oldPrice || '';
-                        document.getElementById('rating').value = productData.rating;
-                        
-                        // Atur formulir ke mode edit
-                        formTitle.textContent = 'Edit Produk';
-                        submitBtn.textContent = 'Simpan Perubahan';
-                        productIdInput.value = productId;
-                        cancelBtn.classList.remove('hidden');
-                    } else {
-                        console.error("Dokumen tidak ditemukan untuk diedit.");
-                    }
-                } catch (e) {
-                    console.error("Gagal mengambil data produk:", e);
-                }
-            }
-        });
-        
-        // Event listener untuk tombol Hapus di dalam modal
-        confirmDeleteBtn.addEventListener('click', async () => {
-            try {
-                if (productToDeleteId) {
-                    await deleteDoc(doc(db, productsCollectionRef.path, productToDeleteId));
-                    console.log(`Produk dengan ID ${productToDeleteId} berhasil dihapus.`);
-                }
-            } catch (e) {
-                console.error("Kesalahan saat menghapus dokumen: ", e);
-            }
-            // Sembunyikan modal setelah operasi selesai
-            deleteModal.style.opacity = '0';
-            setTimeout(() => deleteModal.classList.add('hidden'), 300);
-            productToDeleteId = null;
-        });
-
-        // Event listener untuk tombol Batal di dalam modal
-        cancelDeleteBtn.addEventListener('click', () => {
-            deleteModal.style.opacity = '0';
-            setTimeout(() => deleteModal.classList.add('hidden'), 300);
-            productToDeleteId = null;
-        });
-
-        // Event listener untuk tombol Batal pada formulir edit
-        cancelBtn.addEventListener('click', () => {
-            resetForm();
-        });
-
-        // Event listener untuk input pencarian
-        productSearchInput.addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase();
-            const filteredProducts = allProducts.filter(product =>
-                product.name_id.toLowerCase().includes(searchTerm) ||
-                product.name_en.toLowerCase().includes(searchTerm)
+            const filteredUsers = users.filter(user =>
+                user.name.toLowerCase().includes(searchQuery) ||
+                user.email.toLowerCase().includes(searchQuery) ||
+                user.phone.toLowerCase().includes(searchQuery)
             );
-            renderProductList(filteredProducts);
-        });
 
-        // Inisialisasi aplikasi saat halaman dimuat
-        initializeFirebase();
+            // Mengurutkan user
+            filteredUsers.sort((a, b) => {
+                const dateA = new Date(a.date_created);
+                const dateB = new Date(b.date_created);
+                if (sortOrder === 'latest') {
+                    return dateB - dateA;
+                } else {
+                    return dateA - dateB;
+                }
+            });
+
+            filteredUsers.forEach(user => {
+                const userCard = document.createElement('div');
+                userCard.className = 'flex flex-col md:flex-row items-center justify-between p-4 bg-gray-50 rounded-md shadow-sm border border-gray-200';
+                userCard.innerHTML = `
+                    <div class="flex-1 w-full md:w-auto">
+                        <h4 class="font-semibold text-base">${user.name}</h4>
+                        <p class="text-sm text-gray-600">${user.email}</p>
+                        <p class="text-sm text-gray-600">No HP: ${user.phone}</p>
+                        <p class="text-xs text-gray-400">Dibuat: ${formatDate(user.date_created)} | Diperbarui: ${formatDate(user.date_updated)}</p>
+                    </div>
+                    <div class="flex space-x-2 mt-2 md:mt-0">
+                        <button class="edit-user-btn bg-blue-500 text-white text-sm font-semibold px-4 py-2 rounded-md hover:bg-blue-600 transition-colors" data-user-id="${user.id}">
+                            Edit
+                        </button>
+                        <button class="delete-user-btn bg-red-500 text-white text-sm font-semibold px-4 py-2 rounded-md hover:bg-red-600 transition-colors" data-user-id="${user.id}">
+                            Hapus
+                        </button>
+                    </div>
+                `;
+                userList.appendChild(userCard);
+            });
+            
+            if (filteredUsers.length === 0) {
+                 userList.innerHTML = `<p class="text-center text-gray-500">Tidak ada user yang ditemukan.</p>`;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Render daftar saat halaman dimuat
+            renderProductList();
+            renderUserList();
+
+            // Handler untuk tombol Logout
+            document.getElementById('logoutBtn').addEventListener('click', () => {
+                window.location.href = 'https://orivid-official.github.io/orivid/';
+            });
+            
+            // Event listener untuk input pencarian produk
+            document.getElementById('productSearch').addEventListener('input', renderProductList);
+            
+            // Event listener untuk dropdown sort produk
+            document.getElementById('productSort').addEventListener('change', renderProductList);
+
+            // Event listener untuk input pencarian user
+            document.getElementById('userSearch').addEventListener('input', renderUserList);
+            
+            // Event listener untuk dropdown sort user
+            document.getElementById('userSort').addEventListener('change', renderUserList);
+
+            // Fungsionalitas Tambah Produk
+            document.getElementById('addProductForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const newProduct = {
+                    name: document.getElementById('name').value,
+                    image: document.getElementById('image').value,
+                    description: document.getElementById('description').value,
+                    category: document.getElementById('category').value,
+                    price: document.getElementById('price').value,
+                    oldPrice: document.getElementById('oldPrice').value || null,
+                    rating: parseFloat(document.getElementById('rating').value),
+                    date_created: new Date().toISOString(),
+                    date_updated: new Date().toISOString()
+                };
+
+                const category = newProduct.category;
+                if (!products[category]) {
+                    products[category] = [];
+                }
+                products[category].push(newProduct);
+
+                document.getElementById('addProductForm').reset();
+                renderProductList();
+                console.log('Produk baru berhasil ditambahkan.');
+            });
+
+            // Fungsionalitas Edit Produk
+            document.getElementById('productList').addEventListener('click', (e) => {
+                if (e.target.classList.contains('edit-product-btn')) {
+                    const productName = e.target.dataset.name;
+                    const productCategory = e.target.dataset.category;
+                    const productToEdit = products[productCategory].find(p => p.name === productName);
+
+                    if (productToEdit) {
+                        // Isi formulir modal dengan data produk yang ada
+                        document.getElementById('edit-product-old-name').value = productToEdit.name;
+                        document.getElementById('edit-name').value = productToEdit.name;
+                        document.getElementById('edit-image').value = productToEdit.image;
+                        document.getElementById('edit-description').value = productToEdit.description;
+                        document.getElementById('edit-category').value = productCategory;
+                        document.getElementById('edit-price').value = productToEdit.price;
+                        document.getElementById('edit-oldPrice').value = productToEdit.oldPrice || '';
+                        document.getElementById('edit-rating').value = productToEdit.rating;
+                        
+                        // Tampilkan modal
+                        document.getElementById('editProductModal').classList.remove('hidden');
+                    }
+                }
+            });
+
+            // Fungsionalitas Simpan Perubahan Produk
+            document.getElementById('editProductForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const oldName = document.getElementById('edit-product-old-name').value;
+                const newName = document.getElementById('edit-name').value;
+                const newImage = document.getElementById('edit-image').value;
+                const newDescription = document.getElementById('edit-description').value;
+                const newCategory = document.getElementById('edit-category').value;
+                const newPrice = document.getElementById('edit-price').value;
+                const newOldPrice = document.getElementById('edit-oldPrice').value || null;
+                const newRating = parseFloat(document.getElementById('edit-rating').value);
+
+                // Cari dan perbarui produk
+                let foundProduct = false;
+                Object.keys(products).forEach(category => {
+                    const index = products[category].findIndex(p => p.name === oldName);
+                    if (index !== -1) {
+                        const updatedProduct = {
+                            name: newName,
+                            image: newImage,
+                            description: newDescription,
+                            price: newPrice,
+                            oldPrice: newOldPrice,
+                            rating: newRating,
+                            date_created: products[category][index].date_created, // Pertahankan tanggal dibuat
+                            date_updated: new Date().toISOString() // Perbarui tanggal diubah
+                        };
+
+                        if (category === newCategory) {
+                            products[category][index] = updatedProduct;
+                        } else {
+                            // Hapus dari kategori lama, tambahkan ke kategori baru
+                            products[category].splice(index, 1);
+                            if (!products[newCategory]) products[newCategory] = [];
+                            products[newCategory].push(updatedProduct);
+                        }
+                        foundProduct = true;
+                    }
+                });
+
+                if (foundProduct) {
+                    renderProductList(); // Render ulang daftar produk
+                    document.getElementById('editProductModal').classList.add('hidden');
+                    console.log(`Produk "${oldName}" berhasil diperbarui.`);
+                }
+            });
+
+            // Fungsionalitas Tambah User
+            document.getElementById('addUserForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const newUser = {
+                    id: users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1,
+                    name: document.getElementById('user-name').value,
+                    email: document.getElementById('user-email').value,
+                    phone: document.getElementById('user-phone').value,
+                    date_created: new Date().toISOString(),
+                    date_updated: new Date().toISOString()
+                };
+
+                users.push(newUser);
+
+                document.getElementById('addUserForm').reset();
+                renderUserList();
+                console.log('User baru berhasil ditambahkan.');
+            });
+
+            // Fungsionalitas Edit User
+            document.getElementById('userList').addEventListener('click', (e) => {
+                if (e.target.classList.contains('edit-user-btn')) {
+                    const userId = parseInt(e.target.dataset.userId);
+                    const userToEdit = users.find(u => u.id === userId);
+
+                    if (userToEdit) {
+                        document.getElementById('edit-user-id').value = userToEdit.id;
+                        document.getElementById('edit-user-name').value = userToEdit.name;
+                        document.getElementById('edit-user-email').value = userToEdit.email;
+                        document.getElementById('edit-user-phone').value = userToEdit.phone;
+                        
+                        document.getElementById('editUserModal').classList.remove('hidden');
+                    }
+                }
+            });
+
+            // Fungsionalitas Simpan Perubahan User
+            document.getElementById('editUserForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const userId = parseInt(document.getElementById('edit-user-id').value);
+                const newName = document.getElementById('edit-user-name').value;
+                const newEmail = document.getElementById('edit-user-email').value;
+                const newPhone = document.getElementById('edit-user-phone').value;
+
+                const userIndex = users.findIndex(u => u.id === userId);
+                if (userIndex !== -1) {
+                    users[userIndex].name = newName;
+                    users[userIndex].email = newEmail;
+                    users[userIndex].phone = newPhone;
+                    users[userIndex].date_updated = new Date().toISOString(); // Perbarui tanggal diubah
+                    
+                    renderUserList();
+                    document.getElementById('editUserModal').classList.add('hidden');
+                    console.log(`User dengan ID ${userId} berhasil diperbarui.`);
+                }
+            });
+            
+            // Tombol Batal untuk Modal
+            document.getElementById('cancelEditProduct').addEventListener('click', () => {
+                document.getElementById('editProductModal').classList.add('hidden');
+            });
+
+            document.getElementById('cancelEditUser').addEventListener('click', () => {
+                document.getElementById('editUserModal').classList.add('hidden');
+            });
+            
+            // Event listener untuk tombol Hapus Produk
+            document.getElementById('productList').addEventListener('click', (e) => {
+                if (e.target.classList.contains('delete-product-btn')) {
+                    const productName = e.target.dataset.name;
+                    const productCategory = e.target.dataset.category;
+                    
+                    const index = products[productCategory].findIndex(p => p.name === productName);
+                    if (index !== -1) {
+                        products[productCategory].splice(index, 1);
+                        renderProductList();
+                        console.log(`Produk "${productName}" dihapus.`);
+                    }
+                }
+            });
+
+            // Event listener untuk tombol Hapus User
+            document.getElementById('userList').addEventListener('click', (e) => {
+                if (e.target.classList.contains('delete-user-btn')) {
+                    const userId = parseInt(e.target.dataset.userId);
+                    
+                    const userIndex = users.findIndex(user => user.id === userId);
+                    if (userIndex !== -1) {
+                        users.splice(userIndex, 1);
+                        renderUserList();
+                        console.log(`User dengan ID ${userId} dihapus.`);
+                    }
+                }
+            });
+            
+            // Fungsionalitas navigasi
+            const navProductsBtn = document.getElementById('navProducts');
+            const navUsersBtn = document.getElementById('navUsers');
+            const productSection = document.getElementById('productSection');
+            const userSection = document.getElementById('userSection');
+
+            // Fungsi untuk menampilkan bagian yang dipilih
+            function showSection(sectionToShow, sectionToHide, activeBtn, inactiveBtn) {
+                sectionToShow.classList.remove('hidden');
+                sectionToHide.classList.add('hidden');
+                
+                activeBtn.classList.add('bg-[#CBA135]', 'text-[#1A232E]');
+                activeBtn.classList.remove('hover:bg-[#a9882a]');
+                
+                inactiveBtn.classList.remove('bg-[#CBA135]', 'text-[#1A232E]');
+                inactiveBtn.classList.add('hover:bg-[#a9882a]');
+            }
+
+            navProductsBtn.addEventListener('click', () => {
+                showSection(productSection, userSection, navProductsBtn, navUsersBtn);
+            });
+
+            navUsersBtn.addEventListener('click', () => {
+                showSection(userSection, productSection, navUsersBtn, navProductsBtn);
+            });
+            
+            // Event listener untuk navigasi kategori produk
+            document.querySelectorAll('.category-nav-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    // Update activeCategory
+                    activeCategory = e.target.dataset.category;
+                    
+                    // Hapus kelas aktif dari semua tombol
+                    document.querySelectorAll('.category-nav-btn').forEach(btn => btn.classList.remove('active'));
+                    
+                    // Tambahkan kelas aktif pada tombol yang diklik
+                    e.target.classList.add('active');
+                    
+                    // Render ulang daftar produk
+                    renderProductList();
+                });
+            });
+        });
     </script>
 </body>
 </html>
