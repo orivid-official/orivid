@@ -76,14 +76,6 @@
     <main class="flex-grow w-full max-w-7xl mx-auto p-4 md:p-8">
         <h2 class="text-3xl font-bold mb-6 text-center text-[#1A232E]">Dashboard Admin</h2>
 
-        <!-- Tampilan ID Pengguna untuk kolaborasi -->
-        <div id="userIdDisplay" class="text-center text-sm text-gray-500 mb-4"></div>
-
-        <!-- Bagian Loading -->
-        <div id="loading" class="text-center text-gray-500 hidden">
-            <p>Memuat data...</p>
-        </div>
-
         <!-- Bagian Pengelolaan Produk -->
         <section id="productSection" class="bg-white p-6 rounded-lg shadow-lg mb-8">
             <h3 class="text-2xl font-bold mb-4 border-b-2 border-[#CBA135] pb-2 text-[#333]">Kelola Produk</h3>
@@ -203,7 +195,7 @@
         <div class="modal-content">
             <h3 class="text-2xl font-bold mb-4 border-b-2 border-[#CBA135] pb-2 text-[#333]">Edit Produk</h3>
             <form id="editProductForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <input type="hidden" id="edit-product-doc-id">
+                <input type="hidden" id="edit-product-old-name">
                 <div>
                     <label for="edit-name" class="block text-sm font-medium mb-1 text-[#333]">Nama Produk</label>
                     <input type="text" id="edit-name" required class="w-full border rounded-md p-2 text-[#333]">
@@ -252,7 +244,7 @@
         <div class="modal-content">
             <h3 class="text-2xl font-bold mb-4 border-b-2 border-[#CBA135] pb-2 text-[#333]">Edit User</h3>
             <form id="editUserForm" class="grid grid-cols-1 gap-4">
-                <input type="hidden" id="edit-user-doc-id">
+                <input type="hidden" id="edit-user-id">
                 <div>
                     <label for="edit-user-name" class="block text-sm font-medium mb-1 text-[#333]">Nama User</label>
                     <input type="text" id="edit-user-name" required class="w-full border rounded-md p-2 text-[#333]">
@@ -273,26 +265,32 @@
         </div>
     </div>
     
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, addDoc, setDoc, updateDoc, deleteDoc, onSnapshot, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    <script>
+        // Data hardcoded untuk produk (contoh)
+        const products = {
+            tshirt: [
+                { name: "Kaos Klasik Putih", description: "Kaos polos yang nyaman dan serbaguna, cocok untuk semua gaya.", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+1", price: "Rp150.000", oldPrice: "Rp200.000", rating: 4.5, date_created: "2023-01-10T10:00:00Z", date_updated: "2023-01-10T10:00:00Z" },
+                { name: "Kaos Polos Hitam", description: "Kaos hitam klasik dengan bahan katun premium yang lembut dan adem.", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+2", price: "Rp145.000", oldPrice: null, rating: 4.0, date_created: "2023-02-15T12:30:00Z", date_updated: "2023-02-15T12:30:00Z" },
+                { name: "Kaos Distro Keren", description: "Desain unik dan modern, cocok untuk penampilan sehari-hari yang stylish.", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+3", price: "Rp175.000", oldPrice: "Rp250.000", rating: 5.0, date_created: "2023-03-20T15:45:00Z", date_updated: "2023-03-20T15:45:00Z" },
+            ],
+            polo: [
+                { name: "Polo Shirt Biru", description: "Polo shirt berwarna biru cerah dengan kerah yang rapi, ideal untuk acara kasual.", image: "https://placehold.co/250x200/cccccc/000000?text=Polo+1", price: "Rp210.000", oldPrice: "Rp280.000", rating: 4.0, date_created: "2023-04-05T09:10:00Z", date_updated: "2023-04-05T09:10:00Z" },
+            ],
+            hoodie: [],
+            jacket: [],
+            pants: [],
+            accessories: []
+        };
 
-        // Global variables provided by the Canvas environment
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+        // Data hardcoded untuk user (contoh)
+        const users = [
+            { id: 1, name: "Admin ORIVID", email: "orivid325@gmail.com", phone: "081234567890", date_created: "2022-11-01T08:00:00Z", date_updated: "2023-05-10T14:00:00Z" },
+            { id: 2, name: "Joko Susilo", email: "joko.s@gmail.com", phone: "085678901234", date_created: "2023-03-22T10:00:00Z", date_updated: "2023-03-22T10:00:00Z" },
+            { id: 3, name: "Siti Rahmawati", email: "siti.r@yahoo.com", phone: "087890123456", date_created: "2023-04-18T16:00:00Z", date_updated: "2023-04-18T16:00:00Z" },
+        ];
 
-        let db, auth, userId;
-        let products = [];
-        let users = [];
-        let activeCategory = 'all';
-
-        const productListEl = document.getElementById('productList');
-        const userListEl = document.getElementById('userList');
-        const loadingEl = document.getElementById('loading');
-        const userIdDisplayEl = document.getElementById('userIdDisplay');
-
+        let activeCategory = 'all'; // Kategori yang sedang aktif, defaultnya 'all'
+        
         // Fungsi untuk format tanggal menjadi string yang mudah dibaca
         function formatDate(dateString) {
             const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
@@ -301,39 +299,28 @@
 
         // Fungsi untuk merender daftar produk
         function renderProductList() {
-            productListEl.innerHTML = '';
+            const productList = document.getElementById('productList');
+            productList.innerHTML = '';
             
+            // Mengambil nilai search dan sort
             const searchQuery = document.getElementById('productSearch').value.toLowerCase();
             const sortOrder = document.getElementById('productSort').value;
 
-            let filteredProducts = products;
-            if (activeCategory !== 'all') {
-                filteredProducts = products.filter(p => p.category === activeCategory);
+            let allProducts;
+            if (activeCategory === 'all') {
+                allProducts = Object.values(products).flat();
+            } else {
+                allProducts = products[activeCategory] || [];
             }
 
-            filteredProducts = filteredProducts.filter(product =>
+            const filteredProducts = allProducts.filter(product =>
                 product.name.toLowerCase().includes(searchQuery) ||
-                (product.description && product.description.toLowerCase().includes(searchQuery))
+                product.description.toLowerCase().includes(searchQuery)
             );
 
-            // Sort data in memory
-            filteredProducts.sort((a, b) => {
-                const dateA = new Date(a.date_updated);
-                const dateB = new Date(b.date_updated);
-                if (sortOrder === 'latest') {
-                    return dateB - dateA;
-                } else {
-                    return dateA - dateB;
-                }
-            });
-
-            if (filteredProducts.length === 0) {
-                productListEl.innerHTML = `<p class="text-center text-gray-500">Tidak ada produk yang ditemukan.</p>`;
-                return;
-            }
-
+            // Mengelompokkan dan mengurutkan
             const groupedProducts = filteredProducts.reduce((acc, product) => {
-                const category = product.category;
+                const category = product.category || activeCategory; // Gunakan kategori dari data atau yang aktif
                 if (!acc[category]) {
                     acc[category] = [];
                 }
@@ -342,13 +329,26 @@
             }, {});
 
             Object.keys(groupedProducts).forEach(category => {
+                // Urutkan produk dalam setiap kategori
+                groupedProducts[category].sort((a, b) => {
+                    const dateA = new Date(a.date_updated);
+                    const dateB = new Date(b.date_updated);
+                    if (sortOrder === 'latest') {
+                        return dateB - dateA;
+                    } else {
+                        return dateA - dateB;
+                    }
+                });
+                
+                // Tambahkan judul kategori jika kategori aktifnya 'all'
                 if (activeCategory === 'all') {
                     const categoryTitle = document.createElement('h4');
                     categoryTitle.className = 'text-lg font-bold mt-6 mb-2 capitalize text-[#333]';
-                    categoryTitle.textContent = category.replace(/-/g, ' ');
-                    productListEl.appendChild(categoryTitle);
+                    categoryTitle.textContent = category.replace(/-/g, ' '); // Ganti dash dengan spasi
+                    productList.appendChild(categoryTitle);
                 }
 
+                // Tambahkan produk-produk di dalam kategori
                 groupedProducts[category].forEach(product => {
                     const productCard = document.createElement('div');
                     productCard.className = 'flex flex-col md:flex-row items-center justify-between p-4 bg-gray-50 rounded-md shadow-sm border border-gray-200';
@@ -364,57 +364,58 @@
                                     <p class="text-sm font-bold text-gray-800">${product.price}</p>
                                 </div>
                             </div>
-                            <p class="text-sm text-gray-600">${product.description ? product.description.substring(0, 100) : ''}...</p>
+                            <p class="text-sm text-gray-600">${product.description.substring(0, 100)}...</p>
                             <div class="flex justify-between items-center mt-2">
                                 <p class="text-sm text-gray-600">Rating: ${product.rating}</p>
                                 <div class="text-xs text-gray-400">
-                                    <p>Diperbarui: ${product.date_updated ? formatDate(product.date_updated) : 'N/A'}</p>
-                                    <p>Dibuat: ${product.date_created ? formatDate(product.date_created) : 'N/A'}</p>
+                                    <p>Diperbarui: ${formatDate(product.date_updated)}</p>
+                                    <p>Dibuat: ${formatDate(product.date_created)}</p>
                                 </div>
                             </div>
                         </div>
                         <div class="flex space-x-2 mt-4 md:mt-0">
-                            <button class="edit-product-btn bg-blue-500 text-white text-sm font-semibold px-4 py-2 rounded-md hover:bg-blue-600 transition-colors" data-doc-id="${product.id}">
+                            <button class="edit-product-btn bg-blue-500 text-white text-sm font-semibold px-4 py-2 rounded-md hover:bg-blue-600 transition-colors" data-name="${product.name}" data-category="${category}">
                                 Edit
                             </button>
-                            <button class="delete-product-btn bg-red-500 text-white text-sm font-semibold px-4 py-2 rounded-md hover:bg-red-600 transition-colors" data-doc-id="${product.id}">
+                            <button class="delete-product-btn bg-red-500 text-white text-sm font-semibold px-4 py-2 rounded-md hover:bg-red-600 transition-colors" data-name="${product.name}" data-category="${category}">
                                 Hapus
                             </button>
                         </div>
                     `;
-                    productListEl.appendChild(productCard);
+                    productList.appendChild(productCard);
                 });
             });
+
+            if (Object.keys(groupedProducts).length === 0) {
+                productList.innerHTML = `<p class="text-center text-gray-500">Tidak ada produk yang ditemukan.</p>`;
+            }
         }
 
         // Fungsi untuk merender daftar user
         function renderUserList() {
-            userListEl.innerHTML = '';
+            const userList = document.getElementById('userList');
+            userList.innerHTML = '';
             
+            // Mengambil nilai search dan sort
             const searchQuery = document.getElementById('userSearch').value.toLowerCase();
             const sortOrder = document.getElementById('userSort').value;
 
-            let filteredUsers = users.filter(user =>
+            const filteredUsers = users.filter(user =>
                 user.name.toLowerCase().includes(searchQuery) ||
                 user.email.toLowerCase().includes(searchQuery) ||
                 user.phone.toLowerCase().includes(searchQuery)
             );
 
-            // Sort data in memory
+            // Mengurutkan user
             filteredUsers.sort((a, b) => {
                 const dateA = new Date(a.date_created);
                 const dateB = new Date(b.date_created);
                 if (sortOrder === 'latest') {
                     return dateB - dateA;
-                    } else {
+                } else {
                     return dateA - dateB;
                 }
             });
-
-            if (filteredUsers.length === 0) {
-                userListEl.innerHTML = `<p class="text-center text-gray-500">Tidak ada user yang ditemukan.</p>`;
-                return;
-            }
 
             filteredUsers.forEach(user => {
                 const userCard = document.createElement('div');
@@ -424,102 +425,29 @@
                         <h4 class="font-semibold text-base">${user.name}</h4>
                         <p class="text-sm text-gray-600">${user.email}</p>
                         <p class="text-sm text-gray-600">No HP: ${user.phone}</p>
-                        <p class="text-xs text-gray-400">Dibuat: ${user.date_created ? formatDate(user.date_created) : 'N/A'} | Diperbarui: ${user.date_updated ? formatDate(user.date_updated) : 'N/A'}</p>
+                        <p class="text-xs text-gray-400">Dibuat: ${formatDate(user.date_created)} | Diperbarui: ${formatDate(user.date_updated)}</p>
                     </div>
                     <div class="flex space-x-2 mt-2 md:mt-0">
-                        <button class="edit-user-btn bg-blue-500 text-white text-sm font-semibold px-4 py-2 rounded-md hover:bg-blue-600 transition-colors" data-doc-id="${user.id}">
+                        <button class="edit-user-btn bg-blue-500 text-white text-sm font-semibold px-4 py-2 rounded-md hover:bg-blue-600 transition-colors" data-user-id="${user.id}">
                             Edit
                         </button>
-                        <button class="delete-user-btn bg-red-500 text-white text-sm font-semibold px-4 py-2 rounded-md hover:bg-red-600 transition-colors" data-doc-id="${user.id}">
+                        <button class="delete-user-btn bg-red-500 text-white text-sm font-semibold px-4 py-2 rounded-md hover:bg-red-600 transition-colors" data-user-id="${user.id}">
                             Hapus
                         </button>
                     </div>
                 `;
-                userListEl.appendChild(userCard);
+                userList.appendChild(userCard);
             });
-        }
-
-        // Fungsi untuk menambahkan data contoh jika database kosong
-        async function addInitialData() {
-            const productRef = collection(db, `artifacts/${appId}/public/data/products`);
-            const productSnapshot = await getDocs(productRef);
-            if (productSnapshot.empty) {
-                const initialProducts = [
-                    { name: "Kaos Klasik Putih", description: "Kaos polos yang nyaman dan serbaguna, cocok untuk semua gaya.", category: "tshirt", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+1", price: "Rp150.000", oldPrice: "Rp200.000", rating: 4.5, date_created: new Date().toISOString(), date_updated: new Date().toISOString() },
-                    { name: "Polo Shirt Biru", description: "Polo shirt berwarna biru cerah dengan kerah yang rapi, ideal untuk acara kasual.", category: "polo", image: "https://placehold.co/250x200/cccccc/000000?text=Polo+1", price: "Rp210.000", oldPrice: "Rp280.000", rating: 4.0, date_created: new Date().toISOString(), date_updated: new Date().toISOString() },
-                    { name: "Hoodie Abu-abu", description: "Hoodie tebal yang nyaman dengan bahan flecee, cocok untuk cuaca dingin.", category: "hoodie", image: "https://placehold.co/250x200/cccccc/000000?text=Hoodie+1", price: "Rp350.000", oldPrice: null, rating: 5.0, date_created: new Date().toISOString(), date_updated: new Date().toISOString() },
-                ];
-                for (const product of initialProducts) {
-                    await addDoc(productRef, product);
-                }
-            }
-
-            const userRef = collection(db, `artifacts/${appId}/users/${userId}/users`);
-            const userSnapshot = await getDocs(userRef);
-            if (userSnapshot.empty) {
-                 const initialUsers = [
-                    { name: "Admin ORIVID", email: "orivid325@gmail.com", phone: "081234567890", date_created: new Date().toISOString(), date_updated: new Date().toISOString() },
-                    { name: "Joko Susilo", email: "joko.s@gmail.com", phone: "085678901234", date_created: new Date().toISOString(), date_updated: new Date().toISOString() },
-                ];
-                for (const user of initialUsers) {
-                    await addDoc(userRef, user);
-                }
+            
+            if (filteredUsers.length === 0) {
+                 userList.innerHTML = `<p class="text-center text-gray-500">Tidak ada user yang ditemukan.</p>`;
             }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Inisialisasi Firebase
-            if (Object.keys(firebaseConfig).length > 0) {
-                const app = initializeApp(firebaseConfig);
-                db = getFirestore(app);
-                auth = getAuth(app);
-            } else {
-                console.error("Firebase config is missing.");
-                loadingEl.innerHTML = `<p class="text-center text-red-500">Firebase tidak dapat diinisialisasi. Silakan periksa konfigurasi.</p>`;
-                return;
-            }
-
-            // Atur loading state
-            loadingEl.classList.remove('hidden');
-
-            // Autentikasi dan mulai mendengarkan perubahan
-            onAuthStateChanged(auth, async (user) => {
-                if (user) {
-                    userId = user.uid;
-                    userIdDisplayEl.textContent = `User ID: ${userId}`;
-                    
-                    // Tambahkan data contoh jika kosong
-                    await addInitialData();
-                    
-                    // Atur listener real-time untuk produk
-                    const productRef = collection(db, `artifacts/${appId}/public/data/products`);
-                    onSnapshot(productRef, (snapshot) => {
-                        products = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                        renderProductList();
-                        loadingEl.classList.add('hidden');
-                    });
-
-                    // Atur listener real-time untuk user
-                    const userRef = collection(db, `artifacts/${appId}/users/${userId}/users`);
-                    onSnapshot(userRef, (snapshot) => {
-                        users = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                        renderUserList();
-                        loadingEl.classList.add('hidden');
-                    });
-
-                } else {
-                    try {
-                        if (initialAuthToken) {
-                            await signInWithCustomToken(auth, initialAuthToken);
-                        } else {
-                            await signInAnonymously(auth);
-                        }
-                    } catch (error) {
-                        console.error("Authentication failed:", error);
-                        loadingEl.innerHTML = `<p class="text-center text-red-500">Gagal melakukan autentikasi: ${error.message}</p>`;
-                    }
-                }
-            });
+            // Render daftar saat halaman dimuat
+            renderProductList();
+            renderUserList();
 
             // Handler untuk tombol Logout
             document.getElementById('logoutBtn').addEventListener('click', () => {
@@ -539,7 +467,7 @@
             document.getElementById('userSort').addEventListener('change', renderUserList);
 
             // Fungsionalitas Tambah Produk
-            document.getElementById('addProductForm').addEventListener('submit', async (e) => {
+            document.getElementById('addProductForm').addEventListener('submit', (e) => {
                 e.preventDefault();
                 
                 const newProduct = {
@@ -554,68 +482,95 @@
                     date_updated: new Date().toISOString()
                 };
 
-                try {
-                    const productRef = collection(db, `artifacts/${appId}/public/data/products`);
-                    await addDoc(productRef, newProduct);
-                    document.getElementById('addProductForm').reset();
-                    console.log('Produk baru berhasil ditambahkan.');
-                } catch (e) {
-                    console.error("Error adding document: ", e);
+                const category = newProduct.category;
+                if (!products[category]) {
+                    products[category] = [];
                 }
+                products[category].push(newProduct);
+
+                document.getElementById('addProductForm').reset();
+                renderProductList();
+                console.log('Produk baru berhasil ditambahkan.');
             });
 
             // Fungsionalitas Edit Produk
             document.getElementById('productList').addEventListener('click', (e) => {
                 if (e.target.classList.contains('edit-product-btn')) {
-                    const docId = e.target.dataset.docId;
-                    const productToEdit = products.find(p => p.id === docId);
+                    const productName = e.target.dataset.name;
+                    const productCategory = e.target.dataset.category;
+                    const productToEdit = products[productCategory].find(p => p.name === productName);
 
                     if (productToEdit) {
-                        document.getElementById('edit-product-doc-id').value = productToEdit.id;
+                        // Isi formulir modal dengan data produk yang ada
+                        document.getElementById('edit-product-old-name').value = productToEdit.name;
                         document.getElementById('edit-name').value = productToEdit.name;
                         document.getElementById('edit-image').value = productToEdit.image;
                         document.getElementById('edit-description').value = productToEdit.description;
-                        document.getElementById('edit-category').value = productToEdit.category;
+                        document.getElementById('edit-category').value = productCategory;
                         document.getElementById('edit-price').value = productToEdit.price;
                         document.getElementById('edit-oldPrice').value = productToEdit.oldPrice || '';
                         document.getElementById('edit-rating').value = productToEdit.rating;
                         
+                        // Tampilkan modal
                         document.getElementById('editProductModal').classList.remove('hidden');
                     }
                 }
             });
 
             // Fungsionalitas Simpan Perubahan Produk
-            document.getElementById('editProductForm').addEventListener('submit', async (e) => {
+            document.getElementById('editProductForm').addEventListener('submit', (e) => {
                 e.preventDefault();
                 
-                const docId = document.getElementById('edit-product-doc-id').value;
-                const updatedProductData = {
-                    name: document.getElementById('edit-name').value,
-                    image: document.getElementById('edit-image').value,
-                    description: document.getElementById('edit-description').value,
-                    category: document.getElementById('edit-category').value,
-                    price: document.getElementById('edit-price').value,
-                    oldPrice: document.getElementById('edit-oldPrice').value || null,
-                    rating: parseFloat(document.getElementById('edit-rating').value),
-                    date_updated: new Date().toISOString()
-                };
+                const oldName = document.getElementById('edit-product-old-name').value;
+                const newName = document.getElementById('edit-name').value;
+                const newImage = document.getElementById('edit-image').value;
+                const newDescription = document.getElementById('edit-description').value;
+                const newCategory = document.getElementById('edit-category').value;
+                const newPrice = document.getElementById('edit-price').value;
+                const newOldPrice = document.getElementById('edit-oldPrice').value || null;
+                const newRating = parseFloat(document.getElementById('edit-rating').value);
 
-                try {
-                    const productRef = doc(db, `artifacts/${appId}/public/data/products`, docId);
-                    await updateDoc(productRef, updatedProductData);
+                // Cari dan perbarui produk
+                let foundProduct = false;
+                Object.keys(products).forEach(category => {
+                    const index = products[category].findIndex(p => p.name === oldName);
+                    if (index !== -1) {
+                        const updatedProduct = {
+                            name: newName,
+                            image: newImage,
+                            description: newDescription,
+                            price: newPrice,
+                            oldPrice: newOldPrice,
+                            rating: newRating,
+                            date_created: products[category][index].date_created, // Pertahankan tanggal dibuat
+                            date_updated: new Date().toISOString() // Perbarui tanggal diubah
+                        };
+
+                        if (category === newCategory) {
+                            products[category][index] = updatedProduct;
+                        } else {
+                            // Hapus dari kategori lama, tambahkan ke kategori baru
+                            products[category].splice(index, 1);
+                            if (!products[newCategory]) products[newCategory] = [];
+                            products[newCategory].push(updatedProduct);
+                        }
+                        foundProduct = true;
+                    }
+                });
+
+                if (foundProduct) {
+                    renderProductList(); // Render ulang daftar produk
                     document.getElementById('editProductModal').classList.add('hidden');
-                    console.log(`Produk berhasil diperbarui: ${docId}`);
-                } catch (e) {
-                    console.error("Error updating document: ", e);
+                    console.log(`Produk "${oldName}" berhasil diperbarui.`);
                 }
             });
 
             // Fungsionalitas Tambah User
-            document.getElementById('addUserForm').addEventListener('submit', async (e) => {
+            document.getElementById('addUserForm').addEventListener('submit', (e) => {
                 e.preventDefault();
                 
                 const newUser = {
+                    id: users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1,
                     name: document.getElementById('user-name').value,
                     email: document.getElementById('user-email').value,
                     phone: document.getElementById('user-phone').value,
@@ -623,24 +578,21 @@
                     date_updated: new Date().toISOString()
                 };
 
-                try {
-                    const userRef = collection(db, `artifacts/${appId}/users/${userId}/users`);
-                    await addDoc(userRef, newUser);
-                    document.getElementById('addUserForm').reset();
-                    console.log('User baru berhasil ditambahkan.');
-                } catch (e) {
-                    console.error("Error adding user: ", e);
-                }
+                users.push(newUser);
+
+                document.getElementById('addUserForm').reset();
+                renderUserList();
+                console.log('User baru berhasil ditambahkan.');
             });
 
             // Fungsionalitas Edit User
             document.getElementById('userList').addEventListener('click', (e) => {
                 if (e.target.classList.contains('edit-user-btn')) {
-                    const docId = e.target.dataset.docId;
-                    const userToEdit = users.find(u => u.id === docId);
+                    const userId = parseInt(e.target.dataset.userId);
+                    const userToEdit = users.find(u => u.id === userId);
 
                     if (userToEdit) {
-                        document.getElementById('edit-user-doc-id').value = userToEdit.id;
+                        document.getElementById('edit-user-id').value = userToEdit.id;
                         document.getElementById('edit-user-name').value = userToEdit.name;
                         document.getElementById('edit-user-email').value = userToEdit.email;
                         document.getElementById('edit-user-phone').value = userToEdit.phone;
@@ -651,24 +603,24 @@
             });
 
             // Fungsionalitas Simpan Perubahan User
-            document.getElementById('editUserForm').addEventListener('submit', async (e) => {
+            document.getElementById('editUserForm').addEventListener('submit', (e) => {
                 e.preventDefault();
                 
-                const docId = document.getElementById('edit-user-doc-id').value;
-                const updatedUserData = {
-                    name: document.getElementById('edit-user-name').value,
-                    email: document.getElementById('edit-user-email').value,
-                    phone: document.getElementById('edit-user-phone').value,
-                    date_updated: new Date().toISOString()
-                };
+                const userId = parseInt(document.getElementById('edit-user-id').value);
+                const newName = document.getElementById('edit-user-name').value;
+                const newEmail = document.getElementById('edit-user-email').value;
+                const newPhone = document.getElementById('edit-user-phone').value;
 
-                try {
-                    const userRef = doc(db, `artifacts/${appId}/users/${userId}/users`, docId);
-                    await updateDoc(userRef, updatedUserData);
+                const userIndex = users.findIndex(u => u.id === userId);
+                if (userIndex !== -1) {
+                    users[userIndex].name = newName;
+                    users[userIndex].email = newEmail;
+                    users[userIndex].phone = newPhone;
+                    users[userIndex].date_updated = new Date().toISOString(); // Perbarui tanggal diubah
+                    
+                    renderUserList();
                     document.getElementById('editUserModal').classList.add('hidden');
-                    console.log(`User berhasil diperbarui: ${docId}`);
-                } catch (e) {
-                    console.error("Error updating user: ", e);
+                    console.log(`User dengan ID ${userId} berhasil diperbarui.`);
                 }
             });
             
@@ -682,29 +634,30 @@
             });
             
             // Event listener untuk tombol Hapus Produk
-            document.getElementById('productList').addEventListener('click', async (e) => {
+            document.getElementById('productList').addEventListener('click', (e) => {
                 if (e.target.classList.contains('delete-product-btn')) {
-                    const docId = e.target.dataset.docId;
-                    try {
-                        const productRef = doc(db, `artifacts/${appId}/public/data/products`, docId);
-                        await deleteDoc(productRef);
-                        console.log(`Produk berhasil dihapus: ${docId}`);
-                    } catch (e) {
-                        console.error("Error deleting document: ", e);
+                    const productName = e.target.dataset.name;
+                    const productCategory = e.target.dataset.category;
+                    
+                    const index = products[productCategory].findIndex(p => p.name === productName);
+                    if (index !== -1) {
+                        products[productCategory].splice(index, 1);
+                        renderProductList();
+                        console.log(`Produk "${productName}" dihapus.`);
                     }
                 }
             });
 
             // Event listener untuk tombol Hapus User
-            document.getElementById('userList').addEventListener('click', async (e) => {
+            document.getElementById('userList').addEventListener('click', (e) => {
                 if (e.target.classList.contains('delete-user-btn')) {
-                    const docId = e.target.dataset.docId;
-                    try {
-                        const userRef = doc(db, `artifacts/${appId}/users/${userId}/users`, docId);
-                        await deleteDoc(userRef);
-                        console.log(`User berhasil dihapus: ${docId}`);
-                    } catch (e) {
-                        console.error("Error deleting user: ", e);
+                    const userId = parseInt(e.target.dataset.userId);
+                    
+                    const userIndex = users.findIndex(user => user.id === userId);
+                    if (userIndex !== -1) {
+                        users.splice(userIndex, 1);
+                        renderUserList();
+                        console.log(`User dengan ID ${userId} dihapus.`);
                     }
                 }
             });
@@ -715,6 +668,7 @@
             const productSection = document.getElementById('productSection');
             const userSection = document.getElementById('userSection');
 
+            // Fungsi untuk menampilkan bagian yang dipilih
             function showSection(sectionToShow, sectionToHide, activeBtn, inactiveBtn) {
                 sectionToShow.classList.remove('hidden');
                 sectionToHide.classList.add('hidden');
@@ -737,12 +691,16 @@
             // Event listener untuk navigasi kategori produk
             document.querySelectorAll('.category-nav-btn').forEach(button => {
                 button.addEventListener('click', (e) => {
+                    // Update activeCategory
                     activeCategory = e.target.dataset.category;
                     
+                    // Hapus kelas aktif dari semua tombol
                     document.querySelectorAll('.category-nav-btn').forEach(btn => btn.classList.remove('active'));
                     
+                    // Tambahkan kelas aktif pada tombol yang diklik
                     e.target.classList.add('active');
                     
+                    // Render ulang daftar produk
                     renderProductList();
                 });
             });
@@ -750,3 +708,4 @@
     </script>
 </body>
 </html>
+
