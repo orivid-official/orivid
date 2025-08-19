@@ -149,6 +149,10 @@
                     auth.signOut().then(() => {
                         console.log("Pengguna keluar. Mengalihkan ke halaman utama...");
                         window.location.href = "https://orivid-official.github.io/orivid/";
+                    }).catch((error) => {
+                        console.error("Kesalahan saat keluar:", error);
+                        // Menampilkan pesan kesalahan di UI jika terjadi kesalahan saat keluar
+                        productListElement.innerHTML = `<p class="text-red-500">Gagal keluar. Silakan coba lagi.</p>`;
                     });
                 });
                 
