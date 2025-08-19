@@ -22,12 +22,17 @@
 </head>
 <body class="antialiased">
 
-    <header class="bg-[#1A232E] text-white p-4 text-center">
+    <!-- Header -->
+    <header class="bg-[#1A232E] text-white p-4 text-center relative">
         <h1 class="text-3xl font-bold">ORIVID Admin Panel</h1>
+        <!-- Logout Button -->
+        <button id="logoutBtn" class="absolute top-4 right-4 bg-red-500 text-white font-semibold py-1 px-3 rounded-md hover:bg-red-600 transition-colors">
+            Logout
+        </button>
     </header>
 
     <main class="container mx-auto p-4 md:p-8">
-
+        <!-- Add New Product Section -->
         <section class="bg-white p-6 rounded-lg shadow-lg mb-8">
             <h2 class="text-2xl font-bold mb-4 border-b-2 border-[#CBA135] pb-2">Tambah Produk Baru</h2>
             <form id="addProductForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -74,34 +79,159 @@
             </form>
         </section>
 
+        <!-- Product List Section -->
         <section class="bg-white p-6 rounded-lg shadow-lg">
             <h2 class="text-2xl font-bold mb-4 border-b-2 border-[#CBA135] pb-2">Daftar Produk</h2>
             <div id="productList" class="space-y-4">
-                </div>
+                <p>Memuat produk...</p>
+            </div>
         </section>
-
     </main>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const products = {
-                tshirt: [
-                    { name_id: "Kaos Klasik Putih", name_en: "Classic White T-Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+1", alt_id: "Kaos Klasik Putih", alt_en: "Classic White T-Shirt", price: "Rp150.000", oldPrice: "Rp200.000", rating: 4.5 },
-                    { name_id: "Kaos Polos Hitam", name_en: "Plain Black T-Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+2", alt_id: "Kaos Polos Hitam", alt_en: "Plain Black T-Shirt", price: "Rp145.000", oldPrice: null, rating: 4.0 },
-                    { name_id: "Kaos Distro Keren", name_en: "Cool Distro T-Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+3", alt_id: "Kaos Distro Keren", alt_en: "Cool Distro T-Shirt", price: "Rp175.000", oldPrice: "Rp250.000", rating: 5.0 },
-                    { name_id: "Kaos Lengan Panjang", name_en: "Long Sleeve T-Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+4", alt_id: "Kaos Lengan Panjang", alt_en: "Long Sleeve T-Shirt", price: "Rp190.000", oldPrice: null, rating: 3.5 }
-                ],
-                polo: [
-                    { name_id: "Polo Shirt Biru", name_en: "Blue Polo Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=Polo+1", alt_id: "Polo Shirt Biru", alt_en: "Blue Polo Shirt", price: "Rp210.000", oldPrice: "Rp280.000", rating: 4.0 },
-                    { name_id: "Polo Shirt Berkerah", name_en: "Collared Polo Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=Polo+2", alt_id: "Polo Shirt Berkerah", alt_en: "Collared Polo Shirt", price: "Rp230.000", oldPrice: null, rating: 4.5 }
-                ],
-                hoodie: [
-                    { name_id: "Hoodie Abu-abu", name_en: "Grey Hoodie", image: "https://placehold.co/250x200/cccccc/000000?text=Hoodie+1", alt_id: "Hoodie Abu-abu", alt_en: "Grey Hoodie", price: "Rp350.000", oldPrice: "Rp450.000", rating: 5.0 },
-                    { name_id: "Hoodie Polos Navy", name_en: "Plain Navy Hoodie", image: "https://placehold.co/250x200/cccccc/000000?text=Hoodie+2", alt_id: "Hoodie Abu-abu", alt_en: "Grey Hoodie", price: "Rp320.000", oldPrice: null, rating: 4.0 }
-                ],
-                jacket: [
-                    { name_id: "Jaket Bomber Hitam", name_en: "Black Bomber Jacket", image: "https://placehold.co/250x200/cccccc/000000?text=Jacket+1", alt_id: "Jaket Bomber Hitam", alt_en: "Black Bomber Jacket", price: "Rp450.000", oldPrice: "Rp600.000", rating: 4.5 },
-                    { name_id: "Jaket Jeans Biru", name_en: "Blue Denim Jacket", image: "https://placehold.co/250x200/cccccc/000000?text=Jacket+2", alt_id: "Jaket Jeans Biru", alt_en: "Blue Denim Jacket", price: "Rp500.000", oldPrice: null, rating: 5.0 }
-                ],
-                pants: [
-                    { name_id: "Celana Jeans Slim
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInWithCustomToken, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Global variables provided by the Canvas environment. DO NOT change these.
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        let db, auth;
+        let productsCollectionRef;
+
+        /**
+         * Initializes Firebase and authenticates the user.
+         */
+        async function initializeFirebase() {
+            try {
+                const app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+
+                if (initialAuthToken) {
+                    await signInWithCustomToken(auth, initialAuthToken);
+                } else {
+                    await signInAnonymously(auth);
+                }
+
+                const userId = auth.currentUser ? auth.currentUser.uid : 'anonymous';
+                // Use a secure path for this app's data
+                productsCollectionRef = collection(db, `artifacts/${appId}/users/${userId}/products`);
+
+                console.log("Firebase initialized and user signed in. User ID:", userId);
+
+                // Set up real-time listener for the products
+                setupRealtimeListener();
+
+                // Add event listener for logout button
+                document.getElementById('logoutBtn').addEventListener('click', () => {
+                    auth.signOut().then(() => {
+                        console.log("User signed out. Reloading page...");
+                        window.location.reload();
+                    });
+                });
+
+            } catch (error) {
+                console.error("Error initializing Firebase or signing in:", error);
+                document.getElementById('productList').innerHTML = `<p class="text-red-500">Gagal terhubung ke database. Silakan coba lagi nanti.</p>`;
+            }
+        }
+
+        /**
+         * Sets up a real-time listener for the products collection.
+         * Renders the product list whenever data changes.
+         */
+        function setupRealtimeListener() {
+            onSnapshot(productsCollectionRef, (snapshot) => {
+                const products = [];
+                snapshot.forEach(doc => {
+                    products.push({ id: doc.id, ...doc.data() });
+                });
+                renderProductList(products);
+                console.log("Product list updated from Firestore.");
+            }, (error) => {
+                console.error("Error fetching documents: ", error);
+                document.getElementById('productList').innerHTML = `<p class="text-red-500">Gagal memuat produk. Terjadi kesalahan.</p>`;
+            });
+        }
+
+        /**
+         * Renders the product list on the page.
+         * @param {Array<Object>} products - The array of product objects to render.
+         */
+        function renderProductList(products) {
+            const productListElement = document.getElementById('productList');
+            productListElement.innerHTML = '';
+            
+            if (products.length === 0) {
+                productListElement.innerHTML = `<p class="text-gray-500">Belum ada produk yang ditambahkan.</p>`;
+                return;
+            }
+
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'flex items-center justify-between p-4 bg-gray-50 rounded-md shadow-sm border border-gray-200';
+                productCard.innerHTML = `
+                    <div class="flex-1">
+                        <h3 class="font-semibold text-lg">${product.name_id}</h3>
+                        <p class="text-sm text-gray-600">${product.price}</p>
+                    </div>
+                    <button class="delete-btn bg-red-500 text-white text-sm font-semibold px-4 py-2 rounded-md hover:bg-red-600 transition-colors" data-id="${product.id}">
+                        Hapus
+                    </button>
+                `;
+                productListElement.appendChild(productCard);
+            });
+        }
+
+        // Handler untuk submit form "Tambah Produk"
+        document.getElementById('addProductForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Get form data
+            const newProduct = {
+                name_id: document.getElementById('name_id').value,
+                name_en: document.getElementById('name_en').value,
+                image: document.getElementById('image').value,
+                category: document.getElementById('category').value,
+                price: document.getElementById('price').value,
+                oldPrice: document.getElementById('oldPrice').value || null,
+                rating: parseFloat(document.getElementById('rating').value),
+                createdAt: new Date() // Add a timestamp
+            };
+            
+            try {
+                // Add the new product to Firestore
+                await addDoc(productsCollectionRef, newProduct);
+                console.log('Produk berhasil ditambahkan ke Firestore.');
+                document.getElementById('addProductForm').reset();
+            } catch (e) {
+                console.error("Error adding document: ", e);
+                // In a real app, you would show a user-friendly error message here
+            }
+        });
+
+        // Event listener for delete buttons, using event delegation
+        document.getElementById('productList').addEventListener('click', async (e) => {
+            if (e.target.classList.contains('delete-btn')) {
+                const productId = e.target.dataset.id;
+                
+                try {
+                    // Delete the product from Firestore
+                    await deleteDoc(doc(db, productsCollectionRef.path, productId));
+                    console.log(`Produk dengan ID ${productId} berhasil dihapus.`);
+                } catch (e) {
+                    console.error("Error deleting document: ", e);
+                    // In a real app, you would show a user-friendly error message
+                }
+            }
+        });
+
+        // Initialize the app on page load
+        initializeFirebase();
+    </script>
+</body>
+</html>
