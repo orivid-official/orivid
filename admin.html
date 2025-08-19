@@ -25,17 +25,18 @@
     <!-- Header -->
     <header class="bg-[#1A232E] text-white p-4 text-center relative">
         <h1 class="text-3xl font-bold">ORIVID Admin Panel</h1>
-        <!-- Logout Button -->
+        <!-- Tombol Logout -->
         <button id="logoutBtn" class="absolute top-4 right-4 bg-red-500 text-white font-semibold py-1 px-3 rounded-md hover:bg-red-600 transition-colors">
             Logout
         </button>
     </header>
 
     <main class="container mx-auto p-4 md:p-8">
-        <!-- Add New Product Section -->
+        <!-- Bagian Tambah/Edit Produk -->
         <section class="bg-white p-6 rounded-lg shadow-lg mb-8">
-            <h2 class="text-2xl font-bold mb-4 border-b-2 border-[#CBA135] pb-2">Tambah Produk Baru</h2>
-            <form id="addProductForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <h2 id="formTitle" class="text-2xl font-bold mb-4 border-b-2 border-[#CBA135] pb-2">Tambah Produk Baru</h2>
+            <form id="productForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input type="hidden" id="productId">
                 <div>
                     <label for="name_id" class="block text-sm font-medium mb-1">Nama Produk (ID)</label>
                     <input type="text" id="name_id" required class="w-full border rounded-md p-2">
@@ -72,16 +73,26 @@
                     <input type="number" id="rating" min="1" max="5" step="0.1" value="5.0" required class="w-full border rounded-md p-2">
                 </div>
                 <div class="md:col-span-2">
-                    <button type="submit" class="w-full bg-[#1A232E] text-white font-semibold py-2 rounded-md hover:bg-[#CBA135] hover:text-black transition-colors">
+                    <button type="submit" id="submitBtn" class="w-full bg-[#1A232E] text-white font-semibold py-2 rounded-md hover:bg-[#CBA135] hover:text-black transition-colors">
                         Tambahkan Produk
+                    </button>
+                    <button type="button" id="cancelBtn" class="w-full bg-gray-400 text-white font-semibold py-2 rounded-md mt-2 hidden hover:bg-gray-500 transition-colors">
+                        Batal
                     </button>
                 </div>
             </form>
         </section>
 
-        <!-- Product List Section -->
+        <!-- Bagian Daftar Produk -->
         <section class="bg-white p-6 rounded-lg shadow-lg">
             <h2 class="text-2xl font-bold mb-4 border-b-2 border-[#CBA135] pb-2">Daftar Produk</h2>
+            
+            <!-- Search Bar -->
+            <div class="mb-4">
+                <label for="productSearch" class="block text-sm font-medium mb-1">Cari Produk</label>
+                <input type="text" id="productSearch" placeholder="Cari berdasarkan nama..." class="w-full border rounded-md p-2">
+            </div>
+
             <div id="productList" class="space-y-4">
                 <p>Memuat produk...</p>
             </div>
@@ -92,18 +103,28 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInWithCustomToken, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Global variables provided by the Canvas environment. DO NOT change these.
+        // Variabel global yang disediakan oleh lingkungan Canvas. JANGAN diubah.
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
         const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
         const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
 
         let db, auth;
         let productsCollectionRef;
+        let allProducts = [];
+
+        // Elemen-elemen formulir
+        const productForm = document.getElementById('productForm');
+        const formTitle = document.getElementById('formTitle');
+        const productIdInput = document.getElementById('productId');
+        const submitBtn = document.getElementById('submitBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const productSearchInput = document.getElementById('productSearch');
+        const productListElement = document.getElementById('productList');
 
         /**
-         * Initializes Firebase and authenticates the user.
+         * Menginisialisasi Firebase dan mengautentikasi pengguna.
          */
         async function initializeFirebase() {
             try {
@@ -118,119 +139,223 @@
                 }
 
                 const userId = auth.currentUser ? auth.currentUser.uid : 'anonymous';
-                // Use a secure path for this app's data
+                // Gunakan jalur yang aman untuk data aplikasi ini
                 productsCollectionRef = collection(db, `artifacts/${appId}/users/${userId}/products`);
 
-                console.log("Firebase initialized and user signed in. User ID:", userId);
-
-                // Set up real-time listener for the products
-                setupRealtimeListener();
-
-                // Add event listener for logout button
+                console.log("Firebase terinisialisasi dan pengguna masuk. ID Pengguna:", userId);
+                
+                // Tambahkan event listener untuk tombol logout
                 document.getElementById('logoutBtn').addEventListener('click', () => {
                     auth.signOut().then(() => {
-                        console.log("User signed out. Reloading page...");
-                        window.location.reload();
+                        console.log("Pengguna keluar. Mengalihkan ke halaman utama...");
+                        window.location.href = "https://orivid-official.github.io/orivid/";
                     });
                 });
+                
+                // Siapkan listener real-time untuk produk
+                setupRealtimeListener();
 
             } catch (error) {
-                console.error("Error initializing Firebase or signing in:", error);
-                document.getElementById('productList').innerHTML = `<p class="text-red-500">Gagal terhubung ke database. Silakan coba lagi nanti.</p>`;
+                console.error("Kesalahan saat menginisialisasi Firebase atau masuk:", error);
+                productListElement.innerHTML = `<p class="text-red-500">Gagal terhubung ke database. Silakan coba lagi nanti.</p>`;
             }
         }
 
         /**
-         * Sets up a real-time listener for the products collection.
-         * Renders the product list whenever data changes.
+         * Menyiapkan listener real-time untuk koleksi produk.
+         * Mengambil semua produk dan menyimpannya di variabel global.
          */
         function setupRealtimeListener() {
             onSnapshot(productsCollectionRef, (snapshot) => {
-                const products = [];
+                allProducts = [];
                 snapshot.forEach(doc => {
-                    products.push({ id: doc.id, ...doc.data() });
+                    allProducts.push({ id: doc.id, ...doc.data() });
                 });
-                renderProductList(products);
-                console.log("Product list updated from Firestore.");
+                // Render semua produk saat pertama kali dimuat
+                renderProductList(allProducts);
+                console.log("Daftar produk diperbarui dari Firestore.");
             }, (error) => {
-                console.error("Error fetching documents: ", error);
-                document.getElementById('productList').innerHTML = `<p class="text-red-500">Gagal memuat produk. Terjadi kesalahan.</p>`;
+                console.error("Kesalahan saat mengambil dokumen: ", error);
+                productListElement.innerHTML = `<p class="text-red-500">Gagal memuat produk. Terjadi kesalahan.</p>`;
             });
         }
 
         /**
-         * Renders the product list on the page.
-         * @param {Array<Object>} products - The array of product objects to render.
+         * Merender daftar produk di halaman, dikelompokkan berdasarkan kategori.
+         * @param {Array<Object>} productsToRender - Array objek produk untuk dirender.
          */
-        function renderProductList(products) {
-            const productListElement = document.getElementById('productList');
+        function renderProductList(productsToRender) {
             productListElement.innerHTML = '';
             
-            if (products.length === 0) {
-                productListElement.innerHTML = `<p class="text-gray-500">Belum ada produk yang ditambahkan.</p>`;
+            if (productsToRender.length === 0) {
+                productListElement.innerHTML = `<p class="text-gray-500">Tidak ada produk yang cocok dengan pencarian.</p>`;
                 return;
             }
 
-            products.forEach(product => {
-                const productCard = document.createElement('div');
-                productCard.className = 'flex items-center justify-between p-4 bg-gray-50 rounded-md shadow-sm border border-gray-200';
-                productCard.innerHTML = `
-                    <div class="flex-1">
-                        <h3 class="font-semibold text-lg">${product.name_id}</h3>
-                        <p class="text-sm text-gray-600">${product.price}</p>
-                    </div>
-                    <button class="delete-btn bg-red-500 text-white text-sm font-semibold px-4 py-2 rounded-md hover:bg-red-600 transition-colors" data-id="${product.id}">
-                        Hapus
-                    </button>
-                `;
-                productListElement.appendChild(productCard);
+            // Kelompokkan produk berdasarkan kategori
+            const productsByCategory = productsToRender.reduce((acc, product) => {
+                const category = product.category || 'Lainnya';
+                if (!acc[category]) {
+                    acc[category] = [];
+                }
+                acc[category].push(product);
+                return acc;
+            }, {});
+
+            // Urutkan kategori secara manual
+            const categoryOrder = ["tshirt", "polo", "hoodie", "jacket", "pants", "accessories"];
+            const sortedCategories = Object.keys(productsByCategory).sort((a, b) => {
+                const indexA = categoryOrder.indexOf(a);
+                const indexB = categoryOrder.indexOf(b);
+                if (indexA === -1 && indexB === -1) return a.localeCompare(b);
+                if (indexA === -1) return 1;
+                if (indexB === -1) return -1;
+                return indexA - indexB;
+            });
+
+            sortedCategories.forEach(category => {
+                const categoryTitle = document.createElement('h3');
+                categoryTitle.className = 'text-xl font-bold mt-6 mb-2 capitalize text-[#1A232E]';
+                categoryTitle.textContent = category;
+                productListElement.appendChild(categoryTitle);
+
+                productsByCategory[category].forEach(product => {
+                    const productCard = document.createElement('div');
+                    productCard.className = 'flex flex-col md:flex-row items-center justify-between p-4 bg-gray-50 rounded-md shadow-sm border border-gray-200 gap-4';
+                    
+                    // Tentukan tampilan harga
+                    let priceDisplay = `<span class="font-semibold">${product.price}</span>`;
+                    if (product.oldPrice) {
+                        priceDisplay = `<span class="line-through text-gray-400 mr-2">${product.oldPrice}</span><span class="font-semibold">${product.price}</span>`;
+                    }
+
+                    productCard.innerHTML = `
+                        <div class="flex items-center gap-4 flex-1 w-full">
+                            <img src="${product.image}" alt="${product.name_id}" onerror="this.src='https://placehold.co/64x64/EFEFEF/AAAAAA?text=No+Image'" class="w-16 h-16 object-cover rounded-md border border-gray-300">
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-lg">${product.name_id}</h3>
+                                <p class="text-sm text-gray-600">${priceDisplay}</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-2 w-full md:w-auto justify-end">
+                            <button class="edit-btn bg-yellow-500 text-white text-sm font-semibold px-4 py-2 rounded-md hover:bg-yellow-600 transition-colors" data-id="${product.id}">
+                                Edit
+                            </button>
+                            <button class="delete-btn bg-red-500 text-white text-sm font-semibold px-4 py-2 rounded-md hover:bg-red-600 transition-colors" data-id="${product.id}">
+                                Hapus
+                            </button>
+                        </div>
+                    `;
+                    productListElement.appendChild(productCard);
+                });
             });
         }
 
-        // Handler untuk submit form "Tambah Produk"
-        document.getElementById('addProductForm').addEventListener('submit', async (e) => {
+        /**
+         * Membersihkan formulir dan mengaturnya kembali ke mode "Tambah Produk".
+         */
+        function resetForm() {
+            productForm.reset();
+            formTitle.textContent = 'Tambah Produk Baru';
+            submitBtn.textContent = 'Tambahkan Produk';
+            productIdInput.value = '';
+            cancelBtn.classList.add('hidden');
+        }
+
+        // Handler untuk pengiriman formulir (Tambah atau Edit)
+        productForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            // Get form data
-            const newProduct = {
+            const productId = productIdInput.value;
+            const productData = {
                 name_id: document.getElementById('name_id').value,
                 name_en: document.getElementById('name_en').value,
                 image: document.getElementById('image').value,
                 category: document.getElementById('category').value,
                 price: document.getElementById('price').value,
                 oldPrice: document.getElementById('oldPrice').value || null,
-                rating: parseFloat(document.getElementById('rating').value),
-                createdAt: new Date() // Add a timestamp
+                rating: parseFloat(document.getElementById('rating').value)
             };
             
             try {
-                // Add the new product to Firestore
-                await addDoc(productsCollectionRef, newProduct);
-                console.log('Produk berhasil ditambahkan ke Firestore.');
-                document.getElementById('addProductForm').reset();
+                if (productId) {
+                    // Perbarui produk yang sudah ada
+                    const productDocRef = doc(db, productsCollectionRef.path, productId);
+                    await updateDoc(productDocRef, productData);
+                    console.log(`Produk dengan ID ${productId} berhasil diperbarui.`);
+                } else {
+                    // Tambahkan produk baru
+                    await addDoc(productsCollectionRef, productData);
+                    console.log('Produk berhasil ditambahkan ke Firestore.');
+                }
+                resetForm();
             } catch (e) {
-                console.error("Error adding document: ", e);
-                // In a real app, you would show a user-friendly error message here
+                console.error("Kesalahan saat menambah/memperbarui dokumen: ", e);
             }
         });
 
-        // Event listener for delete buttons, using event delegation
+        // Event listener untuk tombol hapus dan edit, menggunakan delegasi event
         document.getElementById('productList').addEventListener('click', async (e) => {
+            const productId = e.target.dataset.id;
+            
             if (e.target.classList.contains('delete-btn')) {
-                const productId = e.target.dataset.id;
-                
+                // Konfirmasi pengguna sebelum menghapus
+                if (confirm("Apakah Anda yakin ingin menghapus produk ini?")) {
+                    try {
+                        await deleteDoc(doc(db, productsCollectionRef.path, productId));
+                        console.log(`Produk dengan ID ${productId} berhasil dihapus.`);
+                    } catch (e) {
+                        console.error("Kesalahan saat menghapus dokumen: ", e);
+                    }
+                }
+            } else if (e.target.classList.contains('edit-btn')) {
+                // Ambil data produk dari Firestore untuk mengisi formulir
                 try {
-                    // Delete the product from Firestore
-                    await deleteDoc(doc(db, productsCollectionRef.path, productId));
-                    console.log(`Produk dengan ID ${productId} berhasil dihapus.`);
+                    const productDocRef = doc(db, productsCollectionRef.path, productId);
+                    const productSnapshot = await getDoc(productDocRef);
+
+                    if (productSnapshot.exists()) {
+                        const productData = productSnapshot.data();
+                        
+                        // Isi formulir dengan data produk
+                        document.getElementById('name_id').value = productData.name_id;
+                        document.getElementById('name_en').value = productData.name_en;
+                        document.getElementById('image').value = productData.image;
+                        document.getElementById('category').value = productData.category;
+                        document.getElementById('price').value = productData.price;
+                        document.getElementById('oldPrice').value = productData.oldPrice || '';
+                        document.getElementById('rating').value = productData.rating;
+                        
+                        // Atur formulir ke mode edit
+                        formTitle.textContent = 'Edit Produk';
+                        submitBtn.textContent = 'Simpan Perubahan';
+                        productIdInput.value = productId;
+                        cancelBtn.classList.remove('hidden');
+                    } else {
+                        console.error("Dokumen tidak ditemukan untuk diedit.");
+                    }
                 } catch (e) {
-                    console.error("Error deleting document: ", e);
-                    // In a real app, you would show a user-friendly error message
+                    console.error("Gagal mengambil data produk:", e);
                 }
             }
         });
 
-        // Initialize the app on page load
+        // Event listener untuk tombol Batal
+        cancelBtn.addEventListener('click', () => {
+            resetForm();
+        });
+
+        // Event listener untuk input pencarian
+        productSearchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredProducts = allProducts.filter(product =>
+                product.name_id.toLowerCase().includes(searchTerm) ||
+                product.name_en.toLowerCase().includes(searchTerm)
+            );
+            renderProductList(filteredProducts);
+        });
+
+        // Inisialisasi aplikasi saat halaman dimuat
         initializeFirebase();
     </script>
 </body>
