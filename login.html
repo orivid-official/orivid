@@ -75,12 +75,12 @@
                             <hr class="flex-grow border-gray-300">
                         </div>
                         <div class="space-y-2">
-                            <!-- Tombol Google dan Facebook akan mengarahkan ke admin.html -->
-                            <button type="button" onclick="redirectToAdmin()" class="w-full border border-gray-300 rounded-md p-2 text-[#333] flex items-center justify-center space-x-2 hover:bg-gray-50 transition-colors">
+                            <!-- Tombol Google dan Facebook sekarang memanggil fungsi baru -->
+                            <button type="button" onclick="handleSocialLogin()" class="w-full border border-gray-300 rounded-md p-2 text-[#333] flex items-center justify-center space-x-2 hover:bg-gray-50 transition-colors">
                                 <i class="fab fa-facebook-f text-blue-600"></i>
                                 <span>Facebook</span>
                             </button>
-                            <button type="button" onclick="redirectToAdmin()" class="w-full border border-gray-300 rounded-md p-2 text-[#333] flex items-center justify-center space-x-2 hover:bg-gray-50 transition-colors">
+                            <button type="button" onclick="handleSocialLogin()" class="w-full border border-gray-300 rounded-md p-2 text-[#333] flex items-center justify-center space-x-2 hover:bg-gray-50 transition-colors">
                                 <i class="fab fa-google text-red-500"></i>
                                 <span>Google</span>
                             </button>
@@ -96,13 +96,34 @@
 
     </main>
     <script>
-        // Fungsi untuk mengalihkan pengguna ke halaman admin
+        // Fungsi untuk mengalihkan pengguna ke halaman admin (tetap digunakan oleh form login utama)
         function redirectToAdmin() {
             window.location.href = 'https://orivid-official.github.io/orivid/admin.html';
         }
 
+        // Fungsi baru untuk menangani login sosial (Google/Facebook) dengan validasi email
+        function handleSocialLogin() {
+            // Ambil nilai email dari input form
+            const email = document.getElementById('email').value;
+            const correctEmail = 'orivid325@gmail.com';
+
+            // Dapatkan elemen pesan kesalahan
+            const loginMessage = document.getElementById('loginMessage');
+
+            // Sembunyikan pesan kesalahan sebelumnya
+            loginMessage.classList.add('hidden');
+            
+            // Validasi email
+            if (email === correctEmail) {
+                // Email sesuai, alihkan ke halaman admin
+                window.location.href = 'https://orivid-official.github.io/orivid/admin.html';
+            } else {
+                // Email tidak sesuai, alihkan ke halaman beranda
+                window.location.href = 'https://orivid-official.github.io/orivid/beranda.html';
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
-            const loginSection = document.getElementById('loginSection');
             const loginForm = document.getElementById('loginForm');
             const loginMessage = document.getElementById('loginMessage');
             const passwordInput = document.getElementById('password');
