@@ -72,7 +72,7 @@
                             <label for="phone" class="block text-sm font-medium mb-1 text-[#333]">Nomor Telepon</label>
                             <input type="tel" id="phone" required class="w-full border rounded-md p-2 text-[#333]">
                         </div>
-                        <!-- Kolom Alamat Pengiriman Baru -->
+                        <!-- Kolom Alamat Pengiriman -->
                         <div>
                             <label for="shippingAddress" class="block text-sm font-medium mb-1 text-[#333]">Alamat Pengiriman</label>
                             <textarea id="shippingAddress" rows="4" required class="w-full border rounded-md p-2 text-[#333]"></textarea>
@@ -112,7 +112,47 @@
 
     </main>
     
-    <script>
+    <!-- Firebase SDK Scripts -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Global variables provided by the Canvas environment
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        // Initialize Firebase
+        let app, db, auth;
+
+        // Function to initialize Firebase and authenticate
+        async function initializeFirebase() {
+            try {
+                if (Object.keys(firebaseConfig).length === 0) {
+                    console.error("Firebase config is empty. Cannot initialize Firebase.");
+                    return;
+                }
+                app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+
+                // Authenticate the user
+                if (initialAuthToken) {
+                    await signInWithCustomToken(auth, initialAuthToken);
+                    console.log("Authenticated with custom token.");
+                } else {
+                    await signInAnonymously(auth);
+                    console.log("Signed in anonymously.");
+                }
+            } catch (error) {
+                console.error("Error initializing Firebase:", error);
+            }
+        }
+        
+        // Call initialization function
+        initializeFirebase();
+
         document.addEventListener('DOMContentLoaded', () => {
             const registerForm = document.getElementById('registerForm');
             const messageBox = document.getElementById('messageBox');
@@ -174,7 +214,7 @@
             confirmPasswordInput.addEventListener('input', checkPasswordMatch);
 
             // Handler for form submission
-            registerForm.addEventListener('submit', (e) => {
+            registerForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 
                 const password = passwordInput.value;
@@ -184,18 +224,41 @@
 
                 if (password !== confirmPassword) {
                     showMessage('Password dan konfirmasi password tidak cocok.', 'error');
-                } else {
-                    showMessage('Pendaftaran berhasil! Redirecting...', 'success');
-                    // Placeholder for a successful registration.
-                    // In a real application, you would send this data to a server.
-                    console.log('Form data:', {
+                    return;
+                }
+
+                if (!auth || !db) {
+                    showMessage('Sistem tidak terintegrasi dengan database. Silakan coba lagi.', 'error');
+                    console.error('Firebase not initialized.');
+                    return;
+                }
+
+                try {
+                    // Collect form data
+                    const userData = {
                         fullName: document.getElementById('fullName').value,
                         username: document.getElementById('username').value,
                         email: document.getElementById('email').value,
                         phone: document.getElementById('phone').value,
                         shippingAddress: document.getElementById('shippingAddress').value,
-                        password: password
-                    });
+                        // Note: Storing password directly is not secure. This is for demonstration.
+                        password: password, 
+                        registrationDate: new Date()
+                    };
+                    
+                    // Add the new user data to the Firestore collection
+                    // The collection path is public for easy access by the admin page
+                    const docRef = await addDoc(collection(db, `/artifacts/${appId}/public/data/registrations`), userData);
+                    
+                    showMessage('Pendaftaran berhasil! Data telah disimpan.', 'success');
+                    console.log("Document written with ID: ", docRef.id);
+
+                    // You might redirect the user or clear the form here
+                    registerForm.reset();
+
+                } catch (e) {
+                    showMessage('Terjadi kesalahan saat pendaftaran. Silakan coba lagi.', 'error');
+                    console.error("Error adding document: ", e);
                 }
             });
         });
