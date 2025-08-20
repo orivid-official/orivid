@@ -6,9 +6,14 @@
     <meta name="description" content="ORIVID: Wear The Moment. Temukan koleksi pakaian, aksesoris, dan produk terlaris kami.">
     <title data-i18n="title">ORIVID - Wear The Moment</title>
     
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <!-- Font Awesome untuk ikon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Google Fonts - Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
         body {
@@ -16,10 +21,10 @@
             background-color: #f7f5f2; /* Warna latar belakang umum */
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body class="bg-[#f7f5f2] text-[#333] antialiased">
 
+    <!-- Header -->
     <header class="bg-[#1A232E] text-white p-4 md:px-8 flex flex-col md:flex-row items-center justify-between">
         <div class="flex items-center w-full md:w-auto">
             <a href="#" class="text-2xl font-bold mr-4">ORIVID</a>
@@ -39,13 +44,22 @@
             </select>
             <a href="https://orivid-official.github.io/orivid/daftar.html" data-i18n="register" class="hover:text-[#CBA135] transition-colors">Daftar</a>
             <a href="https://orivid-official.github.io/orivid/login.html" data-i18n="login" class="hover:text-[#CBA135] transition-colors">Log In</a>
-            <a href="https://orivid-official.github.io/orivid/cart.html" class="hover:text-[#CBA135] transition-colors"><i class="fas fa-shopping-bag text-lg"></i></a>
+            
+            <!-- Elemen keranjang belanja dengan notifikasi jumlah barang -->
+            <div class="relative">
+                <a href="https://orivid-official.github.io/orivid/cart.html" class="hover:text-[#CBA135] transition-colors">
+                    <i class="fas fa-shopping-bag text-lg"></i>
+                </a>
+                <span id="cart-count" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center opacity-0 transition-opacity duration-300">
+                    0
+                </span>
+            </div>
         </div>
     </header>
 
+    <!-- Navigasi -->
     <nav class="bg-black text-white border-b border-gray-700">
         <ul class="flex flex-wrap justify-center gap-x-6 md:gap-x-10 py-3 font-semibold text-sm md:text-base">
-            <!-- Perubahan utama: Atribut data-i18n="home" dihapus dari tag <a>, sehingga ikon rumah tetap terlihat dan tidak ditimpa oleh teks. -->
             <li><a href="#" data-category="home" class="py-2 hover:text-[#CBA135] border-b-2 border-transparent hover:border-[#CBA135] transition-colors"><i class="fas fa-home"></i></a></li>
             <li><a href="#" data-category="tshirt" data-i18n="tshirt" class="py-2 hover:text-[#CBA135] border-b-2 border-transparent hover:border-[#CBA135] transition-colors">T-Shirt</a></li>
             <li><a href="#" data-category="polo" data-i18n="polo" class="py-2 hover:text-[#CBA135] border-b-2 border-transparent hover:border-[#CBA135] transition-colors">Polo</a></li>
@@ -88,6 +102,7 @@
         </section>
     </main>
 
+    <!-- Footer -->
     <footer class="bg-[#1A232E] text-white text-center py-8">
         <p data-i18n="find-us-on-marketplace" class="text-sm">Temukan kami di marketplace favorit Anda</p>
         <div class="flex justify-center items-center gap-8 mt-5">
@@ -110,7 +125,6 @@
                     'login': 'Log In',
                     'lang-id': 'Indonesia',
                     'lang-en': 'English',
-                    // Terjemahan 'home' dihapus karena sekarang menggunakan ikon secara langsung
                     'tshirt': 'T-Shirt',
                     'polo': 'Polo',
                     'hoodie': 'Hoodie',
@@ -143,7 +157,6 @@
                     'login': 'Log In',
                     'lang-id': 'Indonesia',
                     'lang-en': 'English',
-                    // Terjemahan 'home' dihapus karena sekarang menggunakan ikon secara langsung
                     'tshirt': 'T-Shirt',
                     'polo': 'Polo',
                     'hoodie': 'Hoodie',
@@ -176,46 +189,87 @@
             // Data produk dinamis
             const products = {
                 tshirt: [
-                    { name_id: "Kaos Klasik Putih", name_en: "Classic White T-Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+1", alt_id: "Kaos Klasik Putih", alt_en: "Classic White T-Shirt", price: "Rp150.000", oldPrice: "Rp200.000", rating: 4.5 },
-                    { name_id: "Kaos Polos Hitam", name_en: "Plain Black T-Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+2", alt_id: "Kaos Polos Hitam", alt_en: "Plain Black T-Shirt", price: "Rp145.000", oldPrice: null, rating: 4.0 },
-                    { name_id: "Kaos Distro Keren", name_en: "Cool Distro T-Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+3", alt_id: "Kaos Distro Keren", alt_en: "Cool Distro T-Shirt", price: "Rp175.000", oldPrice: "Rp250.000", rating: 5.0 },
-                    { name_id: "Kaos Lengan Panjang", name_en: "Long Sleeve T-Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+4", alt_id: "Kaos Lengan Panjang", alt_en: "Long Sleeve T-Shirt", price: "Rp190.000", oldPrice: null, rating: 3.5 }
+                    { id: 'tshirt-1', name_id: "Kaos Klasik Putih", name_en: "Classic White T-Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+1", alt_id: "Kaos Klasik Putih", alt_en: "Classic White T-Shirt", price: 150000, oldPrice: 200000, rating: 4.5 },
+                    { id: 'tshirt-2', name_id: "Kaos Polos Hitam", name_en: "Plain Black T-Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+2", alt_id: "Kaos Polos Hitam", alt_en: "Plain Black T-Shirt", price: 145000, oldPrice: null, rating: 4.0 },
+                    { id: 'tshirt-3', name_id: "Kaos Distro Keren", name_en: "Cool Distro T-Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+3", alt_id: "Kaos Distro Keren", alt_en: "Cool Distro T-Shirt", price: 175000, oldPrice: 250000, rating: 5.0 },
+                    { id: 'tshirt-4', name_id: "Kaos Lengan Panjang", name_en: "Long Sleeve T-Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+4", alt_id: "Kaos Lengan Panjang", alt_en: "Long Sleeve T-Shirt", price: 190000, oldPrice: null, rating: 3.5 }
                 ],
                 polo: [
-                    { name_id: "Polo Shirt Biru", name_en: "Blue Polo Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=Polo+1", alt_id: "Polo Shirt Biru", alt_en: "Blue Polo Shirt", price: "Rp210.000", oldPrice: "Rp280.000", rating: 4.0 },
-                    { name_id: "Polo Shirt Berkerah", name_en: "Collared Polo Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=Polo+2", alt_id: "Polo Shirt Berkerah", alt_en: "Collared Polo Shirt", price: "Rp230.000", oldPrice: null, rating: 4.5 }
+                    { id: 'polo-1', name_id: "Polo Shirt Biru", name_en: "Blue Polo Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=Polo+1", alt_id: "Polo Shirt Biru", alt_en: "Blue Polo Shirt", price: 210000, oldPrice: 280000, rating: 4.0 },
+                    { id: 'polo-2', name_id: "Polo Shirt Berkerah", name_en: "Collared Polo Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=Polo+2", alt_id: "Polo Shirt Berkerah", alt_en: "Collared Polo Shirt", price: 230000, oldPrice: null, rating: 4.5 }
                 ],
                 hoodie: [
-                    { name_id: "Hoodie Abu-abu", name_en: "Grey Hoodie", image: "https://placehold.co/250x200/cccccc/000000?text=Hoodie+1", alt_id: "Hoodie Abu-abu", alt_en: "Grey Hoodie", price: "Rp350.000", oldPrice: "Rp450.000", rating: 5.0 },
-                    { name_id: "Hoodie Polos Navy", name_en: "Plain Navy Hoodie", image: "https://placehold.co/250x200/cccccc/000000?text=Hoodie+2", alt_id: "Hoodie Abu-abu", alt_en: "Grey Hoodie", price: "Rp320.000", oldPrice: null, rating: 4.0 }
+                    { id: 'hoodie-1', name_id: "Hoodie Abu-abu", name_en: "Grey Hoodie", image: "https://placehold.co/250x200/cccccc/000000?text=Hoodie+1", alt_id: "Hoodie Abu-abu", alt_en: "Grey Hoodie", price: 350000, oldPrice: 450000, rating: 5.0 },
+                    { id: 'hoodie-2', name_id: "Hoodie Polos Navy", name_en: "Plain Navy Hoodie", image: "https://placehold.co/250x200/cccccc/000000?text=Hoodie+2", alt_id: "Hoodie Abu-abu", alt_en: "Grey Hoodie", price: 320000, oldPrice: null, rating: 4.0 }
                 ],
                 jacket: [
-                    { name_id: "Jaket Bomber Hitam", name_en: "Black Bomber Jacket", image: "https://placehold.co/250x200/cccccc/000000?text=Jacket+1", alt_id: "Jaket Bomber Hitam", alt_en: "Black Bomber Jacket", price: "Rp450.000", oldPrice: "Rp600.000", rating: 4.5 },
-                    { name_id: "Jaket Jeans Biru", name_en: "Blue Denim Jacket", image: "https://placehold.co/250x200/cccccc/000000?text=Jacket+2", alt_id: "Jaket Jeans Biru", alt_en: "Blue Denim Jacket", price: "Rp500.000", oldPrice: null, rating: 5.0 }
+                    { id: 'jacket-1', name_id: "Jaket Bomber Hitam", name_en: "Black Bomber Jacket", image: "https://placehold.co/250x200/cccccc/000000?text=Jacket+1", alt_id: "Jaket Bomber Hitam", alt_en: "Black Bomber Jacket", price: 450000, oldPrice: 600000, rating: 4.5 },
+                    { id: 'jacket-2', name_id: "Jaket Jeans Biru", name_en: "Blue Denim Jacket", image: "https://placehold.co/250x200/cccccc/000000?text=Jacket+2", alt_id: "Jaket Jeans Biru", alt_en: "Blue Denim Jacket", price: 500000, oldPrice: null, rating: 5.0 }
                 ],
                 pants: [
-                    { name_id: "Celana Jeans Slim Fit", name_en: "Slim Fit Jeans", image: "https://placehold.co/250x200/cccccc/000000?text=Pants+1", alt_id: "Celana Jeans Slim Fit", alt_en: "Slim Fit Jeans", price: "Rp300.000", oldPrice: null, rating: 4.5 },
-                    { name_id: "Celana Chino Cream", name_en: "Cream Chino Pants", image: "https://placehold.co/250x200/cccccc/000000?text=Pants+2", alt_id: "Celana Chino Cream", alt_en: "Cream Chino Pants", price: "Rp280.000", oldPrice: "Rp350.000", rating: 4.0 }
+                    { id: 'pants-1', name_id: "Celana Jeans Slim Fit", name_en: "Slim Fit Jeans", image: "https://placehold.co/250x200/cccccc/000000?text=Pants+1", alt_id: "Celana Jeans Slim Fit", alt_en: "Slim Fit Jeans", price: 300000, oldPrice: null, rating: 4.5 },
+                    { id: 'pants-2', name_id: "Celana Chino Cream", name_en: "Cream Chino Pants", image: "https://placehold.co/250x200/cccccc/000000?text=Pants+2", alt_id: "Celana Chino Cream", alt_en: "Cream Chino Pants", price: 280000, oldPrice: 350000, rating: 4.0 }
                 ],
                 accessories: [
-                    { name_id: "Topi Baseball ORIVID", name_en: "ORIVID Baseball Cap", image: "https://placehold.co/250x200/cccccc/000000?text=Aksesoris+1", alt_id: "Topi Baseball ORIVID", alt_en: "ORIVID Baseball Cap", price: "Rp80.000", oldPrice: null, rating: 4.5 },
-                    { name_id: "Jam Tangan Kulit", name_en: "Leather Watch", image: "https://placehold.co/250x200/cccccc/000000?text=Aksesoris+2", alt_id: "Jam Tangan Kulit", alt_en: "Leather Watch", price: "Rp550.000", oldPrice: "Rp700.000", rating: 5.0 }
+                    { id: 'accessories-1', name_id: "Topi Baseball ORIVID", name_en: "ORIVID Baseball Cap", image: "https://placehold.co/250x200/cccccc/000000?text=Aksesoris+1", alt_id: "Topi Baseball ORIVID", alt_en: "ORIVID Baseball Cap", price: 80000, oldPrice: null, rating: 4.5 },
+                    { id: 'accessories-2', name_id: "Jam Tangan Kulit", name_en: "Leather Watch", image: "https://placehold.co/250x200/cccccc/000000?text=Aksesoris+2", alt_id: "Jam Tangan Kulit", alt_en: "Leather Watch", price: 550000, oldPrice: 700000, rating: 5.0 }
                 ]
             };
             
             // Data produk terlaris baru
             const trendingProducts = [
-                { name_id: "Kaos Klasik Putih", name_en: "Classic White T-Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+1", alt_id: "Kaos Klasik Putih", alt_en: "Classic White T-Shirt", price: "Rp150.000", oldPrice: "Rp200.000", rating: 4.5 },
-                { name_id: "Polo Shirt Biru", name_en: "Blue Polo Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=Polo+1", alt_id: "Polo Shirt Biru", alt_en: "Blue Polo Shirt", price: "Rp210.000", oldPrice: "Rp280.000", rating: 4.0 },
-                { name_id: "Jaket Jeans Biru", name_en: "Blue Denim Jacket", image: "https://placehold.co/250x200/cccccc/000000?text=Jacket+2", alt_id: "Jaket Jeans Biru", alt_en: "Blue Denim Jacket", price: "Rp500.000", oldPrice: null, rating: 5.0 },
-                { name_id: "Hoodie Abu-abu", name_en: "Grey Hoodie", image: "https://placehold.co/250x200/cccccc/000000?text=Hoodie+1", alt_id: "Hoodie Abu-abu", alt_en: "Grey Hoodie", price: "Rp350.000", oldPrice: "Rp450.000", rating: 5.0 }
+                { id: 'tshirt-1', name_id: "Kaos Klasik Putih", name_en: "Classic White T-Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=T-Shirt+1", alt_id: "Kaos Klasik Putih", alt_en: "Classic White T-Shirt", price: 150000, oldPrice: 200000, rating: 4.5 },
+                { id: 'polo-1', name_id: "Polo Shirt Biru", name_en: "Blue Polo Shirt", image: "https://placehold.co/250x200/cccccc/000000?text=Polo+1", alt_id: "Polo Shirt Biru", alt_en: "Blue Polo Shirt", price: 210000, oldPrice: 280000, rating: 4.0 },
+                { id: 'jacket-2', name_id: "Jaket Jeans Biru", name_en: "Blue Denim Jacket", image: "https://placehold.co/250x200/cccccc/000000?text=Jacket+2", alt_id: "Jaket Jeans Biru", alt_en: "Blue Denim Jacket", price: 500000, oldPrice: null, rating: 5.0 },
+                { id: 'hoodie-1', name_id: "Hoodie Abu-abu", name_en: "Grey Hoodie", image: "https://placehold.co/250x200/cccccc/000000?text=Hoodie+1", alt_id: "Hoodie Abu-abu", alt_en: "Grey Hoodie", price: 350000, oldPrice: 450000, rating: 5.0 }
             ];
+
+            // Fungsi untuk format angka sebagai mata uang Rupiah
+            function formatRupiah(number) {
+                const formatter = new Intl.NumberFormat('id-ID', {
+                    style: 'currency',
+                    currency: 'IDR',
+                    minimumFractionDigits: 0
+                });
+                return formatter.format(number).replace(/IDR/, 'Rp');
+            }
+
+            // Fungsi untuk mengupdate jumlah barang di ikon keranjang
+            function updateCartIcon() {
+                const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                const cartCountElement = document.getElementById('cart-count');
+                
+                if (totalItems > 0) {
+                    cartCountElement.textContent = totalItems;
+                    cartCountElement.classList.remove('opacity-0');
+                } else {
+                    cartCountElement.textContent = '0';
+                    cartCountElement.classList.add('opacity-0');
+                }
+            }
+
+            // Fungsi untuk menambahkan produk ke keranjang
+            window.addToCart = function(product) {
+                let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                
+                // Cari apakah produk sudah ada di keranjang
+                const existingProduct = cart.find(item => item.id === product.id);
+                
+                if (existingProduct) {
+                    existingProduct.quantity++;
+                } else {
+                    cart.push({ ...product, quantity: 1 });
+                }
+                
+                localStorage.setItem('cart', JSON.stringify(cart));
+                updateCartIcon();
+            };
 
             // Fungsi untuk mengupdate bahasa di seluruh halaman berdasarkan `lang` yang dipilih
             function updateLanguage(lang) {
                 document.documentElement.lang = lang; // Mengatur atribut lang HTML
                 
-                // Mengubah teks untuk elemen dengan atribut `data-i18n`
                 const elementsToTranslate = document.querySelectorAll('[data-i18n]');
                 elementsToTranslate.forEach(element => {
                     const key = element.getAttribute('data-i18n');
@@ -224,7 +278,6 @@
                     }
                 });
                 
-                // Mengubah innerHTML untuk elemen dengan atribut `data-i18n-html`
                 const elementsToTranslateHtml = document.querySelectorAll('[data-i18n-html]');
                 elementsToTranslateHtml.forEach(element => {
                     const key = element.getAttribute('data-i18n-html');
@@ -233,7 +286,6 @@
                     }
                 });
                 
-                // Mengubah placeholder untuk elemen dengan atribut `data-i18n-placeholder`
                 const elementsToTranslatePlaceholder = document.querySelectorAll('[data-i18n-placeholder]');
                 elementsToTranslatePlaceholder.forEach(element => {
                     const key = element.getAttribute('data-i18n-placeholder');
@@ -250,13 +302,14 @@
                 } else {
                     handleCategoryChange('home', lang); // Default ke kategori home
                 }
+                updateCartIcon(); // Memastikan jumlah keranjang diperbarui setelah perubahan bahasa
             }
 
             // Fungsi untuk membuat HTML card produk
             function createProductCard(product, lang) {
                 const productName = lang === 'id' ? product.name_id : product.name_en;
                 const altText = lang === 'id' ? product.alt_id : product.alt_en;
-                const oldPriceHtml = product.oldPrice ? `<span class="text-gray-500 line-through text-sm font-normal">${product.oldPrice}</span>` : '';
+                const oldPriceHtml = product.oldPrice ? `<span class="text-gray-500 line-through text-sm font-normal">${formatRupiah(product.oldPrice)}</span>` : '';
                 
                 let starsHtml = '';
                 for (let i = 0; i < 5; i++) {
@@ -268,10 +321,10 @@
                         starsHtml += '<i class="far fa-star"></i>';
                     }
                 }
-
-                // Tambahan: tombol 'Tambahkan ke Keranjang' sekarang mengambil teks dari objek terjemahan
+                
                 const addToCartText = translations[lang]['add-to-cart'];
                 
+                // Tambahkan event handler onclick untuk memanggil fungsi addToCart
                 return `
                     <div class="bg-white p-4 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-center">
                         <img src="${product.image}" alt="${altText}" class="w-full h-48 object-cover rounded-md mb-4">
@@ -279,9 +332,9 @@
                         <div class="text-yellow-400 text-sm mb-2">${starsHtml}</div>
                         <div class="flex items-center justify-center gap-2">
                             ${oldPriceHtml}
-                            <span class="text-lg font-bold">${product.price}</span>
+                            <span class="text-lg font-bold">${formatRupiah(product.price)}</span>
                         </div>
-                        <button class="mt-4 bg-[#1A232E] text-white text-sm font-semibold px-4 py-2 rounded-full hover:bg-[#CBA135] hover:text-black transition-colors duration-300">
+                        <button onclick='addToCart(${JSON.stringify(product)})' class="mt-4 bg-[#1A232E] text-white text-sm font-semibold px-4 py-2 rounded-full hover:bg-[#CBA135] hover:text-black transition-colors duration-300">
                             ${addToCartText}
                         </button>
                     </div>
@@ -300,7 +353,6 @@
                         productContainer.innerHTML += createProductCard(product, lang);
                     });
                 } else {
-                    // Dapatkan produk dari objek data untuk kategori tertentu
                     const categoryProducts = products[category];
                     if (categoryProducts) {
                         categoryProducts.forEach(product => {
@@ -313,8 +365,7 @@
             // Fungsi untuk merender produk terlaris
             function renderTrendingProducts(lang) {
                 const trendingContainer = document.getElementById('trending-product-container');
-                trendingContainer.innerHTML = ''; // Kosongkan container
-
+                trendingContainer.innerHTML = '';
                 trendingProducts.forEach(product => {
                     trendingContainer.innerHTML += createProductCard(product, lang);
                 });
@@ -351,10 +402,8 @@
                 link.addEventListener('click', (event) => {
                     event.preventDefault(); // Mencegah link pindah halaman
                     
-                    // Hapus kelas 'active' dari semua link
                     subNavLinks.forEach(item => item.classList.remove('active', 'border-[#CBA135]'));
                     
-                    // Tambahkan kelas 'active' ke link yang diklik
                     event.target.classList.add('active', 'border-[#CBA135]');
                     
                     const category = event.target.dataset.category;
@@ -367,6 +416,7 @@
             // Set bahasa awal saat halaman dimuat
             const initialLang = langSelect.value;
             updateLanguage(initialLang);
+            updateCartIcon(); // Pastikan ikon keranjang diperbarui saat halaman pertama kali dimuat
 
             // Tampilkan halaman Home secara default saat dimuat
             const defaultLink = document.querySelector('nav a[data-category="home"]');
@@ -379,4 +429,3 @@
     </script>
 </body>
 </html>
-
