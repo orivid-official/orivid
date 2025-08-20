@@ -20,6 +20,17 @@
             font-family: 'Poppins', sans-serif;
             background-color: #f7f5f2; /* Warna latar belakang umum */
         }
+        /* Custom scrollbar for better aesthetics */
+        body::-webkit-scrollbar {
+            width: 8px;
+        }
+        body::-webkit-scrollbar-thumb {
+            background-color: #CBA135;
+            border-radius: 4px;
+        }
+        body::-webkit-scrollbar-track {
+            background-color: #e5e7eb;
+        }
     </style>
 </head>
 <body class="bg-[#f7f5f2] text-[#333] antialiased">
@@ -52,7 +63,6 @@
     <nav class="bg-black text-white border-b border-gray-700">
         <ul class="flex flex-wrap justify-center gap-x-6 md:gap-x-10 py-3 font-semibold text-sm md:text-base">
             <li><a href="index.html" class="py-2 hover:text-[#CBA135] border-b-2 border-transparent hover:border-[#CBA135] transition-colors"><i class="fas fa-home"></i></a></li>
-            <!-- Tautan navbar yang sudah diperbaiki -->
             <li><a href="index.html?category=tshirt" data-i18n="tshirt" class="py-2 hover:text-[#CBA135] border-b-2 border-transparent hover:border-[#CBA135] transition-colors">T-Shirt</a></li>
             <li><a href="index.html?category=polo" data-i18n="polo" class="py-2 hover:text-[#CBA135] border-b-2 border-transparent hover:border-[#CBA135] transition-colors">Polo</a></li>
             <li><a href="index.html?category=hoodie" data-i18n="hoodie" class="py-2 hover:text-[#CBA135] border-b-2 border-transparent hover:border-[#CBA135] transition-colors">Hoodie</a></li>
@@ -77,53 +87,7 @@
                     <div class="col-span-1 text-center" data-i18n="quantity-heading">Jumlah</div>
                     <div class="col-span-2 text-right" data-i18n="total-heading">Total</div>
                 </div>
-
-                <!-- Item Produk -->
-                <div class="cart-item flex flex-col md:flex-row items-center md:items-start md:space-x-4 mb-4 pb-4 border-b" data-price="130000">
-                    <div class="w-full md:w-3/6 flex items-center mb-4 md:mb-0">
-                        <img src="https://placehold.co/100x100/cccccc/000000?text=T-Shirt" alt="Human Greatness Otter OS T-Shirt" class="w-24 h-24 object-cover rounded-md mr-4">
-                        <div class="flex-1">
-                            <p class="font-semibold" data-i18n="product-name-1">Human Greatness Otter OS T-Shirt White HGBasic</p>
-                            <p class="text-sm text-gray-500 product-price" data-i18n="product-price-1">Rp130.000</p>
-                            <p class="text-xs text-gray-400" data-i18n="product-size-1">Size: S</p>
-                        </div>
-                    </div>
-                    <div class="w-full md:w-1/6 flex justify-center items-center my-2 md:my-0">
-                        <div class="flex items-center border border-gray-300 rounded-full px-2 py-1">
-                            <button class="px-2 text-gray-600 hover:text-black focus:outline-none" onclick="updateQuantity(this, -1)">-</button>
-                            <span class="w-6 text-center" data-quantity>1</span>
-                            <button class="px-2 text-gray-600 hover:text-black focus:outline-none" onclick="updateQuantity(this, 1)">+</button>
-                        </div>
-                        <button class="ml-4 text-gray-500 hover:text-red-500" onclick="removeItem(this)"><i class="fas fa-trash"></i></button>
-                    </div>
-                    <div class="w-full md:w-2/6 text-right md:pr-4">
-                        <p class="font-bold product-total-price" data-i18n="product-total-1">Rp130.000</p>
-                    </div>
-                </div>
-                
-                <!-- Contoh Item Produk Lain -->
-                <div class="cart-item flex flex-col md:flex-row items-center md:items-start md:space-x-4 mb-4 pb-4 border-b" data-price="250000">
-                    <div class="w-full md:w-3/6 flex items-center mb-4 md:mb-0">
-                        <img src="https://placehold.co/100x100/cccccc/000000?text=Hoodie" alt="ORIVID Gold Hoodie" class="w-24 h-24 object-cover rounded-md mr-4">
-                        <div class="flex-1">
-                            <p class="font-semibold">ORIVID Gold Logo Hoodie</p>
-                            <p class="text-sm text-gray-500 product-price">Rp250.000</p>
-                            <p class="text-xs text-gray-400">Size: M</p>
-                        </div>
-                    </div>
-                    <div class="w-full md:w-1/6 flex justify-center items-center my-2 md:my-0">
-                        <div class="flex items-center border border-gray-300 rounded-full px-2 py-1">
-                            <button class="px-2 text-gray-600 hover:text-black focus:outline-none" onclick="updateQuantity(this, -1)">-</button>
-                            <span class="w-6 text-center" data-quantity>1</span>
-                            <button class="px-2 text-gray-600 hover:text-black focus:outline-none" onclick="updateQuantity(this, 1)">+</button>
-                        </div>
-                        <button class="ml-4 text-gray-500 hover:text-red-500" onclick="removeItem(this)"><i class="fas fa-trash"></i></button>
-                    </div>
-                    <div class="w-full md:w-2/6 text-right md:pr-4">
-                        <p class="font-bold product-total-price">Rp250.000</p>
-                    </div>
-                </div>
-
+                <!-- Konten item keranjang akan dirender di sini oleh JavaScript -->
             </div>
 
             <!-- Kolom Ringkasan Belanja -->
@@ -131,7 +95,7 @@
                 <h3 class="text-lg font-bold mb-4" data-i18n="summary-heading">Ringkasan Belanja</h3>
                 <div class="flex justify-between mb-2">
                     <span data-i18n="estimated-total">Total Estimasi</span>
-                    <span class="font-semibold" id="estimated-total-price">Rp380.000 IDR</span>
+                    <span class="font-semibold" id="estimated-total-price">Rp0</span>
                 </div>
                 <p class="text-xs text-gray-500 mb-4" data-i18n="taxes-shipping">Pajak, diskon, dan pengiriman dihitung saat checkout</p>
                 <button class="w-full bg-[#1A232E] text-white text-sm font-semibold py-3 rounded-lg hover:bg-[#CBA135] hover:text-black transition-colors duration-300">
@@ -154,9 +118,16 @@
         </div>
     </footer>
 
+    <!-- Tombol demonstrasi untuk menambahkan item ke keranjang -->
+    <div class="fixed bottom-4 right-4 z-50">
+      <button onclick="addMockItem()" class="bg-green-500 text-white rounded-full p-4 shadow-lg hover:bg-green-600 transition-all duration-300">
+        <i class="fas fa-plus"></i>
+        <span>Tambahkan Item Contoh</span>
+      </button>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Objek terjemahan untuk halaman keranjang
             const translations = {
                 'id': {
                     'cart-title': 'ORIVID - Keranjang Belanja',
@@ -186,7 +157,10 @@
                     'product-size-1': 'Size: S',
                     'find-us-on-marketplace': 'Temukan kami di marketplace favorit Anda',
                     'empty-cart-message': 'Keranjang Anda kosong. Yuk, temukan produk favorit Anda!',
-                    'summary-heading': 'Ringkasan Belanja'
+                    'summary-heading': 'Ringkasan Belanja',
+                    'product-name-2': 'ORIVID Gold Logo Hoodie',
+                    'product-price-2': 'Rp250.000',
+                    'product-size-2': 'Size: M'
                 },
                 'en': {
                     'cart-title': 'ORIVID - Shopping Cart',
@@ -216,11 +190,170 @@
                     'product-size-1': 'Size: S',
                     'find-us-on-marketplace': 'Find us on your favorite marketplace',
                     'empty-cart-message': 'Your cart is empty. Find your favorite products!',
-                    'summary-heading': 'Shopping Summary'
+                    'summary-heading': 'Shopping Summary',
+                    'product-name-2': 'ORIVID Gold Logo Hoodie',
+                    'product-price-2': 'Rp250,000',
+                    'product-size-2': 'Size: M'
+                }
+            };
+            const langSelect = document.getElementById('lang-select');
+            let cart = []; // Variabel global untuk menyimpan data keranjang
+
+            // Fungsi untuk memuat data dari localStorage
+            function loadCart() {
+                try {
+                    const savedCart = localStorage.getItem('orividCart');
+                    if (savedCart) {
+                        cart = JSON.parse(savedCart);
+                    } else {
+                        cart = []; // Pastikan array kosong jika tidak ada data
+                    }
+                } catch (e) {
+                    console.error("Gagal memuat keranjang dari localStorage", e);
+                    cart = [];
+                }
+            }
+
+            // Fungsi untuk menyimpan data ke localStorage
+            function saveCart() {
+                try {
+                    localStorage.setItem('orividCart', JSON.stringify(cart));
+                } catch (e) {
+                    console.error("Gagal menyimpan keranjang ke localStorage", e);
+                }
+            }
+
+            // Fungsi untuk format angka sebagai mata uang Rupiah tanpa desimal
+            function formatRupiah(number) {
+                const formatter = new Intl.NumberFormat('id-ID', {
+                    style: 'currency',
+                    currency: 'IDR',
+                    minimumFractionDigits: 0
+                });
+                return formatter.format(number).replace(/IDR/, 'Rp');
+            }
+
+            // Fungsi untuk merender item keranjang ke DOM
+            function renderCart() {
+                const cartContainer = document.getElementById('cart-items-container');
+                cartContainer.innerHTML = ''; // Hapus semua item yang ada
+                const totalHeading = cartContainer.querySelector('.hidden.md\\:grid');
+
+                // Tampilkan header kolom jika ada item
+                if (cart.length > 0) {
+                    // Buat header kolom jika belum ada
+                    let header = document.querySelector('.hidden.md\\:grid');
+                    if (!header) {
+                        header = document.createElement('div');
+                        header.className = 'hidden md:grid grid-cols-6 text-xs font-semibold uppercase text-gray-500 mb-4 pb-2 border-b';
+                        header.innerHTML = `
+                            <div class="col-span-3" data-i18n="product-heading">Produk</div>
+                            <div class="col-span-1 text-center" data-i18n="quantity-heading">Jumlah</div>
+                            <div class="col-span-2 text-right" data-i18n="total-heading">Total</div>
+                        `;
+                        cartContainer.prepend(header);
+                    }
+                } else {
+                    // Hapus header jika keranjang kosong
+                    let header = document.querySelector('.hidden.md\\:grid');
+                    if (header) {
+                        header.remove();
+                    }
+                }
+
+
+                if (cart.length === 0) {
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = 'empty-cart-message text-center text-gray-500 py-8';
+                    messageDiv.setAttribute('data-i18n', 'empty-cart-message');
+                    messageDiv.textContent = translations[langSelect.value]['empty-cart-message'];
+                    cartContainer.appendChild(messageDiv);
+                } else {
+                    cart.forEach(item => {
+                        const itemElement = document.createElement('div');
+                        itemElement.className = 'cart-item flex flex-col md:flex-row items-center md:items-start md:space-x-4 mb-4 pb-4 border-b';
+                        itemElement.setAttribute('data-id', item.id); // Gunakan ID unik
+                        itemElement.setAttribute('data-price', item.price);
+                        
+                        itemElement.innerHTML = `
+                            <div class="w-full md:w-3/6 flex items-center mb-4 md:mb-0">
+                                <img src="${item.image}" alt="${item.name}" class="w-24 h-24 object-cover rounded-md mr-4">
+                                <div class="flex-1">
+                                    <p class="font-semibold">${item.name}</p>
+                                    <p class="text-sm text-gray-500 product-price">${formatRupiah(item.price)}</p>
+                                    <p class="text-xs text-gray-400">Size: ${item.size}</p>
+                                </div>
+                            </div>
+                            <div class="w-full md:w-1/6 flex justify-center items-center my-2 md:my-0">
+                                <div class="flex items-center border border-gray-300 rounded-full px-2 py-1">
+                                    <button class="px-2 text-gray-600 hover:text-black focus:outline-none" onclick="updateQuantity(this, -1)">-</button>
+                                    <span class="w-6 text-center" data-quantity>${item.quantity}</span>
+                                    <button class="px-2 text-gray-600 hover:text-black focus:outline-none" onclick="updateQuantity(this, 1)">+</button>
+                                </div>
+                                <button class="ml-4 text-gray-500 hover:text-red-500" onclick="removeItem(this)"><i class="fas fa-trash"></i></button>
+                            </div>
+                            <div class="w-full md:w-2/6 text-right md:pr-4">
+                                <p class="font-bold product-total-price">${formatRupiah(item.price * item.quantity)}</p>
+                            </div>
+                        `;
+                        cartContainer.appendChild(itemElement);
+                    });
+                }
+                updateCartTotal();
+            }
+
+            // Fungsi untuk memperbarui jumlah produk
+            window.updateQuantity = function(button, delta) {
+                const itemContainer = button.closest('.cart-item');
+                if (!itemContainer) return;
+                const itemId = itemContainer.getAttribute('data-id');
+                const itemIndex = cart.findIndex(item => item.id === itemId);
+
+                if (itemIndex > -1) {
+                    const currentQuantity = cart[itemIndex].quantity;
+                    const newQuantity = currentQuantity + delta;
+                    if (newQuantity >= 1) {
+                        cart[itemIndex].quantity = newQuantity;
+                        saveCart();
+                        renderCart(); // Render ulang setelah update
+                    }
                 }
             };
 
-            const langSelect = document.getElementById('lang-select');
+            // Fungsi untuk menghapus produk dari keranjang
+            window.removeItem = function(button) {
+                const itemContainer = button.closest('.cart-item');
+                if (itemContainer) {
+                    const itemId = itemContainer.getAttribute('data-id');
+                    cart = cart.filter(item => item.id !== itemId);
+                    saveCart();
+                    renderCart(); // Render ulang setelah dihapus
+                }
+            };
+            
+            // Fungsi untuk memperbarui total estimasi
+            function updateCartTotal() {
+                let grandTotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+                const totalElement = document.getElementById('estimated-total-price');
+                if (totalElement) {
+                    totalElement.textContent = `${formatRupiah(grandTotal)} IDR`;
+                }
+            }
+
+            // Fungsi untuk menambahkan item contoh (untuk demonstrasi)
+            window.addMockItem = function() {
+                const newItem = {
+                    id: `mock-item-${Date.now()}`,
+                    name: `Produk Contoh ${cart.length + 1}`,
+                    price: Math.floor(Math.random() * (300000 - 50000 + 1)) + 50000,
+                    size: ['S', 'M', 'L', 'XL'][Math.floor(Math.random() * 4)],
+                    image: `https://placehold.co/100x100/cccccc/000000?text=Produk+${cart.length + 1}`,
+                    quantity: 1
+                };
+                cart.push(newItem);
+                saveCart();
+                renderCart();
+            };
 
             // Fungsi untuk mengupdate bahasa di seluruh halaman
             function updateLanguage(lang) {
@@ -239,7 +372,7 @@
                         element.placeholder = translations[lang][key];
                     }
                 });
-                updateCartTotal(); // Update total after language change
+                renderCart(); // Render ulang setelah ganti bahasa untuk mengupdate teks
             }
 
             // Event listener untuk perubahan dropdown bahasa
@@ -248,90 +381,10 @@
                 updateLanguage(selectedLang);
             });
             
-            // Set bahasa awal saat halaman dimuat
-            const initialLang = langSelect.value;
-            updateLanguage(initialLang);
-
-            // Fungsi untuk format angka sebagai mata uang Rupiah tanpa desimal
-            function formatRupiah(number) {
-                const formatter = new Intl.NumberFormat('id-ID', {
-                    style: 'currency',
-                    currency: 'IDR',
-                    minimumFractionDigits: 0
-                });
-                return formatter.format(number).replace(/IDR/, 'Rp');
-            }
-
-            // Fungsi untuk memperbarui total produk
-            window.updateQuantity = function(button, delta) {
-                const itemContainer = button.closest('.cart-item');
-                if (!itemContainer) return;
-
-                const quantitySpan = itemContainer.querySelector('[data-quantity]');
-                let quantity = parseInt(quantitySpan.textContent, 10);
-                quantity = quantity + delta;
-                
-                if (quantity < 1) {
-                    quantity = 1; // Mencegah jumlah kurang dari 1
-                }
-                
-                quantitySpan.textContent = quantity;
-                
-                // Ambil harga dasar dari data attribute
-                const price = parseFloat(itemContainer.getAttribute('data-price'));
-                const newTotal = price * quantity;
-                
-                const totalElement = itemContainer.querySelector('.product-total-price');
-                totalElement.textContent = formatRupiah(newTotal);
-                
-                updateCartTotal();
-            };
-
-            // Fungsi untuk menghapus produk dari keranjang
-            window.removeItem = function(button) {
-                const itemContainer = button.closest('.cart-item');
-                if (itemContainer) {
-                    itemContainer.remove();
-                    updateCartTotal();
-                }
-            };
-            
-            // Fungsi untuk memperbarui total estimasi
-            function updateCartTotal() {
-                const cartItems = document.querySelectorAll('.cart-item');
-                let grandTotal = 0;
-                
-                cartItems.forEach(item => {
-                    const price = parseFloat(item.getAttribute('data-price'));
-                    const quantity = parseInt(item.querySelector('[data-quantity]').textContent, 10);
-                    grandTotal += price * quantity;
-                });
-                
-                const totalElement = document.getElementById('estimated-total-price');
-                if (totalElement) {
-                    totalElement.textContent = `${formatRupiah(grandTotal)} IDR`;
-                }
-
-                // Tambahkan pesan jika keranjang kosong
-                const cartContainer = document.getElementById('cart-items-container');
-                const emptyMessage = cartContainer.querySelector('.empty-cart-message');
-                if (cartItems.length === 0) {
-                    if (!emptyMessage) {
-                        const messageDiv = document.createElement('div');
-                        messageDiv.className = 'empty-cart-message text-center text-gray-500 py-8';
-                        messageDiv.setAttribute('data-i18n', 'empty-cart-message');
-                        messageDiv.textContent = translations[langSelect.value]['empty-cart-message'];
-                        cartContainer.appendChild(messageDiv);
-                    }
-                } else {
-                    if (emptyMessage) {
-                        emptyMessage.remove();
-                    }
-                }
-            }
-
-            // Panggil fungsi updateCartTotal saat halaman pertama kali dimuat
-            updateCartTotal();
+            // Inisialisasi: muat data keranjang dan render saat halaman dimuat
+            loadCart();
+            renderCart();
+            updateLanguage(langSelect.value);
         });
     </script>
 </body>
